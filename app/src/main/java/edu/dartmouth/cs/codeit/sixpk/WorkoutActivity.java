@@ -34,9 +34,8 @@ public class WorkoutActivity extends Activity {
 
 
     public void onEndEarlyClicked(View v) {
-        // TODO
         // Save progress through workout so far
-
+        // TODO
 
         // Go to feedback
         Intent i = new Intent(this, FeedbackActivity.class);
