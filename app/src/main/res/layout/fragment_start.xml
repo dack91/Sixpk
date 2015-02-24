@@ -1,0 +1,81 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="left">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startTimeText"
+            android:layout_margin="10dp"
+            android:id="@+id/textViewTime"/>
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:id="@+id/numberPicker"
+            android:editable="false"
+            android:layout_marginLeft="100dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/startDifficultyText"
+            android:id="@+id/textViewDifficulty"/>
+
+        <RadioGroup
+            android:id="@+id/difficulty_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="20dp"
+                android:text="@string/easyButton"
+                android:id="@+id/radioButtonEasy"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="20dp"
+                android:text="@string/mediumButton"
+                android:id="@+id/radioButtonMedium"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hardButton"
+                android:id="@+id/radioButtonHard"/>
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:text="@string/startWorkoutButton"
+        android:id="@+id/buttonStartWorkoutPrev"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="180dp"
+        android:layout_gravity="bottom"/>
+
+</LinearLayout>

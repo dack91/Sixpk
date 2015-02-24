@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">6pk</string>
+
+    <!-- Temporary strings for default or temp hard coded sections of app-->
+    <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sampleWorkout">Sample Workout: crunches - 45 sec, easy</string>
+    <string name="title_activity_workout">WorkoutActivity</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="title_activity_preview">PreviewActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Start fragment, pick a workout length and difficulty-->
+    <string name="startWorkoutButton">BEGIN WORKOUT</string>
+    <string name="startDifficultyText">Difficulty:</string>
+    <string name="startTimeText">Workout Length:</string>
+    <string name="hardButton">HARD</string>
+    <string name="mediumButton">MEDIUM</string>
+    <string name="easyButton">EASY</string>
+
+    <!-- PreviewActivity, see itinerary before starting a workout-->
+    <string name="previewItineraryText">Itinerary for your</string>
+    <string name="previewDifficultyText">workout:</string>
+    <string name="startButton">START</string>
+    <string name="previewHelpClickText">(click a workout for more details)</string>
+    <string name="buttonCancelPreview">CANCEL</string>
+
+    <!-- WorkoutActivity, during a workout see current and next exercise and timer-->
+    <string name="pauseButtonText">|| PAUSE</string>
+    <string name="resumeButtonText">|> RESUME</string>
+    <string name="cancelWorkoutButton">CANCEL</string>
+    <string name="endEarlyWorkoutButton">END EARLY</string>
+
+    <!-- FeedbackActivity, provide feedback on finished workout-->
+    <string name="saveWorkoutButton">SAVE</string>
+    <string name="deleteWorkoutButton">DELETE</string>
+
+</resources>

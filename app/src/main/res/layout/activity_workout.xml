@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- NEED TO: change the textview/imageview pairs according to what the current and next workouts
+    are in the routine-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/workoutCurrExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crunches"
+            android:textSize="30dp" />
+
+        <ImageView
+            android:id="@+id/imageViewCurrExercise"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_launcher"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/workoutNextExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Side Plank"
+            android:textSize="24dp" />
+
+        <ImageView
+            android:id="@+id/imageViewNextExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelWorkoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:onClick="onCancelWorkoutClicked"
+            android:text="@string/cancelWorkoutButton" />
+
+        <Button
+            android:id="@+id/workoutEndEarlyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:onClick="onEndEarlyClicked"
+            android:text="@string/endEarlyWorkoutButton" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pauseButtonText"
+        android:id="@+id/buttonPause"
+        android:onClick="onPauseClicked"
+        android:layout_gravity="right|center_vertical" />
+
+    <Chronometer
+        android:layout_width="191dp"
+        android:layout_height="69dp"
+        android:id="@+id/chronometer"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="48dp" />
+
+
+</FrameLayout>

@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.dartmouth.cs.codeit.sixpk.HistoryFragment">
+
+    <!-- NEED TO change to a listview layout like historyFragment in myruns to display all
+    completed workouts. Add button to go to statisticsActivity??-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/sampleWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sampleWorkout"
+            android:onClick="onSampleClicked"/>
+        <TextView
+            android:id="@+id/sampleWorkout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sampleWorkout"
+            android:onClick="onSampleClicked"/>
+        <TextView
+            android:id="@+id/sampleWorkout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sampleWorkout"
+            android:onClick="onSampleClicked"/>
+    </LinearLayout>
+
+</FrameLayout>
