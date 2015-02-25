@@ -1,9 +1,11 @@
 package edu.dartmouth.cs.codeit.sixpk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,18 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the view in the start xml
         return inflater.inflate(R.layout.fragment_history, container, false);
+
+
+        // Show listview of past workouts
+        // TODO
     }
 
-    // Show listview of past workouts, have button to go to statisticsActivity to see
-    // data visualization of workout history
-    // TODO
+
+    public void onShowStatsClicked(View v) {
+        // Go to statisticsActivity to see data visualization of workout history
+        Intent i = new Intent(getActivity(), StatisticsActivity.class);
+        startActivity(i);
+    }
+
 
 }

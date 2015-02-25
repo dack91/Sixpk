@@ -40,4 +40,13 @@
             android:onClick="onSampleClicked"/>
     </LinearLayout>
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/showStatsButtonText"
+        android:id="@+id/buttonShowStats"
+        android:onClick="onShowStatsClicked"
+        android:layout_gravity="center_horizontal|bottom" />
+
 </FrameLayout>
