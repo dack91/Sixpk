@@ -17,7 +17,6 @@ public class StatisticsActivity extends Activity {
     }
 
     public void onBackClicked(View v) {
-        Intent i = new Intent(this, HistoryFragment.class);
-        startActivity(i);
+        finish();
     }
 }
