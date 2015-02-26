@@ -1,41 +1,50 @@
 package edu.dartmouth.cs.codeit.sixpk;
 
-/**
- * Created by dackerman on 2/16/15.
- */
+
+import java.util.ArrayList;
+import java.util.Random;
+
+// also why the f is this our package name
+// import edu.dartmouth.cs.codeit.sixpk.Exercise;
+
+
 public class Workout {
-    private String workout;
-    private int abGroup;
-    private double duration;
-    private int difficulty;
+    /*
+    need to decide if we should store arraylist of Exercise objects
+    or arraylist of Exercise IDs and then get them from the database separately in the activity
+    I actually am into the second one right now so I think I'll implement that right now
+     */
 
-    public Workout() {
+    public Workout(int time, int diff) {
+        dateTime = System.currentTimeMillis(); // I guess?
+
+        formWorkout(time, diff);
+    }
+
+    // parallel arraylists to hold exercise IDs, respective durations
+    private ArrayList<Integer> exerciseIds;
+    private ArrayList<Integer> durations; // in seconds
+    private long dateTime; // in milliseconds but we can convert it
+
+    // takes in totalTime and each exercise group
+    // forms the durations from different exercises based on difficulty
+    // this is the closest thing we have to an algorithm in this app
+    public void formWorkout(int time, int diff) {
 
     }
 
-    @Override
-    public String toString() {
-        return workout + ", " + abGroup;
+    // saving for later but I'll use it for formWorkout
+    // gonna need the number of exercises per ab group
+    // and possibly get unique random number too
+    private int randInt(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
     }
 
-    // Text to show in the listview for the itinerary preview
-    public String getDescription() {
-        return duration + " min," + difficulty;
+    // format millis to string format
+    public String getDateFormat() {
+        // TODO
+        return "date stuff";
     }
 
-    public String getWorkout() {
-        return workout;
-    }
-
-    public int getAbGroup() {
-        return abGroup;
-    }
-
-    public void setWorkout(String workout) {
-        this.workout = workout;
-    }
-
-    public void setAbGroup(int abGroup) {
-        this.abGroup = abGroup;
-    }
 }
