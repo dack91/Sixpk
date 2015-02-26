@@ -1,4 +1,4 @@
-package edu.dartmouth.cs.codeit.sixpk;
+package edu.dartmouth.cs.project.sixpk;
 
 import android.content.Intent;
 import android.os.Bundle;

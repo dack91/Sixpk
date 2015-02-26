@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package edu.dartmouth.cs.codeit.sixpk.view;
+package edu.dartmouth.cs.project.sixpk.view;
 
 import android.R;
 import android.content.Context;

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"/>
 
-    <edu.dartmouth.cs.codeit.sixpk.view.SlidingTabLayout
+    <edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout
         android:id="@+id/tab"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

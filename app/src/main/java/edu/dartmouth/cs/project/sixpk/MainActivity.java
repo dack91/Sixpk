@@ -1,4 +1,4 @@
-package edu.dartmouth.cs.codeit.sixpk;
+package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import edu.dartmouth.cs.codeit.sixpk.view.SlidingTabLayout;
+import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
 
 public class MainActivity extends Activity {

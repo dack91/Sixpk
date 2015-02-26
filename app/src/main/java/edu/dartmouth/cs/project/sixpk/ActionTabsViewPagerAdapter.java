@@ -1,4 +1,4 @@
-package edu.dartmouth.cs.codeit.sixpk;
+package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

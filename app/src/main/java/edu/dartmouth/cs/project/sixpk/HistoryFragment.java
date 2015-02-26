@@ -1,11 +1,8 @@
-package edu.dartmouth.cs.codeit.sixpk;
+package edu.dartmouth.cs.project.sixpk;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

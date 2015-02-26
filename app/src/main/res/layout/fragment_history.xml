@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context="edu.dartmouth.cs.codeit.sixpk.HistoryFragment">
+    tools:context="edu.dartmouth.cs.project.sixpk.HistoryFragment">
 
     <ListView
         android:layout_width="wrap_content"

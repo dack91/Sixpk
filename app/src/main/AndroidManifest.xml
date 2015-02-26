@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.dartmouth.cs.codeit.sixpk" >
+    package="edu.dartmouth.cs.project.sixpk" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppThemeNoActionBar" >
         <activity
-            android:name=".MainActivity"
+            android:name="edu.dartmouth.cs.project.sixpk.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name" >
             <intent-filter>
@@ -18,22 +18,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PreviewActivity"
+            android:name="edu.dartmouth.cs.project.sixpk.PreviewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".WorkoutActivity"
+            android:name="edu.dartmouth.cs.project.sixpk.WorkoutActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".FeedbackActivity"
+            android:name="edu.dartmouth.cs.project.sixpk.FeedbackActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".StatisticsActivity"
+            android:name="edu.dartmouth.cs.project.sixpk.StatisticsActivity"
             android:label="@string/title_activity_statisctics" >
         </activity>
     </application>

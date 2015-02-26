@@ -1,4 +1,4 @@
-package edu.dartmouth.cs.codeit.sixpk;
+package edu.dartmouth.cs.project.sixpk;
 
 /**
  * Created by 6pk on 2/16/15.
