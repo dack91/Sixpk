@@ -5,6 +5,28 @@
     android:layout_height="fill_parent"
     android:layout_gravity="left">
 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:id="@+id/sixPkLabel"
+        android:layout_gravity="center_horizontal"
+        android:textSize="48dp" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewLogo"
+        android:src="@drawable/logo1"
+        android:layout_gravity="center" />
+        </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -15,8 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/startTimeText"
-            android:layout_margin="10dp"
-            android:id="@+id/textViewTime"/>
+            android:id="@+id/textViewTime"
+            android:layout_marginTop="10dp" />
 
         <NumberPicker
             android:layout_width="wrap_content"
@@ -35,9 +57,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="@string/startDifficultyText"
-            android:id="@+id/textViewDifficulty"/>
+            android:id="@+id/textViewDifficulty"
+            android:layout_marginTop="10dp" />
 
         <RadioGroup
             android:id="@+id/difficulty_radioGroup"
@@ -75,7 +97,7 @@
         android:id="@+id/buttonStartWorkoutPrev"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="140dp"
         android:layout_gravity="bottom"/>
 
 </LinearLayout>

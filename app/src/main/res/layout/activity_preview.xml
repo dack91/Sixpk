@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center"
         android:layout_marginTop="100dp">
 
         <TextView
@@ -107,15 +108,16 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="30dp"
             android:onClick="onStartClicked"
-            android:text="@string/startButton" />
+            android:text="@string/startButton"
+            android:layout_marginBottom="40dp" />
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonPrevCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_margin="5dp"
         android:onClick="onCancelClicked"
-        android:text="@string/buttonCancelPreview" />
+        android:text="@string/buttonCancelPreview"
+        android:layout_gravity="top|right" />
 </FrameLayout>
