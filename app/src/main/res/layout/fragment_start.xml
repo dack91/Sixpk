@@ -1,91 +1,138 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="left">
+    android:layout_gravity="left"
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:id="@+id/sixPkLabel"
-        android:layout_gravity="center_horizontal"
-        android:textSize="48dp" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewLogo"
-        android:src="@drawable/logo1"
-        android:layout_gravity="center" />
-        </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/sixPkLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/startTimeText"
-            android:id="@+id/textViewTime"
-            android:layout_marginTop="10dp" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textSize="48dp" />
 
-        <NumberPicker
+        <ImageView
+            android:id="@+id/imageViewLogo"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:id="@+id/numberPicker"
-            android:editable="false"
-            android:layout_marginLeft="100dp"
-            />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/logo1" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/textViewTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/startDifficultyText"
+            android:layout_marginTop="30dp"
+            android:text="@string/startTimeText"
+            android:textSize="24dp" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="80dp"
+            android:editable="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <TextView
             android:id="@+id/textViewDifficulty"
-            android:layout_marginTop="10dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/startDifficultyText"
+            android:textSize="24dp"
+            android:layout_gravity="center_vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/textViewEasy"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/easyButton"
+                android:textSize="16dp"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/textViewMed"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mediumButton"
+                android:textSize="16dp"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/textViewHard"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/hardButton"
+                android:textSize="16dp"
+                android:gravity="center_horizontal" />
+
+            </LinearLayout>
 
         <RadioGroup
             android:id="@+id/difficulty_radioGroup"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp">
 
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/radioButtonEasy"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="20dp"
-                android:text="@string/easyButton"
-                android:id="@+id/radioButtonEasy"/>
+                android:layout_weight="1" />
+
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/radioButtonMedium"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="20dp"
-                android:text="@string/mediumButton"
-                android:id="@+id/radioButtonMedium"/>
+                android:layout_weight="1" />
+
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/radioButtonHard"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/hardButton"
-                android:id="@+id/radioButtonHard"/>
+                android:layout_weight="1" />
         </RadioGroup>
+            </LinearLayout>
 
 
     </LinearLayout>
@@ -97,7 +144,7 @@
         android:id="@+id/buttonStartWorkoutPrev"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:layout_gravity="bottom"/>
 
 </LinearLayout>

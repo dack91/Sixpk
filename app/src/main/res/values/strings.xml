@@ -41,5 +41,6 @@
 
     <!-- HistoryFragment, see past workouts -->
     <string name="showStatsButtonText">SHOW STATS</string>
+    <string name="backHistoryButtonText">BACK</string>
 
 </resources>
