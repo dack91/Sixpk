@@ -5,14 +5,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class PreviewActivity extends Activity{//extends ListActivity {
     private EditText mDuration;
     private EditText mDifficulty;
     private Context mContext;
+    private ListView mItineraryList;
+  //  private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
+
+    // Test list of workouts for listview -- TEMPORARY
+    ArrayList<String> test = new ArrayList<String>(){{
+        add("A workout: 3:30");
+        add("B workout: 1:45");
+        add("C workout: 2:30");
+        add("A workout: 3:30");
+        add("B workout: 1:45");
+        add("C workout: 2:30");
+        add("A workout: 3:30");
+        add("B workout: 1:45");
+        add("C workout: 2:30");
+        add("A workout: 3:30");
+        add("B workout: 1:45");
+        add("C workout: 2:30");
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +45,16 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
         mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
+        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+
+        // Set adapter for custom listView
+//        mAdapter = new ItineraryListAdapter(mContext);
+//        mItineraryList.setAdapter(mAdapter);
+
+        // Set adapter for test listView -- TEMPORARY
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, test);
+        mItineraryList.setAdapter(adapter);
 
         // Unpack intent
         int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
@@ -45,10 +77,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         // Set text views
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
-
-        //TODO
-        // Set up a listview element in the centerish of the view to scroll through
-        // workout itinerary
     }
 
     public void onStartClicked(View v) {
@@ -60,8 +88,10 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         finish();
     }
 
-    // HARD CODED PLACEHOLD: for the listview that will show workouts in current itinerary
-    public void onSampleClicked(View v) {
-        Toast.makeText(this, "Show ab workout help dialog", Toast.LENGTH_SHORT).show();
-    }
+
+    //TODO
+    // Set up adapter for listview element to scroll through workout itinerary
+//    private class ItineraryListAdapter extends ArrayAdapter<WorkoutObject> {
+//
+//    }
 }

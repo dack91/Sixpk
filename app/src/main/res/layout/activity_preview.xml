@@ -6,118 +6,90 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewPrevItinerary"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/previewItineraryText" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editTextPrevItinerary"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textViewPrevItinerary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/previewItineraryText" />
+
+            <EditText
+                android:id="@+id/editTextPrevItinerary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:editable="false"
-            android:singleLine="true" />
+            android:orientation="horizontal">
 
+            <EditText
+                android:id="@+id/editTextPrevDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/textViewPrevDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/previewDifficultyText" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/editTextPrevDifficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:editable="false"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/textViewPrevDifficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previewDifficultyText" />
-    </LinearLayout>
-    </LinearLayout>
-
-    <!-- HARD CODED PLACEHOLDER: for what should be a scrolling listview of workouts in the provided itinerary-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/sampleWorkout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/sampleWorkout"
-                        android:onClick="onSampleClicked"/>
-                    <TextView
-                        android:id="@+id/sampleWorkout2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/sampleWorkout"
-                        android:onClick="onSampleClicked"/>
-                    <TextView
-                        android:id="@+id/sampleWorkout3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/sampleWorkout"
-                        android:onClick="onSampleClicked"/>
-                    </LinearLayout>
-    <!-- END OF HARD CODED PLACEHOLDER: for what should be a scrolling listview of workouts in the provided itinerary-->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom|center"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewPrevHelpClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_gravity="center"
+            android:layout_marginTop="40dp"
             android:text="@string/previewHelpClickText" />
 
         <Button
             android:id="@+id/buttonStart"
             android:layout_width="fill_parent"
             android:layout_height="80dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="30dp"
             android:onClick="onStartClicked"
-            android:text="@string/startButton"
-            android:layout_marginBottom="40dp" />
+            android:text="@string/startButton" />
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonPrevCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
         android:layout_margin="5dp"
         android:onClick="onCancelClicked"
-        android:text="@string/buttonCancelPreview"
-        android:layout_gravity="top|right" />
+        android:text="@string/buttonCancelPreview" />
+
+    <ListView
+        android:id="@+id/listViewPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="100dp" />
 </FrameLayout>
