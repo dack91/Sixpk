@@ -30,22 +30,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     private ArrayAdapter<String> mAdapter; // TEMPORARY adapter
   //  private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
 
-    // Test list of workouts for listview -- TEMPORARY
-    ArrayList<String> test = new ArrayList<String>(){{
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-    }};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +48,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         // Set adapter for test listView -- TEMPORARY
         mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, test);
+                android.R.layout.simple_list_item_1, android.R.id.text1, Globals.test);
         mItineraryList.setAdapter(mAdapter);
 
         // Set onClick listenter for the listView, show dialog on click
@@ -185,7 +169,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     // Delete workout from itinerary
     private void doNegativeClick(int index) {
         // delete workout from itinerary
-        test.remove(index);         // TEMPORARY: change to the actual itinerary list
+        Globals.test.remove(index);         // TEMPORARY: change to the actual itinerary list
         mAdapter.notifyDataSetChanged();    // update UI view of list
     }
 

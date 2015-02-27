@@ -44,5 +44,10 @@
     <string name="backHistoryButtonText">BACK</string>
     <string name="workout_dialog_ok">OK</string>
     <string name="alert_dialog_delete">DELETE</string>
+    <string name="feedback_dialog_no">NO</string>
+    <string name="feedback_dialog_yes">YES</string>
+    <string name="feedback_dialog_delete">Finish workout without saving?</string>
+    <string name="text_easy_seek">easy</string>
+    <string name="text_hard_seek">hard</string>
 
 </resources>
