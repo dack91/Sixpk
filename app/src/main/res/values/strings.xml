@@ -42,5 +42,7 @@
     <!-- HistoryFragment, see past workouts -->
     <string name="showStatsButtonText">SHOW STATS</string>
     <string name="backHistoryButtonText">BACK</string>
+    <string name="workout_dialog_ok">OK</string>
+    <string name="alert_dialog_delete">DELETE</string>
 
 </resources>
