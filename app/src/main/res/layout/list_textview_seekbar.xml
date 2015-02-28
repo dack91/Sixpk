@@ -9,12 +9,16 @@
         android:id="@+id/textViewWorkoutSeek"
         android:text="TEST WORKOUT"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/textViewEasy1"
@@ -35,6 +39,8 @@
             android:id="@+id/seekBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progress="50"/>
+            android:progress="50"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
 
 </LinearLayout>

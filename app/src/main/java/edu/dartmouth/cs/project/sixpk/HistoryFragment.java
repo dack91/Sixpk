@@ -7,7 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -22,6 +24,8 @@ import android.widget.TextView;
 public class HistoryFragment extends Fragment {
     private Button showStats;
     private Context mContext;
+    private ListView mHistoryList;
+    private HistoryListAdapter mAdapter;    // implement to take a list of workouts and format display
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,8 +34,16 @@ public class HistoryFragment extends Fragment {
 
         mContext = getActivity();
 
+        // Get reference to listview in feedback layout
+        mHistoryList = (ListView) view.findViewById(R.id.listViewHistory);
+
         // Show listview of past workouts
         // TODO
+        // Set adapter for custom listView
+        mAdapter = new HistoryListAdapter(mContext);
+        mHistoryList.setAdapter(mAdapter);
+        mAdapter.addAll(Globals.test);  // TEMPORARY: get all workouts from database
+        mAdapter.notifyDataSetChanged();
 
         // Start workout preview
         showStats = (Button) view.findViewById(R.id.buttonShowStats);
@@ -45,30 +57,31 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-//        private class HistoryListAdapter extends ArrayAdapter<WorkoutObject> {
-//        private final LayoutInflater mInflater;
-//
-//        public HistoryListAdapter(Context context) {
-//            super(context, android.R.layout.simple_list_item_1);
-//            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            View view;
-//
-//            if (convertView != null) {
-//                view = convertView;
-//            }
-//            else {
-//                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-//            }
-//
-//            WorkoutObject w = getItem(position);
-//            ((TextView)view.findViewById(android.R.id.text1)).setText(w.getDescription());
-//
-//            return view;
-//        }
-//    }
+        private class HistoryListAdapter extends ArrayAdapter<String> {
+        private final LayoutInflater mInflater;
+
+        public HistoryListAdapter(Context context) {
+            super(context, android.R.layout.simple_list_item_1);
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+
+            if (convertView != null) {
+                view = convertView;
+            }
+            else {
+                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            }
+
+          //  WorkoutObject w = getItem(position);
+            String temp = getItem(position);
+            ((TextView)view.findViewById(android.R.id.text1)).setText(temp);
+
+            return view;
+        }
+    }
 
 }

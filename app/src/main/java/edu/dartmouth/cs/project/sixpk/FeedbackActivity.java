@@ -41,7 +41,7 @@ public class FeedbackActivity extends Activity {
     }
 
     public void onSaveClicked(View v) {
-        // Save workout to database
+        // Save workout with feedback to database
         // TODO
 
         // Return to home screen
@@ -55,7 +55,6 @@ public class FeedbackActivity extends Activity {
 
     }
 
-    //TODO
     // Set up adapter for listview element to scroll through workout itinerary
     private class FeedbackListAdapter extends ArrayAdapter<String> {
         private final LayoutInflater mInflater;
@@ -76,8 +75,10 @@ public class FeedbackActivity extends Activity {
                 view = mInflater.inflate(R.layout.list_textview_seekbar, parent, false);
             }
 
+            // TEMPORARY: probably using a Workout object or something else in the arrayadapter than a string
         //    WorkoutObject w = getItem(position);
-            ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText("TEST: rate workout--");
+            String temp = getItem(position);
+            ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText(temp);
 
             return view;
         }
