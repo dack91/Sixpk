@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_account_preferences_text">
+
+        <EditTextPreference
+            android:key="name_preference"
+            android:summary=""
+            android:inputType="textPersonName|textCapWords"
+            android:title="@string/settings_title_name_preference" />
+
+        <!-- should really be a number picker or something 1-7 days-->
+        <EditTextPreference
+            android:key="goal_preference"
+            android:summary=""
+            android:inputType="number"
+            android:title="@string/settings_title_goal_preference" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_notification_settings_text">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="acivity_preference"
+            android:title="@string/settings_title_activity_preference" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="daily_preference"
+            android:title="@string/settings_title_daily_goal_preference" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="milestones_preference"
+            android:title="@string/settings_title_milestones_preference" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/settings_sharing_text">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="share_workout_preference"
+            android:title="@string/settings_share_workout_preference" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="unit_preference"
+            android:title="@string/settings_share_time_preference" />
+    </PreferenceCategory>
+</PreferenceScreen>

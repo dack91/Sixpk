@@ -3,10 +3,4 @@
     android:layout_height="match_parent"
     tools:context="edu.dartmouth.cs.project.sixpk.ProfileFragment">
 
-    <!-- NEED TO setup using preferences like myruns profileFragment-->
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
 </FrameLayout>

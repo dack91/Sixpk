@@ -2,7 +2,10 @@ package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -94,8 +97,7 @@ public class MainActivity extends Activity {
             super.onCreate(savedInstanceState);
 
             // Load the preferences from an XML resource for settingsFragment
-//            addPreferencesFromResource(R.xml.preference);
+            addPreferencesFromResource(R.xml.preferences);
         }
     }
-
 }
