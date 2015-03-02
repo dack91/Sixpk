@@ -25,12 +25,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
   private static final String WORKOUT_DATABASE_CREATE = "create table "
 			+ TABLE_WORKOUTS + "(" + COLUMN_WORKOUT_ID + " integer primary key autoincrement, "
-      + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " DATE NOT NULL, "
-      + COLUMN_WORKOUT_FEEDBACK + " BLOB NOT NULL, " + COLUMN_WORKOUT_EXERCISE_LIST + " BLOB NOT NULL);";
+      + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " STRING NOT NULL, "
+      + COLUMN_WORKOUT_FEEDBACK + " STRING NOT NULL, " + COLUMN_WORKOUT_EXERCISE_LIST + " STRING NOT NULL);";
 
   private static final String ABLOG_DATABASE_CREATE = "create table "
     + TABLE_ABLOG + "(" + COLUMN_ABLOG_ID + " integer primary key autoincrement, "
-    + COLUMN_ABLOG_WORKOUT_ID + " INTEGER NOT NULL, " + COLUMN_ABLOG_DIFFICULTY + " BLOB NOT NULL, "
+    + COLUMN_ABLOG_WORKOUT_ID + " INTEGER NOT NULL, " + COLUMN_ABLOG_DIFFICULTY + " STRING NOT NULL, "
     + COLUMN_ABLOG_MUSCLE_GROUP + " INTEGER NOT NULL);";
 
 	public MySQLiteHelper(Context context) {
