@@ -16,12 +16,12 @@ public class Exercise {
     private double difficulty; // defaults to 0, changes based on feedback (higher is more difficult)
     private int imageId; // holds the id of the drawable (if you can even hold a gif in that)
 
-    public Exercise(String n, int i, int g) {
-        name = n;
-        exId = i;
-        abGroup = g;
-        difficulty = 0;
-        imageId = 0;
+    public Exercise(String exerciseName, int exerciseID, int muscleGroup) {
+        this.name = exerciseName;
+        this.exId = exerciseID;
+        this.abGroup = muscleGroup;
+        this.difficulty = 0;
+        this.imageId = 0;
     }
 
     public void setFeedback(double response) {
@@ -31,7 +31,7 @@ public class Exercise {
     }
 
     public void setImageId(int id) {
-        imageId = id;
+        this.imageId = id;
     }
 
     public int getImageId() {

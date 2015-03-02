@@ -8,20 +8,17 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_WORKOUTS = "workouts";
-  public static final String COLUMN_WORKOUT_ID = "workout_id";
-  public static final String COLUMN_WORKOUT_DURATION = "workout_duration";
-  public static final String COLUMN_WORKOUT_DATE_TIME = "workout_date_time";
-  public static final String COLUMN_WORKOUT_FEEDBACK = "workout_feedback";
-  public static final String COLUMN_WORKOUT_EXERCISE_LIST = "exercise_list";
+    public static final String COLUMN_WORKOUT_ID = "workout_id";
+    public static final String COLUMN_WORKOUT_DURATION = "workout_duration";
+    public static final String COLUMN_WORKOUT_DATE_TIME = "workout_date_time";
+    public static final String COLUMN_WORKOUT_FEEDBACK = "workout_feedback";
+    public static final String COLUMN_WORKOUT_EXERCISE_LIST = "exercise_list";
 
-
-  public static final String TABLE_ABLOG = "ablogs";
-  public static final String COLUMN_ABLOG_ID = "ablog_id";
-  public static final String COLUMN_ABLOG_WORKOUT_ID = "ablog_workout_id";
-  public static final String COLUMN_ABLOG_DIFFICULTY = "ablog_difficulty";
-  public static final String COLUMN_ABLOG_MUSCLE_GROUP = "ablog_muscle_group";
-
-
+    public static final String TABLE_ABLOG = "ablogs";
+    public static final String COLUMN_ABLOG_ID = "ablog_id";
+    public static final String COLUMN_ABLOG_WORKOUT_ID = "ablog_workout_id";
+    public static final String COLUMN_ABLOG_DIFFICULTY = "ablog_difficulty";
+    public static final String COLUMN_ABLOG_MUSCLE_GROUP = "ablog_muscle_group";
 
 	private static final String DATABASE_NAME = "sixpk.db";
 	private static final int DATABASE_VERSION = 1;
