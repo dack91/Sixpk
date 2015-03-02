@@ -2,9 +2,6 @@ package edu.dartmouth.cs.project.sixpk.database;
 
 import java.util.Date;
 
-/**
- * Created by ben on 2/27/15.
- */
 public class WorkoutEntry {
 
   private int difficulty; //Easy, medium, hard

@@ -1,8 +1,6 @@
 package edu.dartmouth.cs.project.sixpk.database;
 
-/**
- * Created by ben on 2/27/15.
- */
+
 public class AbLog {
 
   private int id; //corresponds to ids in workout entry id list
@@ -16,6 +14,15 @@ public class AbLog {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+
+  public int getAblogId() {
+    return ablogId;
+  }
+
+  public void setAblogId(int ablogId) {
+    this.ablogId = ablogId;
   }
 
   public int getMuscleGroup() {
