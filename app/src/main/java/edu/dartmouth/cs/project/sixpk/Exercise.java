@@ -30,21 +30,29 @@ public class Exercise {
         // could depend on how many times this exercise has been done, stuff like that
     }
 
+    public int getFeedback() {
+        return (int) this.difficulty;
+    }
+
+    public int getExerciseId() {
+        return this.exId;
+    }
+
     public void setImageId(int id) {
         this.imageId = id;
     }
 
     public int getImageId() {
-        return imageId;
+        return this.imageId;
     }
 
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
     public int getAbGroup() {
-        return abGroup;
+        return this.abGroup;
     }
 
 }
