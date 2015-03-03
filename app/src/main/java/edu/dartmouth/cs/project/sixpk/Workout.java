@@ -244,6 +244,7 @@ public class Workout {
   private void shuffle() {
     int rand = randInt(1, 20); // arbitrary number of swaps
     int max = exerciseIds.size();
+    int hello;
 
     for (int i = 0; i < rand; i++) {
       swap(randInt(0, max), randInt(0, max));
