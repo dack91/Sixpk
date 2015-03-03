@@ -2,7 +2,6 @@ package edu.dartmouth.cs.project.sixpk;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
@@ -41,11 +40,16 @@ public class Workout {
 
     formWorkout(exercises, time, diff);
     exerciseIdList = convertToIntArray(exerciseIds);
+    durationList = convertToIntArray(durations);
   }
 
   // parallel arraylists to hold exercise IDs, respective durations
   ArrayList<Integer> exerciseIds; // not stored in db
   ArrayList<Integer> durations; // in seconds, not stored in db
+
+
+
+    int[] durationList;
 
   private long dateTime; // in milliseconds but we can convert it
   private int difficulty; //Easy, medium, hard
@@ -72,7 +76,7 @@ public class Workout {
       array[0] is most recent
    */
   public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
-    int def_duration = DEFAULT_DURATIONS[diff - 1];
+    int def_duration = DEFAULT_DURATIONS[diff];
 
     int total = (time * 60) / def_duration; // approx how many workouts
     int subset = total / MUSCLE_GROUPS; // how many workouts per muscle group
@@ -83,9 +87,9 @@ public class Workout {
       AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
       int min = 0, max = sorted.length;
 
-      if (diff == 1) { // only pick easier exercises if "easy" difficulty is selected
+      if (diff == 0) { // only pick easier exercises if "easy" difficulty is selected
         max -= sorted.length / 3;
-      } else if (diff == 3) {
+      } else if (diff == 2) {
         min += sorted.length / 3;
       }
 
@@ -246,12 +250,12 @@ public class Workout {
     }
   }
 
-  private int[] convertToIntArray(ArrayList<Integer> ex) {
-    int[] ids = new int[ex.size()];
-    for (int i = 0; i < ids.length; i++) {
-      ids[i] = ex.get(i).intValue();
+  private int[] convertToIntArray(ArrayList<Integer> al) {
+    int[] new_list = new int[al.size()];
+    for (int i = 0; i < new_list.length; i++) {
+        new_list[i] = al.get(i).intValue();
     }
-    return ids;
+    return new_list;
   }
 
   public double[] getFeedBackList() {
@@ -269,6 +273,14 @@ public class Workout {
   public void setExerciseIdList(int[] exerciseIdList) {
     this.exerciseIdList = exerciseIdList;
   }
+
+    public int[] getDurationList() {
+        return durationList;
+    }
+
+    public void setDurationList(int[] durationList) {
+        this.durationList = durationList;
+    }
 }
 
 

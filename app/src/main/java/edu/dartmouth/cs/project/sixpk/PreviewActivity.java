@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import edu.dartmouth.cs.project.sixpk.database.AbLog;
+
 
 public class PreviewActivity extends Activity{//extends ListActivity {
     private EditText mDuration;
@@ -83,6 +85,13 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         // Set text views
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
+
+        /*
+        ArrayList<AbLog> allExercises = dbhelper.fetchAllEntries();
+        Workout w = new Workout(allExercises, time, difficulty);
+        int[] exerciseList = w.getExerciseIdList();
+        int[] durationList = w.getDurationList();
+        */
     }
 
     public void onStartClicked(View v) {
