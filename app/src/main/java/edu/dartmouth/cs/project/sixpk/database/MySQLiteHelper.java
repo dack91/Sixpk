@@ -25,7 +25,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
   private static final String WORKOUT_DATABASE_CREATE = "create table "
 			+ TABLE_WORKOUTS + "(" + COLUMN_WORKOUT_ID + " integer primary key autoincrement, "
-      + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " STRING NOT NULL, "
+      + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " LONG NOT NULL, "
       + COLUMN_WORKOUT_FEEDBACK + " STRING NOT NULL, " + COLUMN_WORKOUT_EXERCISE_LIST + " STRING NOT NULL);";
 
   private static final String ABLOG_DATABASE_CREATE = "create table "

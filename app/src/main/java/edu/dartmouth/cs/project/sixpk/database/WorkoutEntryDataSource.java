@@ -11,6 +11,8 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.dartmouth.cs.project.sixpk.Workout;
+
 public class WorkoutEntryDataSource {
 
   // Database fields
@@ -78,11 +80,11 @@ public class WorkoutEntryDataSource {
   }
 
   // Query a specific entry by its index.
-  public WorkoutEntry fetchWorkoutEntryByIndex(long rowId) {
+  public Workout fetchWorkoutByIndex(long rowId) {
     String mId = String.valueOf(rowId);
     Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS, allWorkoutColumns, "?=?", new String[]{MySQLiteHelper.COLUMN_WORKOUT_ID, mId}, null, null, null);
     cursor.moveToFirst();
-    return cursorToWorkoutEntry(cursor);
+    return cursorToWorkout(cursor);
   }
 
   // Query a specific entry by its index.
@@ -94,15 +96,15 @@ public class WorkoutEntryDataSource {
   }
 
   // Query the entire table, return all rows
-  public ArrayList<WorkoutEntry> fetchWorkoutEntries() {
-    ArrayList<WorkoutEntry> entries = new ArrayList<WorkoutEntry>();
+  public ArrayList<Workout> fetchWorkoutEntries() {
+    ArrayList<Workout> entries = new ArrayList<Workout>();
 
     Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS,
       allWorkoutColumns, null, null, null, null, null);
 
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
-      WorkoutEntry mEntry = cursorToWorkoutEntry(cursor);
+      Workout mEntry = cursorToWorkout(cursor);
       entries.add(mEntry);
       cursor.moveToNext();
     }
@@ -129,9 +131,9 @@ public class WorkoutEntryDataSource {
     return entries;
   }
 
-  private WorkoutEntry cursorToWorkoutEntry(Cursor cursor) {
-    WorkoutEntry entry = new WorkoutEntry();
-    entry.setDateTime(new Date(cursor.getInt(0)));
+  private Workout cursorToWorkout(Cursor cursor) {
+    Workout entry = new Workout();
+    entry.setDateTime(cursor.getLong(0));
     entry.setDifficulty(cursor.getInt(1));
     entry.setDuration(cursor.getInt(2));
 
@@ -142,7 +144,7 @@ public class WorkoutEntryDataSource {
     entry.setExerciseIdList(numbers);
 
     String[] s1 = cursor.getString(4).split(",");
-    float[] numbers1 = new float[s.length];
+    double[] numbers1 = new double[s.length];
     for (int curr = 0; curr < s.length; curr++)
       numbers1[curr] = Float.parseFloat(s1[curr]);
     entry.setFeedBackList(numbers1);
