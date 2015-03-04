@@ -1,4 +1,4 @@
-package edu.dartmouth.cs.project.sixpk;
+package edu.dartmouth.cs.project.sixpk.database;
 
 
 import java.util.ArrayList;
