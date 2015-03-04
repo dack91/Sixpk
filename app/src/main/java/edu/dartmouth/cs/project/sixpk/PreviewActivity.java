@@ -22,6 +22,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
+import edu.dartmouth.cs.project.sixpk.database.MySQLiteHelper;
+import edu.dartmouth.cs.project.sixpk.database.Workout;
+import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
 public class PreviewActivity extends Activity{//extends ListActivity {
@@ -29,8 +32,12 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     private EditText mDifficulty;
     private Context mContext;
     private ListView mItineraryList;
-    private ArrayAdapter<String> mAdapter; // TEMPORARY adapter
-  //  private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
+    private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
+
+    private WorkoutEntryDataSource dbHelper;
+    private int[] mExerciseList;
+    private int[] mDifficultyList;
+    ArrayList<String> mExerciseItinerary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,31 +45,8 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         setContentView(R.layout.activity_preview);
         mContext = this;
-
-        // Get text references
-        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
-        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
-        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
-
-        // Set adapter for custom listView
-//        mAdapter = new ItineraryListAdapter(mContext);
-//        mItineraryList.setAdapter(mAdapter);
-
-        // Set adapter for test listView -- TEMPORARY
-        mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, Globals.test);
-        mItineraryList.setAdapter(mAdapter);
-
-        // Set onClick listenter for the listView, show dialog on click
-        mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position,
-                                    long id) {
-                //String title = listViewList.get(position).getWorkoutTitle();
-                String title = "test workout: " + position;
-                showWorkoutDialog(title, position);
-            }
-        });
+        dbHelper = new WorkoutEntryDataSource(mContext);
+        dbHelper.open();
 
         // Unpack intent
         int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
@@ -86,12 +70,44 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
 
-        /*
-        ArrayList<AbLog> allExercises = dbhelper.fetchAllEntries();
+
+        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
         Workout w = new Workout(allExercises, time, difficulty);
-        int[] exerciseList = w.getExerciseIdList();
-        int[] durationList = w.getDurationList();
-        */
+        final int[] mExerciseList = w.getExerciseIdList();
+        int[] mDurationList = w.getDurationList();
+
+        mExerciseItinerary = new ArrayList<String>();
+
+        // Populate listview
+        for (int i : mExerciseList) {
+            // TODO: need getNameById function
+          //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
+
+            // TEMPORARY
+            mExerciseItinerary.add(mExerciseList[i] + ", " +Globals.formatDuration(mDurationList[i]));
+        }
+        mAdapter.addAll(mExerciseItinerary);
+
+
+        // Get text references
+        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
+        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
+        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+
+        // Set adapter for custom listView
+        mAdapter = new ItineraryListAdapter(mContext);
+        mItineraryList.setAdapter(mAdapter);
+
+        // Set onClick listenter for the listView, show dialog on click
+        mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position,
+                                    long id) {
+                //String title = listViewList.get(position).getWorkoutTitle();
+                String title = "workout " + mExerciseList[position] + ": " + position;
+                showWorkoutDialog(title, position);
+            }
+        });
     }
 
     public void onStartClicked(View v) {
@@ -103,34 +119,32 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         finish();
     }
 
+   // Set up adapter for listview element to scroll through workout itinerary
+    private class ItineraryListAdapter extends ArrayAdapter<String> {
+        private final LayoutInflater mInflater;
 
-    //TODO
-    // Set up adapter for listview element to scroll through workout itinerary
-//    private class ItineraryListAdapter extends ArrayAdapter<WorkoutObject> {
-//        private final LayoutInflater mInflater;
-//
-//        public ItineraryListAdapter(Context context) {
-//            super(context, android.R.layout.simple_list_item_1);
-//            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            View view;
-//
-//            if (convertView != null) {
-//                view = convertView;
-//            }
-//            else {
-//                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-//            }
-//
-//            WorkoutObject w = getItem(position);
-//            ((TextView)view.findViewById(android.R.id.text1)).setText(w.getDescription());
-//
-//            return view;
-//        }
-//    }
+        public ItineraryListAdapter(Context context) {
+            super(context, android.R.layout.simple_list_item_1);
+            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+
+            if (convertView != null) {
+                view = convertView;
+            }
+            else {
+                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            }
+
+            String text = getItem(position);
+            ((TextView)view.findViewById(android.R.id.text1)).setText(text);
+
+            return view;
+        }
+    }
 
     // Show Dialog fragment to demo of workout from listView click
     public void showWorkoutDialog(String workoutTitle, int position) {
@@ -178,9 +192,17 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     // Delete workout from itinerary
     private void doNegativeClick(int index) {
         // delete workout from itinerary
-        Globals.test.remove(index);         // TEMPORARY: change to the actual itinerary list
+        // TEMPORARY: change to the actual itinerary list (mExerciseList)
+        Globals.test.remove(index);
+
+        //TODO need removeExercise function in Workout
+        // given an index, remove that index from the exerciseList and durationList
         mAdapter.notifyDataSetChanged();    // update UI view of list
     }
 
-
+    @Override
+    protected void onPause() {
+        dbHelper.close();
+        super.onPause();
+    }
 }

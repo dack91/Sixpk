@@ -16,6 +16,22 @@ public class Globals {
 
     public static final int DEFAULT_TIME = 10;  // If no time is passed through intent, build 10min workout
 
+    // Format duration for display
+    public static String formatDuration(int sec) {
+        String time;
+
+        int min = sec / 60;         // Get minutes from seconds
+        int seconds = sec % 60;     // Get remaining seconds after minutes
+
+        // If duration was less than 1 minute, show time in seconds
+        if (min == 0)
+            time = seconds + "secs";
+            // Else show time in minutes and seconds
+        else
+            time = min + "mins " + seconds + "secs";
+
+        return time;
+    }
 
     // Test list of workouts for listview -- TEMPORARY
     public static ArrayList<String> test = new ArrayList<String>(){{
