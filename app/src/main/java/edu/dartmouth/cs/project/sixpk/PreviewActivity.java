@@ -35,9 +35,8 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
 
     private WorkoutEntryDataSource dbHelper;
-    private int[] mExerciseList;
-    private int[] mDifficultyList;
     ArrayList<String> mExerciseItinerary;
+    private Workout mCurrWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         setContentView(R.layout.activity_preview);
         mContext = this;
+
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
@@ -70,24 +70,9 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
 
-
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-        Workout w = new Workout(allExercises, time, difficulty);
-        final int[] mExerciseList = w.getExerciseIdList();
-        int[] mDurationList = w.getDurationList();
-
-        mExerciseItinerary = new ArrayList<String>();
-
-        // Populate listview
-        for (int i : mExerciseList) {
-            // TODO: need getNameById function
-          //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
-
-            // TEMPORARY
-            mExerciseItinerary.add(mExerciseList[i] + ", " +Globals.formatDuration(mDurationList[i]));
-        }
-        mAdapter.addAll(mExerciseItinerary);
-
+        mCurrWorkout = new Workout(allExercises, time, difficulty);
+        updateListView();
 
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
@@ -98,13 +83,13 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mAdapter = new ItineraryListAdapter(mContext);
         mItineraryList.setAdapter(mAdapter);
 
-        // Set onClick listenter for the listView, show dialog on click
+        // Set onClick listener for the listView, show dialog on click
         mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
                 //String title = listViewList.get(position).getWorkoutTitle();
-                String title = "workout " + mExerciseList[position] + ": " + position;
+                String title = "workout " + mCurrWorkout.getExerciseIdList()[position] + ": " + position;
                 showWorkoutDialog(title, position);
             }
         });
@@ -191,13 +176,29 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
     // Delete workout from itinerary
     private void doNegativeClick(int index) {
-        // delete workout from itinerary
-        // TEMPORARY: change to the actual itinerary list (mExerciseList)
-        Globals.test.remove(index);
+        // Delete workout from itinerary
+        mCurrWorkout.removeExercise(index);
+        updateListView();
 
-        //TODO need removeExercise function in Workout
-        // given an index, remove that index from the exerciseList and durationList
-        mAdapter.notifyDataSetChanged();    // update UI view of list
+        // Update UI view of list
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void updateListView() {
+        final int[] exerciseList = mCurrWorkout.getExerciseIdList();
+        int[] durationList = mCurrWorkout.getDurationList();
+
+        mExerciseItinerary = new ArrayList<String>();
+
+        // Populate listview
+        for (int i : exerciseList) {
+            // TODO: need getNameById function
+            //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
+
+            // TEMPORARY
+            mExerciseItinerary.add(exerciseList[i] + ", " + Globals.formatDuration(durationList[i]));
+        }
+        mAdapter.addAll(mExerciseItinerary);
     }
 
     @Override
