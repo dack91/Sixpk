@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
         fragments.add(new StartFragment());
         fragments.add(new HistoryFragment());
         fragments.add(new ProfileFragment());
+        fragments.add(new CalendarFragment());
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles) and ViewPager (different pages of fragment) together.
         myViewPageAdapter =new ActionTabsViewPagerAdapter(getFragmentManager(),

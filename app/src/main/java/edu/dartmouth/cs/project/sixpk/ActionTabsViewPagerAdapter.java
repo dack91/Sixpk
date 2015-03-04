@@ -17,9 +17,11 @@ public class ActionTabsViewPagerAdapter extends FragmentPagerAdapter {
     public static final int START = 0;
     public static final int HISTORY = 1;
     public static final int PROFILE = 2;
+    public static final int SCHEDULER = 3;
     public static final String UI_TAB_START = "WORKOUT";
     public static final String UI_TAB_HISTORY = "HISTORY";
     public static final String UI_TAB_PROFILE = "SETTINGS";
+    public static final String UI_TAB_CALENDAR = "SCHEDULE";
 
     public ActionTabsViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments){
         super(fm);
@@ -42,6 +44,8 @@ public class ActionTabsViewPagerAdapter extends FragmentPagerAdapter {
                 return UI_TAB_HISTORY;
             case PROFILE:
                 return UI_TAB_PROFILE;
+            case SCHEDULER:
+            return UI_TAB_CALENDAR;
             default:
                 break;
         }
