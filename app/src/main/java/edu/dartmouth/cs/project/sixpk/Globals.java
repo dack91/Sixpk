@@ -9,6 +9,7 @@ public class Globals {
 
     public static final String WORKOUT_DURATION_KEY = "edu.dartmouth.cs.codeit.sixpk.WORKOUT_DURATION_KEY";
     public static final String WORKOUT_DIFFICULTY_KEY = "edu.dartmouth.cs.codeit.sixpk.WORKOUT_DIFFICULTY_KEY";
+    public static final String WORKOUT_ID_KEY = "edu.dartmouth.cs.codeit.sixpk.WORKOUT_ID_KEY";
 
     public static final int WORKOUT_EASY = 0;
     public static final int WORKOUT_MED = 1;

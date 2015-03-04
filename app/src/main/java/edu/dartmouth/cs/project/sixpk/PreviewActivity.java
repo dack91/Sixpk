@@ -66,10 +66,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
 
-        // Set text views
-        mDuration.setText(time + " min");
-        mDifficulty.setText(diff);
-
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
         mCurrWorkout = new Workout(allExercises, time, difficulty);
         updateListView();
@@ -78,6 +74,10 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
         mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
         mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+
+        // Set text views
+        mDuration.setText(time + " min");
+        mDifficulty.setText(diff);
 
         // Set adapter for custom listView
         mAdapter = new ItineraryListAdapter(mContext);
@@ -96,7 +96,12 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     }
 
     public void onStartClicked(View v) {
+        // Save current workout to database
+        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+
+        // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
+        i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
         startActivity(i);
     }
 
