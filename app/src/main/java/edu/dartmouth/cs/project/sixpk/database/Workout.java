@@ -48,8 +48,7 @@ public class Workout {
   ArrayList<Integer> durations; // in seconds, not stored in db
 
 
-
-    int[] durationList;
+  int[] durationList;
 
   private long dateTime; // in milliseconds but we can convert it
   private int difficulty; //Easy, medium, hard
@@ -254,7 +253,7 @@ public class Workout {
   private int[] convertToIntArray(ArrayList<Integer> al) {
     int[] new_list = new int[al.size()];
     for (int i = 0; i < new_list.length; i++) {
-        new_list[i] = al.get(i).intValue();
+      new_list[i] = al.get(i).intValue();
     }
     return new_list;
   }
@@ -275,13 +274,34 @@ public class Workout {
     this.exerciseIdList = exerciseIdList;
   }
 
-    public int[] getDurationList() {
-        return durationList;
-    }
+  public int[] getDurationList() {
+    return durationList;
+  }
 
-    public void setDurationList(int[] durationList) {
-        this.durationList = durationList;
-    }
+  public void setDurationList(int[] durationList) {
+    this.durationList = durationList;
+  }
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public long getDateTime() {
+    return dateTime;
+  }
+
+  public int getDifficulty() {
+    return difficulty;
+  }
+
+  public long getId() {
+
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 }
 
 

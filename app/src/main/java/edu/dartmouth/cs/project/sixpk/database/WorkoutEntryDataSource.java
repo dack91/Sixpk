@@ -33,7 +33,7 @@ public class WorkoutEntryDataSource {
   }
 
   // Insert a item given each column value
-  public long insertWorkoutEntry(WorkoutEntry entry) {
+  public long insertWorkoutEntry(Workout entry) {
 
     ContentValues values = new ContentValues();
     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
