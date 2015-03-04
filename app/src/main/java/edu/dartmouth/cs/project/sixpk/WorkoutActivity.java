@@ -124,6 +124,7 @@ public class WorkoutActivity extends Activity {
         return name;
     }
 
+    // return Uri or bitmap or file path? something to set the imageview to the new exercise
 //    public Uri getExerciseImage(int index) {
 //        // TODO
 //        // get the exercise image at given index

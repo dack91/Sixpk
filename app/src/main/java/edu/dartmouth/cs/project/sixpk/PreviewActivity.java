@@ -214,6 +214,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    // From int[] of completed exercises, form Array of formatted workout strings
     public void updateListView() {
         final int[] exerciseList = mCurrWorkout.getExerciseIdList();
         int[] durationList = mCurrWorkout.getDurationList();

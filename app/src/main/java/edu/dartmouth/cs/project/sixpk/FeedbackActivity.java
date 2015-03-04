@@ -18,11 +18,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.dartmouth.cs.project.sixpk.database.Workout;
+import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
+
 
 public class FeedbackActivity extends Activity {
     private Context mContext;
     private ListView mFeedbackList;
     private FeedbackListAdapter mAdapter;    // implement to take a list of workouts and format display
+    private WorkoutEntryDataSource dbHelper;
+    private long mWorkoutID;
+    private Workout mCurrWorkout;
+    ArrayList<String> mCompletedExercises;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +38,45 @@ public class FeedbackActivity extends Activity {
         setContentView(R.layout.activity_feedback);
         mContext = this;
 
+        // Open database
+        dbHelper = new WorkoutEntryDataSource(mContext);
+        dbHelper.open();
+
         // Get reference to listview in feedback layout
         mFeedbackList = (ListView) findViewById(R.id.listViewFeedback);
+
+        // Get current workout
+        mWorkoutID = getIntent().getIntExtra(Globals.WORKOUT_ID_KEY, 0);
+        mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
+        updateListView();
 
         // Set adapter for custom listView
         mAdapter = new FeedbackListAdapter(mContext);
         mFeedbackList.setAdapter(mAdapter);
-        mAdapter.addAll(Globals.test);
+        mAdapter.addAll(mCompletedExercises);
         mAdapter.notifyDataSetChanged();
     }
 
+    // From int[] of completed exercises, form Array of formatted workout strings
+    public void updateListView() {
+        final int[] exerciseList = mCurrWorkout.getExerciseIdList();
+        int[] durationList = mCurrWorkout.getDurationList();
+
+        mCompletedExercises = new ArrayList<String>();
+
+        // Populate listview
+        for (int i : exerciseList) {
+            // TODO: need getNameById function
+            //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
+
+            // TEMPORARY
+            mCompletedExercises.add(exerciseList[i] + ", " + Globals.formatDuration(durationList[i]));
+        }
+        mAdapter.addAll(mCompletedExercises);
+    }
+
     public void onSaveClicked(View v) {
-        // Save workout with feedback to database
+        // Save feedback to database
         // TODO
 
         // Return to home screen
@@ -75,10 +110,8 @@ public class FeedbackActivity extends Activity {
                 view = mInflater.inflate(R.layout.list_textview_seekbar, parent, false);
             }
 
-            // TEMPORARY: probably using a Workout object or something else in the arrayadapter than a string
-        //    WorkoutObject w = getItem(position);
-            String temp = getItem(position);
-            ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText(temp);
+            String text = getItem(position);
+            ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText(text);
 
             return view;
         }
@@ -128,5 +161,9 @@ public class FeedbackActivity extends Activity {
         startActivity(i);
     }
 
-
+    @Override
+    protected void onPause() {
+        dbHelper.close();
+        super.onPause();
+    }
 }
