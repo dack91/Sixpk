@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -21,12 +22,15 @@ public class WorkoutActivity extends Activity {
     private Workout mCurrWorkout;
     private WorkoutEntryDataSource dbHelper;
     private Context mContext;
+
     private long mWorkoutID;
     private int[] mExerciseList;
     private int[] mDurationList;
     private int mCounter = 0;   // keep track of how many workouts were completed
+    private int TOTAL_TIME;
 
-
+    private int mCurrExercise;
+    private int mTimeSoFar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +55,57 @@ public class WorkoutActivity extends Activity {
         mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         mExerciseList = mCurrWorkout.getExerciseIdList();
         mDurationList = mCurrWorkout.getDurationList();
+        TOTAL_TIME = mCurrWorkout.getDuration();
+
+        // TODO
+        // We might want this as a separate async task?
+        // Set up timer listener to change exercise/finish workout
+        mTimer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener()
+        {
+            @Override
+            public void onChronometerTick(Chronometer chronometer)
+            {
+                // Check to see if exercises should be updated
+                long currTime = SystemClock.elapsedRealtime();  // not sure this actually gets current time
+                Log.d("DEBUG", "Curr timer: " + currTime);
+
+                // Last exercise completed
+                if (currTime == TOTAL_TIME) {
+                    workoutCompleted();
+                }
+
+                // Update current and next exercise
+                else if (currTime == (mTimeSoFar + mDurationList[mCurrExercise])) {
+                    mCurrExercise++;
+                    mCounter++;
+                    nextExercise();
+                }
+            }
+        });
+
+    }
+
+    //TODO
+    // Update current and next exercise
+    // update UI
+    // play beep sound
+    public void nextExercise() {
+        Log.d("DEBUG", "Updating to curr exercise: " + mExerciseList[mCurrExercise]);
     }
 
     // Saving all exercises completed so far, go to feedback
     public void onEndEarlyClicked(View v) {
         // Delete any uncompleted exercises from the Workout in the db
         // (delete all indices after mCounter)
-        // TODO
         for (int i = mCounter; i < mExerciseList.length; i++) {
             mCurrWorkout.removeExercise(i);
         }
 
+        // Go to feedback
+        workoutCompleted();
+    }
+
+    public void workoutCompleted() {
         // Go to feedback
         Intent i = new Intent(this, FeedbackActivity.class);
         i.putExtra(Globals.WORKOUT_ID_KEY, mWorkoutID);
