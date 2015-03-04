@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import edu.dartmouth.cs.project.sixpk.database.AbLog;
+import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
 
@@ -45,7 +47,8 @@ public class MainActivity extends Activity {
         fragments.add(new HistoryFragment());
         fragments.add(new ProfileFragment());
 
-        // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles) and ViewPager (different pages of fragment) together.
+        // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles) and
+        // ViewPager (different pages of fragment) together.
         myViewPageAdapter =new ActionTabsViewPagerAdapter(getFragmentManager(),
                 fragments);
         viewPager.setAdapter(myViewPageAdapter);
@@ -71,6 +74,36 @@ public class MainActivity extends Activity {
         // make sure the tabs are equally spaced.
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
+
+
+        /*
+        // TODO    DRIVER CODE IGNORE ME
+        // need to make workout difficulty 1-10 instead of -10 to 10
+
+        ArrayList<AbLog> exercises = new ArrayList<>();
+        int[] diff = new int[3];
+
+        diff[0] = 3; diff[1] = 4; diff[2] = 5;
+        exercises.add(new AbLog("crunches", 1, 1, diff));
+        diff[0] = 1; diff[1] = 3; diff[2] = 5;
+        exercises.add(new AbLog("plank", 2, 1, diff));
+        diff[0] = 7; diff[1] = 6; diff[2] = 5;
+        exercises.add(new AbLog("bicycle", 3, 2, diff));
+        diff[0] = 9; diff[1] = 7; diff[2] = 5;
+        exercises.add(new AbLog("side plank", 4, 2, diff));
+        diff[0] = 5; diff[1] = 5; diff[2] = 5;
+        exercises.add(new AbLog("supermans", 5, 3, diff));
+        diff[0] = 5; diff[1] = 5; diff[2] = 5;
+        exercises.add(new AbLog("scissor kicks", 6, 3, diff));
+
+        Workout workout = new Workout(exercises, 8, 0);
+
+        int[] exlist = workout.getExerciseIdList();
+        for (int i = 0; i < exlist.length; i++) {
+            System.out.println(exlist[i] + " " + workout.getDurationList()[i]);
+        }
+        */
+
     }
 
 

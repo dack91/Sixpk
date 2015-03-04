@@ -48,6 +48,31 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
+        // Get text references
+        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
+        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
+        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+
+        // Set adapter for custom listView
+//        mAdapter = new ItineraryListAdapter(mContext);
+//        mItineraryList.setAdapter(mAdapter);
+
+        // Set adapter for test listView -- TEMPORARY
+//        mAdapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_list_item_1, android.R.id.text1, Globals.test);
+        mItineraryList.setAdapter(mAdapter);
+
+        // Set onClick listener for the listView, show dialog on click
+        mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position,
+                                    long id) {
+                //String title = listViewList.get(position).getWorkoutTitle();
+                String title = "test workout: " + position;
+                showWorkoutDialog(title, position);
+            }
+        });
+
         // Unpack intent
         int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
         String diff = "MEDIUM"; // DEFAULT: medium

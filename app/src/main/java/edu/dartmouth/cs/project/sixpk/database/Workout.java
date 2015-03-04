@@ -19,289 +19,290 @@ workout flow:
  */
 
 public class Workout {
-  private final int MUSCLE_GROUPS = 3; // how many muscle groups are there
+    private final int MUSCLE_GROUPS = 3; // how many muscle groups there are
 
-  private final int[] DEFAULT_DURATIONS = new int[MUSCLE_GROUPS];
+    private final int[] DEFAULT_DURATIONS = new int[MUSCLE_GROUPS];
 
-  public Workout() {
-  }
-
-  public Workout(ArrayList<AbLog> exercises, int time, int diff) {
-    dateTime = System.currentTimeMillis(); // I guess?
-    duration = time * 60;
-    difficulty = diff;
-
-    DEFAULT_DURATIONS[0] = 90;
-    DEFAULT_DURATIONS[1] = 120;
-    DEFAULT_DURATIONS[2] = 150;
-
-    exerciseIds = new ArrayList<Integer>();
-    durations = new ArrayList<Integer>();
-
-    formWorkout(exercises, time, diff);
-    exerciseIdList = convertToIntArray(exerciseIds);
-    durationList = convertToIntArray(durations);
-  }
-
-  // parallel arraylists to hold exercise IDs, respective durations
-  ArrayList<Integer> exerciseIds; // not stored in db
-  ArrayList<Integer> durations; // in seconds, not stored in db
-
-
-  int[] durationList;
-
-  private long dateTime; // in milliseconds but we can convert it
-  private int difficulty; //Easy, medium, hard
-  private int[] exerciseIdList; //i.e. [1,5,2] where 1 = crunches, 2 = planks, etc.
-  private double[] feedBackList; // corresponds to ordering of exercise id list
-  private int duration; //length of workout
-  private long id; // database row
-
-  /*
-  forming workout:
-      time in minutes
-      higher input difficulty (1 to 3) increases exercise duration
-          and selects more difficult exercises
-      higher exercise difficulty (-10 to 10) decreases exercise duration
-      at least one exercise from each muscle group (1 to 3)
-
-      sort exercises by muscle group
-      sort muscle groups by difficulty
-      set random number bounds based on input difficulty
-      unique random numbers based on total time of workout
-
-
-      difficulty array 1-10
-      array[0] is most recent
-   */
-  public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
-    int def_duration = DEFAULT_DURATIONS[diff];
-
-    int total = (time * 60) / def_duration; // approx how many workouts
-    int subset = total / MUSCLE_GROUPS; // how many workouts per muscle group
-
-    // create the muscle list
-    for (int m = 0; m < MUSCLE_GROUPS; m++) {
-      // sort the exercises in one muscle group by feedback difficulty
-      AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
-      int min = 0, max = sorted.length;
-
-      if (diff == 0) { // only pick easier exercises if "easy" difficulty is selected
-        max -= sorted.length / 3;
-      } else if (diff == 2) {
-        min += sorted.length / 3;
-      }
-
-      int[] rands = uniqueRands(subset, min, max);
-
-      // add randomly selected exercises to the list
-      for (Integer r : rands) {
-        exerciseIds.add(sorted[r].getAblogId());
-
-        // shorten or extend the duration based on feedback
-        int alter = -(sorted[r].getDifficultyArray()[0] * 5);
-        durations.add(def_duration + alter);
-      }
+    public Workout() {
     }
 
-    int extra = time * 60;
-    for (Integer dur : durations) {
-      extra -= dur;
+    public Workout(ArrayList<AbLog> exercises, int time, int diff) {
+        dateTime = System.currentTimeMillis(); // I guess?
+        duration = time * 60;
+        difficulty = diff;
+
+        DEFAULT_DURATIONS[0] = 90;
+        DEFAULT_DURATIONS[1] = 120;
+        DEFAULT_DURATIONS[2] = 150;
+
+        exerciseIds = new ArrayList<Integer>();
+        durations = new ArrayList<Integer>();
+
+        formWorkout(exercises, time, diff);
+        exerciseIdList = convertToIntArray(exerciseIds);
+        durationList = convertToIntArray(durations);
     }
 
-    correctTiming(extra);
-    shuffle();
-  }
+    // parallel arraylists to hold exercise IDs, respective durations
+    ArrayList<Integer> exerciseIds; // not stored in db
+    ArrayList<Integer> durations; // in seconds, not stored in db
 
-  // returns a random integer between min and max inclusive
-  private int randInt(int min, int max) {
-    Random rand = new Random();
-    return rand.nextInt((max - min) + 1) + min;
-  }
+    int[] durationList;
 
-  // returns a list of unique random ints within a range
-  private int[] uniqueRands(int num, int min, int max) {
-    int[] rands = new int[num];
+    private long dateTime; // in milliseconds but we can convert it
+    private int difficulty; //Easy, medium, hard
+    private int[] exerciseIdList; //i.e. [1,5,2] where 1 = crunches, 2 = planks, etc.
+    private double[] feedBackList; // corresponds to ordering of exercise id list TODO change to int[]
+    private int duration; //length of workout
+    private long id; // database row
 
-    int i = 0;
-    while (i < num) {
-      int temp = randInt(min, max);
-      boolean chosen = false;
+    /*
+    forming workout:
+    time in minutes
+    higher input difficulty (1 to 3) increases exercise duration
+    and selects more difficult exercises
+    higher exercise difficulty (-10 to 10) decreases exercise duration
+    at least one exercise from each muscle group (1 to 3)
 
-      // check if the number has been chosen before
-      if (i > 0) {
-        for (int j = 0; j < i; j++) {
-          if (rands[j] == temp) {
-            chosen = true;
-          }
+    sort exercises by muscle group
+    sort muscle groups by difficulty
+    set random number bounds based on input difficulty
+    unique random numbers based on total time of workout
+
+
+    difficulty array 0-10
+    array[0] is most recent
+    */
+    public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
+        int def_duration = DEFAULT_DURATIONS[diff];
+
+        double total = Math.ceil((time * 60) / def_duration); // approx how many workouts
+        double subset = Math.ceil(total / MUSCLE_GROUPS); // how many workouts per muscle group
+
+        // create the muscle list
+        for (int m = 1; m <= MUSCLE_GROUPS; m++) {
+            // sort the exercises in one muscle group by feedback difficulty
+            AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
+            int min = 0, max = sorted.length;
+
+            if (diff == 0) { // only pick easier exercises if "easy" difficulty is selected
+                max -= (int) Math.ceil(sorted.length / 3);
+            } else if (diff == 2) {
+                min += (int) Math.ceil(sorted.length / 3);
+            }
+
+            int[] rands = uniqueRands( (int) subset, min, max);
+            // add randomly selected exercises to the list
+            for (int i = 0; i < rands.length; i++) {
+                exerciseIds.add(sorted[ rands[i] ].getAblogId());
+
+                // shorten or extend the duration based on feedback
+                // difficulty is 0-10, 5 is default
+                // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
+                // then negate because easier difficulties are lower numbers which are longer workouts
+                int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
+                durations.add(def_duration + alter);
+            }
         }
-      }
-      if (chosen) continue;
 
-      rands[i] = temp;
-      i++;
-    }
-    return rands;
-  }
-
-  // return all exercises of one muscle group
-  private ArrayList<AbLog> chosenGroup(ArrayList<AbLog> exercises, int muscleGroup) {
-    ArrayList<AbLog> subset = new ArrayList<AbLog>();
-
-    for (AbLog entry : exercises) {
-      if (entry.getMuscleGroup() == muscleGroup) {
-        subset.add(entry);
-      }
-    }
-
-    return subset;
-  }
-
-  // returns exercise array from lowest to highest difficulty
-  private AbLog[] sortByDifficulty(ArrayList<AbLog> subset) {
-    int length = subset.size();
-    AbLog[] sorted = new AbLog[length];
-
-    for (int i = 0; i < length; i++) {
-      sorted[i] = subset.get(i);
-    }
-
-    // using bubble sort for convenience
-    for (int i = 0; i < length - 1; i++) {
-      for (int j = 1; j < length; j++) {
-
-        if (sorted[j - 1].getDifficultyArray()[0] > sorted[j].getDifficultyArray()[0]) {
-          sorted = swap(sorted, j - 1, j);
+        int extra = time * 60;
+        for (Integer dur : durations) {
+            extra -= dur;
         }
-      }
+
+        correctTiming(extra);
+        shuffle();
     }
 
-    return sorted;
-  }
+    // returns a random integer between min inclusive and max exclusive
+    private int randInt(int min, int max) {
+        Random rand = new Random();
+//        return rand.nextInt((max - min) + 1) + min;
+        return rand.nextInt(max - min) + min;
+    }
 
-  // takes the leftover seconds and either deletes workouts or spreads them out
-  // to correct the total time
-  private void correctTiming(int leftover) {
+    // returns a list of unique random ints within a range
+    private int[] uniqueRands(int num, int min, int max) {
+        int[] rands = new int[num];
 
-    while (true) {
-      if (leftover < -30) {
-        // get rid of last exercise if time is way over
-        exerciseIds.remove(exerciseIds.size() - 1);
-        leftover += durations.get(durations.size() - 1);
-        durations.remove(durations.size() - 1);
+        int i = 0;
+        while (i < num) {
+            int temp = randInt(min, max);
+            boolean chosen = false;
 
-      } else if (leftover >= -30 && leftover <= 30) {
-        // no editing if leftover is within a half minute
-        break;
+            // check if the number has been chosen before
+            if (i > 0) {
+                for (int j = 0; j < i; j++) {
+                    if (rands[j] == temp) {
+                        chosen = true;
+                    }
+                }
+            }
+            if (chosen) continue;
 
-      } else {
-        // disperse the leftover seconds over all exercises if it's too large
-        int disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
-
-        for (int i = 0; i < durations.size(); i++) {
-          durations.set(i, durations.get(i) + disp);
+            rands[i] = temp;
+            i++;
         }
-        break;
-      }
+        return rands;
     }
-  }
 
-  public void setDateTime(long dateTime) {
+    // return all exercises of one muscle group
+    private ArrayList<AbLog> chosenGroup(ArrayList<AbLog> exercises, int muscleGroup) {
+        ArrayList<AbLog> subset = new ArrayList<>();
 
-    this.dateTime = dateTime;
-  }
+        for (AbLog entry : exercises) {
+            if (entry.getMuscleGroup() == muscleGroup) {
+                subset.add(entry);
+            }
+        }
 
-  public void setDifficulty(int difficulty) {
-    this.difficulty = difficulty;
-  }
-
-  public void setDuration(int duration) {
-    this.duration = duration;
-  }
-
-  private AbLog[] swap(AbLog[] list, int a, int b) {
-    AbLog temp = list[b];
-    list[b] = list[a];
-    list[a] = temp;
-
-
-    return list;
-  }
-
-  private void swap(int a, int b) {
-    int id = exerciseIds.get(b);
-    int dur = durations.get(b);
-
-    exerciseIds.set(b, exerciseIds.get(a));
-    durations.set(b, durations.get(a));
-
-    exerciseIds.set(a, id);
-    durations.set(a, dur);
-  }
-
-  // mix up the order of the exercises (ArrayList)
-  private void shuffle() {
-    int rand = randInt(1, 20); // arbitrary number of swaps
-    int max = exerciseIds.size();
-    int hello;
-
-    for (int i = 0; i < rand; i++) {
-      swap(randInt(0, max), randInt(0, max));
+        return subset;
     }
-  }
 
-  private int[] convertToIntArray(ArrayList<Integer> al) {
-    int[] new_list = new int[al.size()];
-    for (int i = 0; i < new_list.length; i++) {
-      new_list[i] = al.get(i).intValue();
+    // returns exercise array from lowest to highest difficulty
+    private AbLog[] sortByDifficulty(ArrayList<AbLog> subset) {
+        int length = subset.size();
+        AbLog[] sorted = new AbLog[length];
+
+        for (int i = 0; i < length; i++) {
+            sorted[i] = subset.get(i);
+        }
+
+        // using bubble sort for convenience
+        for (int i = 0; i < length - 1; i++) {
+            for (int j = 1; j < length; j++) {
+
+                if (sorted[j - 1].getDifficultyArray()[0] > sorted[j].getDifficultyArray()[0]) {
+                    sorted = swap(sorted, j - 1, j);
+                }
+            }
+        }
+
+        return sorted;
     }
-    return new_list;
-  }
 
-  public double[] getFeedBackList() {
-    return feedBackList;
-  }
+    // takes the leftover seconds and either deletes workouts or spreads them out
+    // to correct the total time
+    private void correctTiming(int leftover) {
 
-  public void setFeedBackList(double[] feedBackList) {
-    this.feedBackList = feedBackList;
-  }
+        while (true) {
+            if (leftover < -30) {
+                // get rid of last exercise if time is way over
+                exerciseIds.remove(exerciseIds.size() - 1);
+                leftover += durations.get(durations.size() - 1);
+                durations.remove(durations.size() - 1);
 
-  public int[] getExerciseIdList() {
-    return exerciseIdList;
-  }
+            } else if (leftover >= -30 && leftover <= 30) {
+                // no editing if leftover is within a half minute
+                break;
 
-  public void setExerciseIdList(int[] exerciseIdList) {
-    this.exerciseIdList = exerciseIdList;
-  }
+            } else {
+                // disperse the leftover seconds over all exercises if it's too large
+                int disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
 
-  public int[] getDurationList() {
-    return durationList;
-  }
+                for (int i = 0; i < durations.size(); i++) {
+                    durations.set(i, durations.get(i) + disp);
+                }
+                break;
+            }
+        }
+    }
 
-  public void setDurationList(int[] durationList) {
-    this.durationList = durationList;
-  }
+    public void setDateTime(long dateTime) {
 
-  public int getDuration() {
-    return duration;
-  }
+        this.dateTime = dateTime;
+    }
 
-  public long getDateTime() {
-    return dateTime;
-  }
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
-  public int getDifficulty() {
-    return difficulty;
-  }
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
-  public long getId() {
+    private AbLog[] swap(AbLog[] list, int a, int b) {
+        AbLog temp = list[b];
+        list[b] = list[a];
+        list[a] = temp;
 
-    return id;
-  }
 
-  public void setId(long id) {
-    this.id = id;
-  }
+        return list;
+    }
+
+    private void swap(int a, int b) {
+        int id = exerciseIds.get(b);
+        int dur = durations.get(b);
+
+        exerciseIds.set(b, exerciseIds.get(a));
+        durations.set(b, durations.get(a));
+
+        exerciseIds.set(a, id);
+        durations.set(a, dur);
+    }
+
+    // mix up the order of the exercises (ArrayList)
+    private void shuffle() {
+        int rand = randInt(1, 20); // arbitrary number of swaps
+        int max = exerciseIds.size();
+        int hello;
+
+        for (int i = 0; i < rand; i++) {
+            swap(randInt(0, max), randInt(0, max));
+        }
+    }
+
+    private int[] convertToIntArray(ArrayList<Integer> al) {
+        int[] new_list = new int[al.size()];
+        for (int i = 0; i < new_list.length; i++) {
+            new_list[i] = al.get(i).intValue();
+        }
+        return new_list;
+    }
+
+    public double[] getFeedBackList() {
+        return feedBackList;
+    }
+
+    public void setFeedBackList(double[] feedBackList) {
+        this.feedBackList = feedBackList;
+    }
+
+    public int[] getExerciseIdList() {
+        return exerciseIdList;
+    }
+
+    public void setExerciseIdList(int[] exerciseIdList) {
+        this.exerciseIdList = exerciseIdList;
+    }
+
+    public int[] getDurationList() {
+        return durationList;
+    }
+
+    public void setDurationList(int[] durationList) {
+        this.durationList = durationList;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public long getDateTime() {
+        return dateTime;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
 
 

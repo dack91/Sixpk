@@ -4,10 +4,21 @@ package edu.dartmouth.cs.project.sixpk.database;
 public class AbLog {
 
     private String name;
-    private int id; //corresponds to ids in workout entry id list
-    private int ablogId;
+    private int id; // database row
+    private int ablogId; // corresponds to ids in workout entry id list
     private int muscleGroup; // i.e. obliques
     private int[] difficultyArray; //shows difficulty for last several workouts (need several because of statistics)
+
+    public AbLog(String name, int ablogId, int muscleGroup, int[] difficultyArray) {
+        this.name = name;
+        this.ablogId = ablogId;
+        this.muscleGroup = muscleGroup;
+        this.difficultyArray = difficultyArray;
+    }
+
+    public AbLog() {
+    }
+
 
     public int getId() {
     return id;
@@ -43,5 +54,12 @@ public class AbLog {
   }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 
