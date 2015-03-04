@@ -260,6 +260,17 @@ public class Workout {
         return new_list;
     }
 
+
+    public void removeExercise(int index) {
+        // Remove from workout
+        exerciseIds.remove(index);
+        durations.remove(index);
+
+        // Update int[]
+        exerciseIdList = convertToIntArray(exerciseIds);
+        durationList = convertToIntArray(durations);
+    }
+
     public double[] getFeedBackList() {
         return feedBackList;
     }
@@ -303,6 +314,7 @@ public class Workout {
     public void setId(long id) {
         this.id = id;
     }
+
 }
 
 
