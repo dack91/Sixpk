@@ -45,7 +45,7 @@ public class InitialAbInputs {
 
     //gifs rectus
     public static final String plGIF = "file:///android_asset/allison_plank.gif";
-    public static final String sitGIF = "file:///android_asset/ian_sitUP.gif";
+    public static final String sitGIF = "file:///android_asset/ian_sitUp.gif";
     public static final String pushGIF = "file:///android_asset/allison_pushThrough.gif";
     public static final String vGIF = "file:///android_asset/ian_vUP.gif";
     public static final String crunchGIF = "file:///android_asset/ian_crunch.gif";
