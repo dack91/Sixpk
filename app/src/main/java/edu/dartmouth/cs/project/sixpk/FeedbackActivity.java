@@ -31,6 +31,7 @@ public class FeedbackActivity extends Activity {
     private long mWorkoutID;
     private Workout mCurrWorkout;
     ArrayList<String> mCompletedExercises;
+    private int[] feebackArray = new int[100];
 
 
     @Override
@@ -80,17 +81,6 @@ public class FeedbackActivity extends Activity {
         // Save feedback to database
         // TODO
         // Feedback bounds are 0-100 so do integer division /10 to get 0-10
-        int lastIndex = mFeedbackList.getCount()-1;
-        int[] feedBackArray = new int[lastIndex];
-        int i;
-        for (i=lastIndex;i>=0;i--){
-          mFeedbackList.setItemChecked(i, true);
-          View currItemView = mAdapter.getView(i, null, mFeedbackList);
-          SeekBar s1 = (SeekBar) currItemView.findViewById(R.id.seekBar1);
-          int feedback = s1.getProgress();
-          feedBackArray[i] = feedback/10;
-        }
-        // Return to home screen
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
     }
@@ -111,7 +101,7 @@ public class FeedbackActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view;
 
             if (convertView != null) {
@@ -120,6 +110,26 @@ public class FeedbackActivity extends Activity {
             else {
                 view = mInflater.inflate(R.layout.list_textview_seekbar, parent, false);
             }
+
+            SeekBar seekbar = (SeekBar) view.findViewById(R.id.seekBar1);
+
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    feebackArray[position] = progress/10;
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
 
             String text = getItem(position);
             ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText(text);
