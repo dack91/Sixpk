@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
 
 
         /*
-        // DRIVER CODE IGNORE ME 
+        // DRIVER CODE IGNORE ME
         // need to make workout difficulty 1-10 instead of -10 to 10
 
         ArrayList<AbLog> exercises = new ArrayList<>();

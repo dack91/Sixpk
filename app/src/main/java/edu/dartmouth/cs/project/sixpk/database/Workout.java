@@ -109,8 +109,8 @@ public class Workout {
     // returns a random integer between min inclusive and max exclusive
     private int randInt(int min, int max) {
         Random rand = new Random();
-//        return rand.nextInt((max - min) + 1) + min;
-        return rand.nextInt(max - min) + min;
+        return rand.nextInt((max - min) + 1) + min;
+        //return rand.nextInt(max - min) + min;
     }
 
     // returns a list of unique random ints within a range

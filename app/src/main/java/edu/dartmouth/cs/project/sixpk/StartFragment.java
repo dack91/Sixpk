@@ -36,7 +36,7 @@ public class StartFragment extends Fragment {
         mNumPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
         mNumPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS); // disable keyboard
         mNumPicker.setMinValue(1);
-        mNumPicker.setMaxValue(25);
+        mNumPicker.setMaxValue(30);
 
         // Set reference to difficulty radio group
         mDifficulty = (RadioGroup) view.findViewById(R.id.difficulty_radioGroup);

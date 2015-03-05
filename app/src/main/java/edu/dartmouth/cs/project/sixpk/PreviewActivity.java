@@ -91,9 +91,9 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
 
-        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-        mCurrWorkout = new Workout(allExercises, time, difficulty);
-        updateListView();
+//        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+//        mCurrWorkout = new Workout(allExercises, time, difficulty);
+//        updateListView();
 
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
