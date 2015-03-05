@@ -48,17 +48,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
-        // Set onClick listener for the listView, show dialog on click
-        mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position,
-                                    long id) {
-                //String title = listViewList.get(position).getWorkoutTitle();
-                String title = "test workout: " + position;
-                showWorkoutDialog(title, position);
-            }
-        });
-
         // Unpack intent
         int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
         String diff = "MEDIUM"; // DEFAULT: medium
@@ -79,12 +68,13 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         // Set adapter for custom listView
         mAdapter = new ItineraryListAdapter(mContext);
-        mItineraryList.setAdapter(mAdapter);
 
         // Get exercises in current workout
-        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-        mCurrWorkout = new Workout(allExercises, time, difficulty);
-        updateListView();
+   //     ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+   //     mCurrWorkout = new Workout(allExercises, time, difficulty);
+   //     updateListView();
+//        mItineraryList.setAdapter(mAdapter);
+
 
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
