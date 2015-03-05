@@ -89,8 +89,10 @@ public class HistoryFragment extends Fragment {
                 view = convertView;
             }
             else {
-                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+//                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                view = mInflater.inflate(R.layout.custom_simple_list_1, parent, false);
             }
+
 
           //  WorkoutObject w = getItem(position);
             String temp = getItem(position);
