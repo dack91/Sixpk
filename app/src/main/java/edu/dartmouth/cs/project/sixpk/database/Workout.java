@@ -35,8 +35,8 @@ public class Workout {
         DEFAULT_DURATIONS[1] = 120;
         DEFAULT_DURATIONS[2] = 150;
 
-        exerciseIds = new ArrayList<Integer>();
-        durations = new ArrayList<Integer>();
+        exerciseIds = new ArrayList<>();
+        durations = new ArrayList<>();
 
         formWorkout(exercises, time, diff);
         exerciseIdList = convertToIntArray(exerciseIds);
@@ -50,29 +50,21 @@ public class Workout {
     int[] durationList;
 
     private long dateTime; // in milliseconds but we can convert it
-    private int difficulty; //Easy, medium, hard
-    private int[] exerciseIdList; //i.e. [1,5,2] where 1 = crunches, 2 = planks, etc.
-    private double[] feedBackList; // corresponds to ordering of exercise id list TODO change to int[]
-    private int duration; //length of workout
+    private int difficulty; //Easy, medium, hard correspond to 0-2
+    private int[] exerciseIdList; // array of ablogIds
+    private int[] feedBackList; // corresponds to ordering of exercise id list
+    private int duration; // length of workout in seconds
     private long id; // database row
 
     /*
-    forming workout:
-    time in minutes
-    higher input difficulty (1 to 3) increases exercise duration
-    and selects more difficult exercises
-    higher exercise difficulty (-10 to 10) decreases exercise duration
-    at least one exercise from each muscle group (1 to 3)
+    parameters: all exercises, input time in mins, input difficulty (0-2)
 
     sort exercises by muscle group
     sort muscle groups by difficulty
     set random number bounds based on input difficulty
     unique random numbers based on total time of workout
-
-
-    difficulty array 0-10
-    array[0] is most recent
-    */
+    shorten lengths of workouts if difficulty is higher
+     */
     public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
         int def_duration = DEFAULT_DURATIONS[diff];
 
@@ -226,7 +218,6 @@ public class Workout {
         list[b] = list[a];
         list[a] = temp;
 
-
         return list;
     }
 
@@ -271,11 +262,11 @@ public class Workout {
         durationList = convertToIntArray(durations);
     }
 
-    public double[] getFeedBackList() {
+    public int[] getFeedBackList() {
         return feedBackList;
     }
 
-    public void setFeedBackList(double[] feedBackList) {
+    public void setFeedBackList(int[] feedBackList) {
         this.feedBackList = feedBackList;
     }
 
@@ -314,7 +305,6 @@ public class Workout {
     public void setId(long id) {
         this.id = id;
     }
-
 }
 
 

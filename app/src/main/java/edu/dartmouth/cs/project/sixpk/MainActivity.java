@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
             @Override
             public void onPageSelected(int position)
             {
-                // Update list view in HistoryFragment
+                // TODO Update list view in HistoryFragment
                 // Call function in HistoryFragment to refresh the UI
             }
             @Override
@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
 
 
         /*
-        // TODO    DRIVER CODE IGNORE ME
+        // DRIVER CODE IGNORE ME 
         // need to make workout difficulty 1-10 instead of -10 to 10
 
         ArrayList<AbLog> exercises = new ArrayList<>();
@@ -110,6 +110,8 @@ public class MainActivity extends Activity {
         for (int i = 0; i < exlist.length; i++) {
             System.out.println(exlist[i] + " " + workout.getDurationList()[i]);
         }
+
+        // seems like the times aren't being changes but the selections are working
         */
 
     }

@@ -139,9 +139,9 @@ public class WorkoutEntryDataSource {
     entry.setExerciseIdList(numbers);
 
     String[] s1 = cursor.getString(4).split(",");
-    double[] numbers1 = new double[s.length];
+    int[] numbers1 = new int[s.length];
     for (int curr = 0; curr < s.length; curr++)
-      numbers1[curr] = Float.parseFloat(s1[curr]);
+      numbers1[curr] = Integer.parseInt(s1[curr]);
     entry.setFeedBackList(numbers1);
     return entry;
   }

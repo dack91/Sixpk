@@ -78,6 +78,7 @@ public class FeedbackActivity extends Activity {
     public void onSaveClicked(View v) {
         // Save feedback to database
         // TODO
+        // Feedback bounds are 0-100 so do integer division /10 to get 0-10
 
         // Return to home screen
         Intent i = new Intent(this, MainActivity.class);
