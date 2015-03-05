@@ -48,6 +48,8 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
+        mAdapter = new ItineraryListAdapter(mContext);
+
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
         mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
