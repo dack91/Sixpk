@@ -71,8 +71,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
 
-        // Set adapter for custom listView
-        mAdapter = new ItineraryListAdapter(mContext);
 
         // Get exercises in current workout
    //     ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
@@ -165,7 +163,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
             final int position = getArguments().getInt("position");
 
             return new AlertDialog.Builder(getActivity())
-                    .setIcon(R.drawable.logo1)  // will need to get image associated with passed position
+                    .setIcon(R.drawable.logo1)
                     .setTitle(title)
                     .setPositiveButton(R.string.workout_dialog_ok,
                             new DialogInterface.OnClickListener() {

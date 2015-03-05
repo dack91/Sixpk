@@ -9,12 +9,11 @@ public class AbLog {
     private int muscleGroup; // i.e. obliques
     private int[] difficultyArray; //shows difficulty for last several workouts (need several because of statistics)
 
-    // for debugging (with the driver in Main
-//    public AbLog(String name, int ablogId, int muscleGroup, int[] difficultyArray) {
+//    // for debugging (with the driver in Main
+//    public AbLog(String name, int ablogId, int muscleGroup) {
 //        this.name = name;
 //        this.ablogId = ablogId;
 //        this.muscleGroup = muscleGroup;
-//        this.difficultyArray = difficultyArray;
 //    }
 
 
