@@ -82,11 +82,15 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         updateListView();
         mItineraryList.setAdapter(mAdapter);
 
-
 //        // TEMPORARY
 //        mAdapter.addAll(Globals.test);
 //        mAdapter.notifyDataSetChanged();
-//        mItineraryList.setAdapter(mAdapter);
+//        mItineraryList.setAdapter(mAdapter)
+
+        // TEMPORARY
+        mAdapter.addAll(Globals.test);
+        mAdapter.notifyDataSetChanged();
+        mItineraryList.setAdapter(mAdapter);
 
         // Set text views
         mDuration.setText(time + " min");
@@ -110,7 +114,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
-  //      i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
+        //      i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
         startActivity(i);
     }
 
@@ -135,7 +139,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
                 view = convertView;
             }
             else {
-                view = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                view = mInflater.inflate(R.layout.custom_simple_list_1, parent, false);
             }
 
             String text = getItem(position);
@@ -220,11 +224,5 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     protected void onPause() {
         dbHelper.close();
         super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        dbHelper.open();
-        super.onResume();
     }
 }
