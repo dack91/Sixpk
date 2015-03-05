@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
         prefs = getSharedPreferences(mKey, MODE_PRIVATE);
         Log.d("INITAL ABLOG INPUT", prefs.contains(getString(R.string.initial_input)) + "");
 
-        //if (prefs.getBoolean(getString(R.string.initial_input), true)) {
+        if (prefs.getBoolean(getString(R.string.initial_input), true)) {
 
             Log.d("INITAL ABLOG INPUT", "happening @now");
 
@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(getString(R.string.initial_input), false);
             editor.commit();
-        //}
+        }
     }
 
 

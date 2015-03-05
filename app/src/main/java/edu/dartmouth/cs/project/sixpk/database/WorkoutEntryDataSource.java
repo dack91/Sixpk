@@ -52,8 +52,7 @@ public class WorkoutEntryDataSource {
   public long insertAblogEntry(AbLog ablog) {
 
     ContentValues values = new ContentValues();
-    values.put(MySQLiteHelper.COLUMN_ABLOG_ID, ablog.getId());
-    values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogId());
+    values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogNumber());
     values.put(MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY, ablog.getDifficultyArray().toString());
     values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
     values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
@@ -178,8 +177,8 @@ public class WorkoutEntryDataSource {
 
   private AbLog cursorToAblog(Cursor cursor){
     AbLog abLog = new AbLog();
-    abLog.setAblogId(cursor.getInt(0));
-    abLog.setAblogId(cursor.getInt(1));
+    abLog.setId(cursor.getInt(0));
+    abLog.setAblogNumber(cursor.getInt(1));
     abLog.setMuscleGroup(cursor.getInt(2));
     String[] s = cursor.getString(3).split(",");
     int[] numbers = new int[s.length];

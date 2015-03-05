@@ -5,7 +5,7 @@ public class AbLog {
 
     private String name;
     private int id; // database row
-    private int ablogId; // corresponds to ids in workout entry id list
+    private int ablogNumber; // corresponds to ids in workout entry id list
     private int muscleGroup; // i.e. obliques
     private int[] difficultyArray; //shows difficulty for last several workouts (need several because of statistics)
     private String filePath;
@@ -17,21 +17,19 @@ public class AbLog {
 //        this.muscleGroup = muscleGroup;
 //    }
 
-    public AbLog(String name, int ablogId, int muscleGroup, String filePath) {
+    public AbLog(String name, int ablogNumber, int muscleGroup, String filePath) {
         this.name = name;
-        this.ablogId = ablogId;
+        this.ablogNumber = ablogNumber;
         this.muscleGroup = muscleGroup;
         this.filePath = filePath;
 
-        id = 0;
         difficultyArray = new int[1];
         difficultyArray[0] = 5;
     }
 
     public AbLog() {
         name = "";
-        id = 0;
-        ablogId = 0;
+        ablogNumber = 0;
         muscleGroup = 0;
         difficultyArray = new int[1];
         difficultyArray[0] = 5;
@@ -45,12 +43,12 @@ public class AbLog {
         this.id = id;
     }
 
-    public int getAblogId() {
-    return ablogId;
+    public int getAblogNumber() {
+    return ablogNumber;
     }
 
-    public void setAblogId(int ablogId) {
-        this.ablogId = ablogId;
+    public void setAblogNumber(int ablogId) {
+        this.ablogNumber = ablogId;
     }
 
     public int getMuscleGroup() {

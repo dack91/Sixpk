@@ -86,7 +86,7 @@ public class Workout {
             int[] rands = uniqueRands( (int) subset, min, max);
             // add randomly selected exercises to the list
             for (int i = 0; i < rands.length; i++) {
-                exerciseIds.add(sorted[ rands[i] ].getAblogId());
+                exerciseIds.add(sorted[ rands[i] ].getAblogNumber());
 
                 // shorten or extend the duration based on feedback
                 // difficulty is 0-10, 5 is default
