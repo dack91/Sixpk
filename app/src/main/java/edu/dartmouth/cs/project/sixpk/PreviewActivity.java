@@ -56,7 +56,8 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mItineraryList = (ListView) findViewById(R.id.listViewPreview);
 
         // Unpack intent
-        int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
+        //int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
+        int difficulty = 1;
         String diff = "MEDIUM"; // DEFAULT: medium
 
         switch (difficulty) {
@@ -76,16 +77,16 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         // Get exercises in current workout
 
-   //     ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-   //     mCurrWorkout = new Workout(allExercises, time, difficulty);
-   //     updateListView();
-//        mItineraryList.setAdapter(mAdapter);
-
-
-        // TEMPORARY
-        mAdapter.addAll(Globals.test);
-        mAdapter.notifyDataSetChanged();
+        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+        mCurrWorkout = new Workout(allExercises, time, difficulty);
+        updateListView();
         mItineraryList.setAdapter(mAdapter);
+
+
+//        // TEMPORARY
+//        mAdapter.addAll(Globals.test);
+//        mAdapter.notifyDataSetChanged();
+//        mItineraryList.setAdapter(mAdapter);
 
         // Set text views
         mDuration.setText(time + " min");

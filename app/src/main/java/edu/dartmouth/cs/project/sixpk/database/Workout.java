@@ -103,7 +103,7 @@ public class Workout {
         }
 
         correctTiming(extra);
-        shuffle();
+//        shuffle();
     }
 
     // returns a random integer between min inclusive and max exclusive
@@ -190,7 +190,10 @@ public class Workout {
 
             } else {
                 // disperse the leftover seconds over all exercises if it's too large
-                int disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
+                int disp = 0;
+                if (durations.size()!=0){
+                    disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
+                }
 
                 for (int i = 0; i < durations.size(); i++) {
                     durations.set(i, durations.get(i) + disp);
