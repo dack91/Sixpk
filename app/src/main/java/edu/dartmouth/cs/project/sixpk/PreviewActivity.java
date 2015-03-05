@@ -48,20 +48,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
-        // Get text references
-        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
-        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
-        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
-
-        // Set adapter for custom listView
-//        mAdapter = new ItineraryListAdapter(mContext);
-//        mItineraryList.setAdapter(mAdapter);
-
-        // Set adapter for test listView -- TEMPORARY
-//        mAdapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, android.R.id.text1, Globals.test);
-        mItineraryList.setAdapter(mAdapter);
-
         // Set onClick listener for the listView, show dialog on click
         mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,9 +77,14 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
         int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
 
-//        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-//        mCurrWorkout = new Workout(allExercises, time, difficulty);
-//        updateListView();
+        // Set adapter for custom listView
+        mAdapter = new ItineraryListAdapter(mContext);
+        mItineraryList.setAdapter(mAdapter);
+
+        // Get exercises in current workout
+        ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+        mCurrWorkout = new Workout(allExercises, time, difficulty);
+        updateListView();
 
         // Get text references
         mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
@@ -103,10 +94,6 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         // Set text views
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
-
-        // Set adapter for custom listView
-        mAdapter = new ItineraryListAdapter(mContext);
-        mItineraryList.setAdapter(mAdapter);
 
         // Set onClick listener for the listView, show dialog on click
         mItineraryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -134,7 +121,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         finish();
     }
 
-   // Set up adapter for listview element to scroll through workout itinerary
+    // Set up adapter for listview element to scroll through workout itinerary
     private class ItineraryListAdapter extends ArrayAdapter<String> {
         private final LayoutInflater mInflater;
 
