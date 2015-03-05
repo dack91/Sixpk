@@ -37,12 +37,12 @@ public class HistoryFragment extends Fragment {
         // Get reference to listview in feedback layout
         mHistoryList = (ListView) view.findViewById(R.id.listViewHistory);
 
-        // Show listview of past workouts
+        // Show listview of all exercises
         // TODO
         // Set adapter for custom listView
         mAdapter = new HistoryListAdapter(mContext);
         mHistoryList.setAdapter(mAdapter);
-        mAdapter.addAll(Globals.test);  // TEMPORARY: get all workouts from database
+        mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
         mAdapter.notifyDataSetChanged();
 
         // Start workout preview

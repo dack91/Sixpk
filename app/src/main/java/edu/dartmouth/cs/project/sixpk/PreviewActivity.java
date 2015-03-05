@@ -48,6 +48,11 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
+        // Get text references
+        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
+        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
+        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+
         // Unpack intent
         int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
         String diff = "MEDIUM"; // DEFAULT: medium
@@ -75,11 +80,10 @@ public class PreviewActivity extends Activity{//extends ListActivity {
    //     updateListView();
 //        mItineraryList.setAdapter(mAdapter);
 
-
-        // Get text references
-        mDuration = (EditText) findViewById(R.id.editTextPrevItinerary);
-        mDifficulty = (EditText) findViewById(R.id.editTextPrevDifficulty);
-        mItineraryList = (ListView) findViewById(R.id.listViewPreview);
+        // TEMPORARY
+        mAdapter.addAll(Globals.test);
+        mAdapter.notifyDataSetChanged();
+        mItineraryList.setAdapter(mAdapter);
 
         // Set text views
         mDuration.setText(time + " min");
@@ -90,8 +94,8 @@ public class PreviewActivity extends Activity{//extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
-                //String title = listViewList.get(position).getWorkoutTitle();
-                String title = "workout " + mCurrWorkout.getExerciseIdList()[position] + ": " + position;
+//                String title = "workout " + mCurrWorkout.getExerciseIdList()[position] + ": " + position;
+                String title = "workout: " + position;  // TEMPORARY
                 showWorkoutDialog(title, position);
             }
         });
@@ -99,11 +103,11 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
     public void onStartClicked(View v) {
         // Save current workout to database
-        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+//        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
-        i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
+  //      i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
         startActivity(i);
     }
 
