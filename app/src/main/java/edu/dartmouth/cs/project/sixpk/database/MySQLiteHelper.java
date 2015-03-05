@@ -33,8 +33,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String ABLOG_DATABASE_CREATE = "create table "
             + TABLE_ABLOG + "(" + COLUMN_ABLOG_ID + " integer primary key autoincrement, "
             + COLUMN_ABLOG_WORKOUT_ID + " INTEGER NOT NULL, " + COLUMN_ABLOG_DIFFICULTY + " STRING NOT NULL, "
-            + COLUMN_ABLOG_MUSCLE_GROUP + " INTEGER NOT NULL);" + COLUMN_ABLOG_NAME + " STRING NOT NULL, "
-            + COLUMN_ABLOG_FILEPATH + " STRING NOT NULL, ";
+            + COLUMN_ABLOG_MUSCLE_GROUP + " INTEGER NOT NULL, " + COLUMN_ABLOG_NAME + " STRING NOT NULL, "
+            + COLUMN_ABLOG_FILEPATH + " STRING NOT NULL);";
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

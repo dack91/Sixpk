@@ -56,8 +56,8 @@ public class WorkoutEntryDataSource {
     values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogId());
     values.put(MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY, ablog.getDifficultyArray().toString());
     values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
-      values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
-      values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
+    values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
+    values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
 
     long insertId = database.insert(MySQLiteHelper.TABLE_ABLOG, null, values);
 
