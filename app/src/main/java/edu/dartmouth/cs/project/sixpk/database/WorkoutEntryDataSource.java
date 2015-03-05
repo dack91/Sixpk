@@ -18,7 +18,8 @@ public class WorkoutEntryDataSource {
     MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST};
   private String[] allAblogColumns = {MySQLiteHelper.COLUMN_ABLOG_ID,
     MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP,
-    MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY};
+    MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY, MySQLiteHelper.COLUMN_ABLOG_NAME,
+    MySQLiteHelper.COLUMN_ABLOG_FILEPATH};
 
   public WorkoutEntryDataSource(Context context) {
     dbHelper = new MySQLiteHelper(context);
@@ -55,6 +56,8 @@ public class WorkoutEntryDataSource {
     values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogId());
     values.put(MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY, ablog.getDifficultyArray().toString());
     values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
+      values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
+      values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
 
     long insertId = database.insert(MySQLiteHelper.TABLE_ABLOG, null, values);
 
@@ -77,7 +80,10 @@ public class WorkoutEntryDataSource {
   // Query a specific entry by its index.
   public Workout fetchWorkoutByIndex(long rowId) {
     String mId = String.valueOf(rowId);
-    Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS, allWorkoutColumns, "?=?", new String[]{MySQLiteHelper.COLUMN_WORKOUT_ID, mId}, null, null, null);
+    Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS,
+            allWorkoutColumns, "?=?",
+            new String[]{MySQLiteHelper.COLUMN_WORKOUT_ID, mId},
+            null, null, null);
     cursor.moveToFirst();
     return cursorToWorkout(cursor);
   }
@@ -85,7 +91,10 @@ public class WorkoutEntryDataSource {
   // Query a specific entry by its index.
   public AbLog fetchAbLogByIndex(long rowId) {
     String mId = String.valueOf(rowId);
-    Cursor cursor = database.query(MySQLiteHelper.TABLE_ABLOG, allAblogColumns, "?=?", new String[]{MySQLiteHelper.COLUMN_ABLOG_ID, mId}, null, null, null);
+    Cursor cursor = database.query(MySQLiteHelper.TABLE_ABLOG,
+            allAblogColumns, "?=?",
+            new String[]{MySQLiteHelper.COLUMN_ABLOG_ID, mId},
+            null, null, null);
     cursor.moveToFirst();
     return cursorToAblog(cursor);
   }
@@ -121,7 +130,7 @@ public class WorkoutEntryDataSource {
       entries.add(mEntry);
       cursor.moveToNext();
     }
-    // make sure to close the cursor
+
     cursor.close();
     return entries;
   }
@@ -177,6 +186,8 @@ public class WorkoutEntryDataSource {
     for (int curr = 0; curr < s.length; curr++)
       numbers[curr] = Integer.parseInt(s[curr]);
     abLog.setDifficultyArray(numbers);
+    abLog.setName(cursor.getString(4));
+    abLog.setFilePath(cursor.getString(5));
     return abLog;
   }
 

@@ -8,6 +8,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
+import edu.dartmouth.cs.project.sixpk.database.InitialAbInputs;
 import edu.dartmouth.cs.project.sixpk.database.Workout;
+import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
 
@@ -26,6 +29,8 @@ public class MainActivity extends Activity {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
     private ActionTabsViewPagerAdapter myViewPageAdapter;
+
+    private SharedPreferences prefs;
 
     // Private database to store workout information
 //    private WorkoutDataSource datasource;
@@ -84,36 +89,40 @@ public class MainActivity extends Activity {
         slidingTabLayout.setViewPager(viewPager);
 
 
-        /*
-        // DRIVER CODE IGNORE ME
-        // need to make workout difficulty 1-10 instead of -10 to 10
+        String mKey = getString(R.string.prefs_key);
+        prefs = getSharedPreferences(mKey, MODE_PRIVATE);
+        Log.d("INITAL ABLOG INPUT", prefs.contains(getString(R.string.initial_input)) + "");
 
-        ArrayList<AbLog> exercises = new ArrayList<>();
-        int[] diff = new int[3];
+        if (prefs.getBoolean(getString(R.string.initial_input), true)) {
 
-        diff[0] = 3; diff[1] = 4; diff[2] = 5;
-        exercises.add(new AbLog("crunches", 1, 1, diff));
-        diff[0] = 1; diff[1] = 3; diff[2] = 5;
-        exercises.add(new AbLog("plank", 2, 1, diff));
-        diff[0] = 7; diff[1] = 6; diff[2] = 5;
-        exercises.add(new AbLog("bicycle", 3, 2, diff));
-        diff[0] = 9; diff[1] = 7; diff[2] = 5;
-        exercises.add(new AbLog("side plank", 4, 2, diff));
-        diff[0] = 5; diff[1] = 5; diff[2] = 5;
-        exercises.add(new AbLog("supermans", 5, 3, diff));
-        diff[0] = 5; diff[1] = 5; diff[2] = 5;
-        exercises.add(new AbLog("scissor kicks", 6, 3, diff));
+            Log.d("INITAL ABLOG INPUT", "happening @now");
 
-        Workout workout = new Workout(exercises, 8, 0);
+            WorkoutEntryDataSource dbHelper = new WorkoutEntryDataSource(this);
+            dbHelper.open();
 
-        int[] exlist = workout.getExerciseIdList();
-        for (int i = 0; i < exlist.length; i++) {
-            System.out.println(exlist[i] + " " + workout.getDurationList()[i]);
+            int i = 0;
+            for (int j = 0; j < InitialAbInputs.rectusArray.length; j++) {
+                dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.rectusArray[j],
+                        i, InitialAbInputs.RECTUS, InitialAbInputs.rectusGIFArray[j]));
+                i++;
+            }
+            for (int j = 0; j < InitialAbInputs.obliqueArray.length; j++) {
+                dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.obliqueArray[j],
+                        i, InitialAbInputs.OBLIQUES, InitialAbInputs.obliqueGIFArray[j]));
+                i++;
+            }
+            for (int j = 0; j < InitialAbInputs.tranverseArray.length; j++) {
+                dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.tranverseArray[j],
+                        i, InitialAbInputs.TRANSVERSE, InitialAbInputs.transverseGIFArray[j]));
+                i++;
+            }
+
+            dbHelper.close();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(getString(R.string.initial_input), false);
+            editor.commit();
         }
-
-        // seems like the times aren't being changes but the selections are working
-        */
-
     }
 
 

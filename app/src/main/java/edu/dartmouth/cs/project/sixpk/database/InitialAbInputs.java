@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class InitialAbInputs {
     //Muscle Groups
-    public static final String RECTUS = "Rectus Abdominis";
-    public static final String OBLIQUES = "Obliques";
-    public static final String TRANSVERSE = "Transverse Abdominis";
+    public static final int RECTUS = 0;
+    public static final int OBLIQUES = 1;
+    public static final int TRANSVERSE = 2;
 
     //rectus exercises
 
@@ -22,7 +22,7 @@ public class InitialAbInputs {
     public static final String LEG = "Leg Lift";
     public static final String TOE = "Toe Touch";
 
-    String[] rectusArray = {PLANK, SITUP, PUSH, V, CRUNCH, LEG, TOE};
+    public static String[] rectusArray = {PLANK, SITUP, PUSH, V, CRUNCH, LEG, TOE};
 
     //Obliques exercises
 
@@ -32,7 +32,7 @@ public class InitialAbInputs {
     public static final String ELBOW = "Elbow-to-knee Sit-Up";
     public static final String SIDE = "Side Plank";
 
-    String[] obliqueArray = {RUSSIAN, STANDING, BICYCLE, ELBOW, SIDE};
+    public static String[] obliqueArray = {RUSSIAN, STANDING, BICYCLE, ELBOW, SIDE};
 
     //Transverse exercises
 
@@ -41,7 +41,7 @@ public class InitialAbInputs {
     public static final String SUPER = "Superman";
     public static final String REVERSE = "Reverse Curl Up";
 
-    String[] tranverseArray = {SCISSOR, ARM, SUPER, REVERSE};
+    public static String[] tranverseArray = {SCISSOR, ARM, SUPER, REVERSE};
 
     //gifs rectus
     public static final String plGIF = "file:///android_asset/allison_plank.gif";
@@ -52,7 +52,7 @@ public class InitialAbInputs {
     public static final String legGIF = "file:///android_asset/ian_legLift/gif";
     public static final String toeGIF = "file:///android_asset/ian_toeTouch.gif";
 
-    String[] rectusGIFArray = {plGIF, sitGIF, pushGIF, vGIF, crunchGIF, legGIF, toeGIF};
+    public static String[] rectusGIFArray = {plGIF, sitGIF, pushGIF, vGIF, crunchGIF, legGIF, toeGIF};
 
     //gifs oblique
     public static final String russianGIF = "file:///android_asset/ian_russianTwist.gif";
@@ -61,14 +61,14 @@ public class InitialAbInputs {
     public static final String elbowGIF = "file:///android_asset/ian_elbowSitUp.gif";
     public static final String sideGIF = "file:///android_asset/allison_sidePlank.gif";
 
-    String[] obliqueGIFArray = {russianGIF, standingGIF, bicycleGIF, elbowGIF, sideGIF};
+    public static String[] obliqueGIFArray = {russianGIF, standingGIF, bicycleGIF, elbowGIF, sideGIF};
 
     public static final String scissorGIF = "file:///android_asset/ian_scissorKicks.gif";
     public static final String armGIF = "file:///android_asset/allison_armPlank.gif";
     public static final String superGIF = "file:///android_asset/ian_superman.gif";
     public static final String reverseGIF = "file:///android_asset/allison_reverseCurlUp.gif";
 
-    String[] transverseGIFArray = {scissorGIF, armGIF, superGIF, reverseGIF};
+    public static String[] transverseGIFArray = {scissorGIF, armGIF, superGIF, reverseGIF};
 
 
 

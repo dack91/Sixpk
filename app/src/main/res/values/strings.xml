@@ -66,6 +66,8 @@
     <string name="settings_share_workout_preference">Completed Workout</string>
     <!--<string name="settings_title_share_photo_preference">Progress Image</string>-->
     <string name="settings_share_time_preference"><![CDATA[Time & Location]]></string>
+    <string name="prefs_key">sharedprefskey</string>
+    <string name="initial_input">initial_input</string>
 
 
 </resources>

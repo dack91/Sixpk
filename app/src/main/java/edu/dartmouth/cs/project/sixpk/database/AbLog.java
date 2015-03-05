@@ -8,6 +8,7 @@ public class AbLog {
     private int ablogId; // corresponds to ids in workout entry id list
     private int muscleGroup; // i.e. obliques
     private int[] difficultyArray; //shows difficulty for last several workouts (need several because of statistics)
+    private String filePath;
 
 //    // for debugging (with the driver in Main
 //    public AbLog(String name, int ablogId, int muscleGroup) {
@@ -16,6 +17,16 @@ public class AbLog {
 //        this.muscleGroup = muscleGroup;
 //    }
 
+    public AbLog(String name, int ablogId, int muscleGroup, String filePath) {
+        this.name = name;
+        this.ablogId = ablogId;
+        this.muscleGroup = muscleGroup;
+        this.filePath = filePath;
+
+        id = 0;
+        difficultyArray = new int[1];
+        difficultyArray[0] = 5;
+    }
 
     public AbLog() {
         name = "";
@@ -64,6 +75,14 @@ public class AbLog {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
 

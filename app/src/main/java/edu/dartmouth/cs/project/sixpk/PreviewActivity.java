@@ -73,10 +73,12 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
 
         // Get exercises in current workout
+
    //     ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
    //     mCurrWorkout = new Workout(allExercises, time, difficulty);
    //     updateListView();
 //        mItineraryList.setAdapter(mAdapter);
+
 
         // TEMPORARY
         mAdapter.addAll(Globals.test);
@@ -215,5 +217,11 @@ public class PreviewActivity extends Activity{//extends ListActivity {
     protected void onPause() {
         dbHelper.close();
         super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        dbHelper.open();
+        super.onResume();
     }
 }

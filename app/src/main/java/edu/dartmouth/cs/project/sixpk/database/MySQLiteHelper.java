@@ -19,19 +19,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ABLOG_WORKOUT_ID = "ablog_workout_id";
     public static final String COLUMN_ABLOG_DIFFICULTY = "ablog_difficulty";
     public static final String COLUMN_ABLOG_MUSCLE_GROUP = "ablog_muscle_group";
+    public static final String COLUMN_ABLOG_NAME = "ablog_name";
+    public static final String COLUMN_ABLOG_FILEPATH = "ablog_filepath";
 
 	private static final String DATABASE_NAME = "sixpk.db";
 	private static final int DATABASE_VERSION = 1;
 
-  private static final String WORKOUT_DATABASE_CREATE = "create table "
-			+ TABLE_WORKOUTS + "(" + COLUMN_WORKOUT_ID + " integer primary key autoincrement, "
-      + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " LONG NOT NULL, "
-      + COLUMN_WORKOUT_FEEDBACK + " STRING NOT NULL, " + COLUMN_WORKOUT_EXERCISE_LIST + " STRING NOT NULL);";
+    private static final String WORKOUT_DATABASE_CREATE = "create table "
+	        + TABLE_WORKOUTS + "(" + COLUMN_WORKOUT_ID + " integer primary key autoincrement, "
+            + COLUMN_WORKOUT_DURATION + " INTEGER NOT NULL, " + COLUMN_WORKOUT_DATE_TIME + " LONG NOT NULL, "
+            + COLUMN_WORKOUT_FEEDBACK + " STRING NOT NULL, " + COLUMN_WORKOUT_EXERCISE_LIST + " STRING NOT NULL);";
 
-  private static final String ABLOG_DATABASE_CREATE = "create table "
-    + TABLE_ABLOG + "(" + COLUMN_ABLOG_ID + " integer primary key autoincrement, "
-    + COLUMN_ABLOG_WORKOUT_ID + " INTEGER NOT NULL, " + COLUMN_ABLOG_DIFFICULTY + " STRING NOT NULL, "
-    + COLUMN_ABLOG_MUSCLE_GROUP + " INTEGER NOT NULL);";
+    private static final String ABLOG_DATABASE_CREATE = "create table "
+            + TABLE_ABLOG + "(" + COLUMN_ABLOG_ID + " integer primary key autoincrement, "
+            + COLUMN_ABLOG_WORKOUT_ID + " INTEGER NOT NULL, " + COLUMN_ABLOG_DIFFICULTY + " STRING NOT NULL, "
+            + COLUMN_ABLOG_MUSCLE_GROUP + " INTEGER NOT NULL);" + COLUMN_ABLOG_NAME + " STRING NOT NULL, "
+            + COLUMN_ABLOG_FILEPATH + " STRING NOT NULL, ";
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,8 +42,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-    database.execSQL(WORKOUT_DATABASE_CREATE);
-    database.execSQL(ABLOG_DATABASE_CREATE);
+        database.execSQL(WORKOUT_DATABASE_CREATE);
+        database.execSQL(ABLOG_DATABASE_CREATE);
 	}
 
 	@Override
@@ -49,7 +52,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				"Upgrading database from version " + oldVersion + " to "
 						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUTS);
-    db.execSQL("DROP TABLE IF EXISTS " + TABLE_ABLOG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ABLOG);
 		onCreate(db);
 	}
 }
