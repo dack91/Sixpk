@@ -1,6 +1,7 @@
 package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;

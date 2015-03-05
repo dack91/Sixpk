@@ -51,6 +51,14 @@ public class MainActivity extends Activity {
         // ViewPager (different pages of fragment) together.
         myViewPageAdapter =new ActionTabsViewPagerAdapter(getFragmentManager(),
                 fragments);
+
+        // Set tab slider color
+        slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.white_opaque);
+            }
+        });
         viewPager.setAdapter(myViewPageAdapter);
 
         // Track which fragment is in focus
