@@ -1,12 +1,17 @@
 package edu.dartmouth.cs.project.sixpk;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,7 +29,7 @@ import android.widget.TextView;
 public class HistoryFragment extends Fragment {
     private Button showStats;
     private Context mContext;
-    private ListView mHistoryList;
+    private ListView mExerciseList;
     private HistoryListAdapter mAdapter;    // implement to take a list of workouts and format display
 
     @Override
@@ -35,17 +40,17 @@ public class HistoryFragment extends Fragment {
         mContext = getActivity();
 
         // Get reference to listview in feedback layout
-        mHistoryList = (ListView) view.findViewById(R.id.listViewHistory);
+        mExerciseList = (ListView) view.findViewById(R.id.listViewHistory);
 
         // Show listview of all exercises
         // TODO
         // Set adapter for custom listView
         mAdapter = new HistoryListAdapter(mContext);
-        mHistoryList.setAdapter(mAdapter);
+        mExerciseList.setAdapter(mAdapter);
         mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
         mAdapter.notifyDataSetChanged();
 
-        // Start workout preview
+        // Show workout statistics
         showStats = (Button) view.findViewById(R.id.buttonShowStats);
         showStats.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,6 +59,17 @@ public class HistoryFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+        // Set onClick listener for the listView, show dialog on click
+        mExerciseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position,
+                                    long id) {
+                String title = "Exercise: " + position;  // TEMPORARY
+                showExerciseDialog(title, position);
+            }
+        });
+
         return view;
     }
 
@@ -84,4 +100,38 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    // Show Dialog fragment to demo of workout from listView click
+    public void showExerciseDialog(String workoutTitle, int position) {
+        DialogFragment newFragment = ExerciseDemoFragment.newInstance(workoutTitle, position);
+        newFragment.show(getFragmentManager(), "dialog");
+    }
+
+    public static class ExerciseDemoFragment extends DialogFragment {
+
+        public static ExerciseDemoFragment newInstance(String title, int position) {
+            ExerciseDemoFragment frag = new ExerciseDemoFragment();
+            Bundle args = new Bundle();
+            args.putString("title", title);
+            args.putInt("position", position);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            String title = getArguments().getString("title");
+            final int position = getArguments().getInt("position");
+
+            return new AlertDialog.Builder(getActivity())
+                    .setIcon(R.drawable.logo1)  // will need to get image associated with passed position
+                    .setTitle(title)
+                    .setPositiveButton(R.string.workout_dialog_ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                    dismiss();
+                                }
+                            }).create();
+        }
+    }
 }
