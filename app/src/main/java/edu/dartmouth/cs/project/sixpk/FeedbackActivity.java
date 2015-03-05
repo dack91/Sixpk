@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -79,10 +80,19 @@ public class FeedbackActivity extends Activity {
         // Save feedback to database
         // TODO
         // Feedback bounds are 0-100 so do integer division /10 to get 0-10
-
+        int lastIndex = mFeedbackList.getCount()-1;
+        int[] feedBackArray = new int[lastIndex];
+        int i;
+        for (i=lastIndex;i>=0;i--){
+          mFeedbackList.setItemChecked(i, true);
+          View currItemView = mAdapter.getView(i, null, mFeedbackList);
+          SeekBar s1 = (SeekBar) currItemView.findViewById(R.id.seekBar1);
+          int feedback = s1.getProgress();
+          feedBackArray[i] = feedback/10;
+        }
         // Return to home screen
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        Intent toHomeScreen = new Intent(this, MainActivity.class);
+        startActivity(toHomeScreen);
     }
 
     public void onDeleteCLicked(View v) {
