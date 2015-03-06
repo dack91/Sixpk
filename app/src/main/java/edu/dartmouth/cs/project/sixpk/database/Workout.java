@@ -88,15 +88,17 @@ public class Workout {
             int i = 0;
             while(i<=rands.length-1) {
                 int randomIndex = rands[i];
-                AbLog sortedIndex = sorted[randomIndex];
-                exerciseIds.add(sortedIndex.getAblogNumber());
+                if(sorted.length>randomIndex){
+                    AbLog sortedIndex = sorted[randomIndex];
+                    exerciseIds.add(sortedIndex.getAblogNumber());
+                    // shorten or extend the duration based on feedback
+                    // difficulty is 0-10, 5 is default
+                    // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
+                    // then negate because easier difficulties are lower numbers which are longer workouts
+                    int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
+                    durations.add(def_duration + alter);
+                }
 
-                // shorten or extend the duration based on feedback
-                // difficulty is 0-10, 5 is default
-                // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
-                // then negate because easier difficulties are lower numbers which are longer workouts
-                int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
-                durations.add(def_duration + alter);
                 i++;
             }
         }
@@ -106,7 +108,7 @@ public class Workout {
             extra -= dur;
         }
 
-        correctTiming(extra);
+        //correctTiming(extra);
 //        shuffle();
     }
 
@@ -251,6 +253,7 @@ public class Workout {
     }
 
     private int[] convertToIntArray(ArrayList<Integer> al) {
+        ArrayList<Integer> test = al;
         int[] new_list = new int[al.size()];
         for (int i = 0; i < new_list.length; i++) {
             new_list[i] = al.get(i).intValue();

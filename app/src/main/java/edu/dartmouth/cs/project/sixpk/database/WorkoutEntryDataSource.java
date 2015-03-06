@@ -65,6 +65,8 @@ public class WorkoutEntryDataSource {
         values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
         values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
 
+       // Log.d("Inserting ablog: ", ablog.getAblogNumber() + "");
+
         long insertId = database.insert(MySQLiteHelper.TABLE_ABLOG, null, values);
 
         return insertId;
@@ -174,8 +176,8 @@ public class WorkoutEntryDataSource {
         Log.d("column 4", cursor.getString(4) + "");
         Log.d("column 5", cursor.getString(5) + "");
         AbLog abLog = new AbLog();
-        abLog.setId(cursor.getInt(1));
-        abLog.setAblogNumber(cursor.getInt(0));
+        abLog.setId(cursor.getInt(0));
+        abLog.setAblogNumber(cursor.getInt(1));
         abLog.setMuscleGroup(cursor.getInt(2));
         String difficultyString = cursor.getString(3);
         String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(",");
