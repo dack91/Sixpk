@@ -88,17 +88,18 @@ public class WorkoutActivity extends Activity {
         mDurationList = durTest;
         TOTAL_TIME = 25;
 
-     //   String mCurrImagePath = "a" + mExerciseList[mCurrExercise]; //??
-    //    mCurrExerciseImage.setImageDrawable(getResources().getDrawable(R.drawable.a0));
 
         // Set initial values for textViews and imageViews.
+        mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise]));
+
         if (mExerciseList.length > 1) {
-  //          mNextExerciseImage.setImageDrawable(getResources().getDrawable(R.drawable.a10));
+            mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
             mNextExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise + 1]));
         }
         else {
             mNextExerciseText.setText("");
+            mNextExerciseImage.setImageResource(0); // no image
         }
 
         // Set up timer listener to change exercise/finish workout
@@ -133,25 +134,25 @@ public class WorkoutActivity extends Activity {
     // play beep sound?
     public void nextExercise() {
         Log.d("DEBUG", "Updating to curr exercise: " + mExerciseList[mCurrExercise]);
-   //     mCurrExerciseImage.setImageURI(getExerciseImage(mCurrExercise));
+        mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(Globals.getNameById(mCurrExercise));
 
         if (mCurrExercise < mExerciseList.length - 1) {
-   //         mNextExerciseImage.setImageURI(getExerciseImage(mCurrExercise + 1));
+            mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
             mNextExerciseText.setText(Globals.getNameById(mCurrExercise + 1));
         }
         // Last exercise is current
         else {
             mNextExerciseText.setText("");
+            mNextExerciseImage.setImageResource(0); // no image
         }
     }
 
-    // return Uri or bitmap or file path? something to set the imageview to the new exercise
-//    public Uri getExerciseImage(int index) {
-//        // TODO
-//        // get the exercise image at given index
-//        return new Uri();
-//    }
+    // Return resource drawable id for given exercise id
+    public int getExerciseImage(int index) {
+        return getResources().getIdentifier("a" + mExerciseList[index], "drawable", getPackageName());
+
+    }
 
     // Saving all exercises completed so far, go to feedback
     public void onEndEarlyClicked(View v) {
