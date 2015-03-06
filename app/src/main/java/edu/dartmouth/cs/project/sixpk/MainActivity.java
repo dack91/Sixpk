@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.InitialAbInputs;
@@ -104,16 +106,19 @@ public class MainActivity extends Activity {
             for (int j = 0; j < InitialAbInputs.rectusArray.length; j++) {
                 dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.rectusArray[j],
                         i, InitialAbInputs.RECTUS, InitialAbInputs.rectusGIFArray[j]));
+                Globals.ALL_EXERCISES.add(InitialAbInputs.rectusArray[j]);
                 i++;
             }
             for (int j = 0; j < InitialAbInputs.obliqueArray.length; j++) {
                 dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.obliqueArray[j],
                         i, InitialAbInputs.OBLIQUES, InitialAbInputs.obliqueGIFArray[j]));
+                Globals.ALL_EXERCISES.add(InitialAbInputs.obliqueArray[j]);
                 i++;
             }
             for (int j = 0; j < InitialAbInputs.tranverseArray.length; j++) {
                 dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.tranverseArray[j],
                         i, InitialAbInputs.TRANSVERSE, InitialAbInputs.transverseGIFArray[j]));
+                Globals.ALL_EXERCISES.add(InitialAbInputs.tranverseArray[j]);
                 i++;
             }
 
@@ -121,7 +126,16 @@ public class MainActivity extends Activity {
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(getString(R.string.initial_input), false);
+
+            // Array list of exercise names matched to exercise id's
+            Set<String> set = new HashSet<String>();
+            set.addAll(Globals.ALL_EXERCISES);
+            editor.putStringSet(Globals.EXERCISE_NAMES_KEY, set);
             editor.commit();
+        }
+        else {
+            Set<String> set = prefs.getStringSet(Globals.EXERCISE_NAMES_KEY, null);
+            Globals.ALL_EXERCISES = new ArrayList<String>(set);
         }
     }
 
