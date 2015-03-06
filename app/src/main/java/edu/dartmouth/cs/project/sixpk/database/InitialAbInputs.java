@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class InitialAbInputs {
     //Muscle Groups
-    public static final int RECTUS = 0;
-    public static final int OBLIQUES = 1;
-    public static final int TRANSVERSE = 2;
+    public static final int RECTUS = 1;
+    public static final int OBLIQUES = 2;
+    public static final int TRANSVERSE = 3;
 
     //rectus exercises
 

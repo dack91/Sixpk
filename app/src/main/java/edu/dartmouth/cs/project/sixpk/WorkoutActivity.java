@@ -68,7 +68,7 @@ public class WorkoutActivity extends Activity {
         mNextExerciseText = (TextView) findViewById(R.id.workoutNextExercise);
 
         // Get current workout
-        mWorkoutID = getIntent().getIntExtra(Globals.WORKOUT_ID_KEY, 0);
+        mWorkoutID = getIntent().getLongExtra(Globals.WORKOUT_ID_KEY, 0);
         mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         mExerciseList = mCurrWorkout.getExerciseIdList();
         mDurationList = mCurrWorkout.getDurationList();

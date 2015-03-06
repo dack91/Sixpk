@@ -1,6 +1,8 @@
 package edu.dartmouth.cs.project.sixpk.database;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,12 +21,25 @@ workout flow:
  */
 
 public class Workout {
+
+    private long dateTime; // in milliseconds but we can convert it
+    private int difficulty; //Easy, medium, hard correspond to 0-2
+    private int[] exerciseIdList; // array of ablogIds
+    private int[] feedBackList; // corresponds to ordering of exercise id list
+    private int duration; // length of workout in seconds
+    private long id; // database row
+
+    // parallel arraylists to hold exercise IDs, respective durations
+    ArrayList<Integer> exerciseIds = new ArrayList<>(); // not stored in db
+    ArrayList<Integer> durations = new ArrayList<>(); // in seconds, not stored in db
+
+    int[] durationList;
+
     private final int MUSCLE_GROUPS = 3; // how many muscle groups there are
 
     private final int[] DEFAULT_DURATIONS = new int[MUSCLE_GROUPS];
 
-    public Workout() {
-    }
+    public Workout() {}
 
     public Workout(ArrayList<AbLog> exercises, int time, int diff) {
         dateTime = System.currentTimeMillis(); // I guess?
@@ -34,27 +49,11 @@ public class Workout {
         DEFAULT_DURATIONS[0] = 90;
         DEFAULT_DURATIONS[1] = 120;
         DEFAULT_DURATIONS[2] = 150;
-
-        exerciseIds = new ArrayList<>();
-        durations = new ArrayList<>();
-
         formWorkout(exercises, time, diff);
         exerciseIdList = convertToIntArray(exerciseIds);
         durationList = convertToIntArray(durations);
     }
 
-    // parallel arraylists to hold exercise IDs, respective durations
-    ArrayList<Integer> exerciseIds; // not stored in db
-    ArrayList<Integer> durations; // in seconds, not stored in db
-
-    int[] durationList;
-
-    private long dateTime; // in milliseconds but we can convert it
-    private int difficulty; //Easy, medium, hard correspond to 0-2
-    private int[] exerciseIdList; // array of ablogIds
-    private int[] feedBackList; // corresponds to ordering of exercise id list
-    private int duration; // length of workout in seconds
-    private long id; // database row
 
     /*
     parameters: all exercises, input time in mins, input difficulty (0-2)
@@ -68,7 +67,8 @@ public class Workout {
     public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
         int def_duration = DEFAULT_DURATIONS[diff];
 
-        double total = Math.ceil((time * 60) / def_duration); // approx how many workouts
+        double divide = (time * 60) / (double) def_duration;
+        double total = Math.ceil(divide); // approx how many workouts
         double subset = Math.ceil(total / MUSCLE_GROUPS); // how many workouts per muscle group
 
         // create the muscle list
@@ -85,8 +85,11 @@ public class Workout {
 
             int[] rands = uniqueRands( (int) subset, min, max);
             // add randomly selected exercises to the list
-            for (int i = 0; i < rands.length; i++) {
-                exerciseIds.add(sorted[ rands[i] ].getAblogNumber());
+            int i = 0;
+            while(i<=rands.length-1) {
+                int randomIndex = rands[i];
+                AbLog sortedIndex = sorted[randomIndex];
+                exerciseIds.add(sortedIndex.getAblogNumber());
 
                 // shorten or extend the duration based on feedback
                 // difficulty is 0-10, 5 is default
@@ -94,6 +97,7 @@ public class Workout {
                 // then negate because easier difficulties are lower numbers which are longer workouts
                 int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
                 durations.add(def_duration + alter);
+                i++;
             }
         }
 

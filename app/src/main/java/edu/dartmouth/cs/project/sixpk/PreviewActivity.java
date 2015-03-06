@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.MySQLiteHelper;
@@ -27,7 +29,7 @@ import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
-public class PreviewActivity extends Activity{//extends ListActivity {
+public class PreviewActivity extends Activity {//extends ListActivity {
     private EditText mDuration;
     private EditText mDifficulty;
     private Context mContext;
@@ -56,8 +58,14 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         mItineraryList = (ListView) findViewById(R.id.listViewPreview);
 
         // Unpack intent
-        //int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
-        int difficulty = 1;
+        int difficulty = getIntent().getIntExtra(Globals.WORKOUT_DIFFICULTY_KEY, Globals.WORKOUT_MED);
+        int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
+
+        // If difficulty not set, default to medium
+        if (difficulty == -1) {
+            difficulty = Globals.WORKOUT_MED;
+        }
+
         String diff = "MEDIUM"; // DEFAULT: medium
 
         switch (difficulty) {
@@ -72,27 +80,14 @@ public class PreviewActivity extends Activity{//extends ListActivity {
                 break;
         }
 
-        int time = getIntent().getIntExtra(Globals.WORKOUT_DURATION_KEY, Globals.DEFAULT_TIME);
-
-
         // Get exercises in current workout
-
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+
         mCurrWorkout = new Workout(allExercises, time, difficulty);
         updateListView();
         mItineraryList.setAdapter(mAdapter);
 
-//        // TEMPORARY
-//        mAdapter.addAll(Globals.test);
-//        mAdapter.notifyDataSetChanged();
-//        mItineraryList.setAdapter(mAdapter)
-
-        // TEMPORARY
-        mAdapter.addAll(Globals.test);
-        mAdapter.notifyDataSetChanged();
-        mItineraryList.setAdapter(mAdapter);
-
-        // Set text views
+        // Set header text views
         mDuration.setText(time + " min");
         mDifficulty.setText(diff);
 
@@ -101,8 +96,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
-//                String title = "workout " + mCurrWorkout.getExerciseIdList()[position] + ": " + position;
-                String title = "workout: " + position;  // TEMPORARY
+                String title = Globals.getNameById(mCurrWorkout.getExerciseIdList()[position]);
                 showWorkoutDialog(title, position);
             }
         });
@@ -137,13 +131,12 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
             if (convertView != null) {
                 view = convertView;
-            }
-            else {
+            } else {
                 view = mInflater.inflate(R.layout.custom_simple_list_1, parent, false);
             }
 
             String text = getItem(position);
-            ((TextView)view.findViewById(android.R.id.text1)).setText(text);
+            ((TextView) view.findViewById(android.R.id.text1)).setText(text);
 
             return view;
         }
@@ -204,18 +197,16 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
     // From int[] of completed exercises, form Array of formatted workout strings
     public void updateListView() {
+        mAdapter.clear();   // reset list
+
         final int[] exerciseList = mCurrWorkout.getExerciseIdList();
         int[] durationList = mCurrWorkout.getDurationList();
 
         mExerciseItinerary = new ArrayList<String>();
 
         // Populate listview
-        for (int i : exerciseList) {
-            // TODO: need getNameById function
-            //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
-
-            // TEMPORARY
-            mExerciseItinerary.add(exerciseList[i] + ", " + Globals.formatDuration(durationList[i]));
+        for (int i = 0; i < exerciseList.length; i++) {
+            mExerciseItinerary.add(Globals.getNameById(exerciseList[i]) + ", " + Globals.formatDuration(durationList[i]));
         }
         mAdapter.addAll(mExerciseItinerary);
     }

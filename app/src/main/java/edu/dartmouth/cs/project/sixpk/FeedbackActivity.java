@@ -48,7 +48,7 @@ public class FeedbackActivity extends Activity {
         mFeedbackList = (ListView) findViewById(R.id.listViewFeedback);
 
         // Get current workout
-        mWorkoutID = getIntent().getIntExtra(Globals.WORKOUT_ID_KEY, 0);
+        mWorkoutID = getIntent().getLongExtra(Globals.WORKOUT_ID_KEY, 0);
         mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         updateListView();
 
