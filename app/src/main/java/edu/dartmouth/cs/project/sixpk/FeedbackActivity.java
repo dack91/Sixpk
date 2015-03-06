@@ -66,6 +66,9 @@ public class FeedbackActivity extends Activity {
 
         mCompletedExercises = new ArrayList<String>();
 
+        if(exerciseList==null){
+            return;
+        }
         // Populate listview
         for (int i : exerciseList) {
             // TODO: need getNameById function

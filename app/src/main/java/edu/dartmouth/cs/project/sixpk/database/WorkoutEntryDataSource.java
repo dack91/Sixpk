@@ -138,6 +138,9 @@ public class WorkoutEntryDataSource {
 
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();
+        if(cursor.getCount()==0){
+            return entry;
+        }
         entry.setDateTime(cursor.getLong(0));
         entry.setDifficulty(cursor.getInt(1));
         entry.setDuration(cursor.getInt(2));
