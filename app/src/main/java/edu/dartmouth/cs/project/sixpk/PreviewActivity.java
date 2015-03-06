@@ -27,7 +27,7 @@ import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
-public class PreviewActivity extends Activity{//extends ListActivity {
+public class PreviewActivity extends Activity {//extends ListActivity {
     private EditText mDuration;
     private EditText mDifficulty;
     private Context mContext;
@@ -78,6 +78,7 @@ public class PreviewActivity extends Activity{//extends ListActivity {
         // Get exercises in current workout
 
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+
         mCurrWorkout = new Workout(allExercises, time, difficulty);
         updateListView();
         mItineraryList.setAdapter(mAdapter);
@@ -110,11 +111,11 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
     public void onStartClicked(View v) {
         // Save current workout to database
-//        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
-        //      i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
+        i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
         startActivity(i);
     }
 
@@ -137,13 +138,12 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
             if (convertView != null) {
                 view = convertView;
-            }
-            else {
+            } else {
                 view = mInflater.inflate(R.layout.custom_simple_list_1, parent, false);
             }
 
             String text = getItem(position);
-            ((TextView)view.findViewById(android.R.id.text1)).setText(text);
+            ((TextView) view.findViewById(android.R.id.text1)).setText(text);
 
             return view;
         }

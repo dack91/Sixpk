@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 public class WorkoutEntryDataSource {
 
+    public final String TAG = "WorkoutEntryDataSource";
+
     // Database fields
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
@@ -38,12 +40,15 @@ public class WorkoutEntryDataSource {
     // Insert a item given each column value
     public long insertWorkoutEntry(Workout entry) {
 
+        Log.d(TAG, "Inserting entry:\nid:" + entry.getId() + "\ndate-time: " + entry.getDateTime());
+        Log.d(TAG, "duration: " + entry.getDuration() + "\nfeedbackList: " + Arrays.toString(entry.getFeedBackList()));
+        Log.d(TAG, "exercise id list: " + Arrays.toString(entry.getExerciseIdList()) + "\ninsert end");
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
+   //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
-        values.put(MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, entry.getFeedBackList().toString());
-        values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, entry.getExerciseIdList().toString());
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, Arrays.toString(entry.getFeedBackList()));
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, Arrays.toString(entry.getExerciseIdList()));
 
         long insertId = database.insert(MySQLiteHelper.TABLE_WORKOUTS, null, values);
 
@@ -169,8 +174,8 @@ public class WorkoutEntryDataSource {
         Log.d("column 4", cursor.getString(4) + "");
         Log.d("column 5", cursor.getString(5) + "");
         AbLog abLog = new AbLog();
-        abLog.setId(cursor.getInt(0));
-        abLog.setAblogNumber(cursor.getInt(1));
+        abLog.setId(cursor.getInt(1));
+        abLog.setAblogNumber(cursor.getInt(0));
         abLog.setMuscleGroup(cursor.getInt(2));
         String difficultyString = cursor.getString(3);
         String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(",");
