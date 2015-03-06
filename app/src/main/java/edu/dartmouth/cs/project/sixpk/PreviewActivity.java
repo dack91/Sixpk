@@ -106,6 +106,8 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         // Save current workout to database
         long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
+        Log.d("DEBUG", "workout id: " + workoutID);
+        Log.d("DEBUG", "curr duration: " + mCurrWorkout.getDuration());
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
         i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);

@@ -74,6 +74,33 @@ public class WorkoutActivity extends Activity {
         mDurationList = mCurrWorkout.getDurationList();
         TOTAL_TIME = mCurrWorkout.getDuration();
 
+        Log.d("DEBUG", "received id: " + mWorkoutID);
+        Log.d("DEBUG", "received curr duration: " + mCurrWorkout.getDuration());
+        Log.d("DEBUG", "total time and #of exercises: " + TOTAL_TIME);// + ", " + mExerciseList.length);
+
+        // TODO
+        // no duration or exercises are being retrieved from the database, everything comes back as 0?
+
+        // TESTING: use test list of exercises and durations
+        int[] test = {0, 3, 6, 2, 15};
+        mExerciseList = test;
+        int[] durTest = {5, 5, 5, 5, 5};
+        mDurationList = durTest;
+        TOTAL_TIME = 25;
+
+     //   String mCurrImagePath = "a" + mExerciseList[mCurrExercise]; //??
+    //    mCurrExerciseImage.setImageDrawable(getResources().getDrawable(R.drawable.a0));
+
+        // Set initial values for textViews and imageViews.
+        mCurrExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise]));
+        if (mExerciseList.length > 1) {
+  //          mNextExerciseImage.setImageDrawable(getResources().getDrawable(R.drawable.a10));
+            mNextExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise + 1]));
+        }
+        else {
+            mNextExerciseText.setText("");
+        }
+
         // Set up timer listener to change exercise/finish workout
         mTimer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener()
         {
@@ -107,21 +134,16 @@ public class WorkoutActivity extends Activity {
     public void nextExercise() {
         Log.d("DEBUG", "Updating to curr exercise: " + mExerciseList[mCurrExercise]);
    //     mCurrExerciseImage.setImageURI(getExerciseImage(mCurrExercise));
-        mCurrExerciseText.setText(getExerciseText(mCurrExercise));
+        mCurrExerciseText.setText(Globals.getNameById(mCurrExercise));
 
-        if (mCurrExercise < mExerciseList.length) {
+        if (mCurrExercise < mExerciseList.length - 1) {
    //         mNextExerciseImage.setImageURI(getExerciseImage(mCurrExercise + 1));
-            mNextExerciseText.setText(getExerciseText(mCurrExercise + 1));
+            mNextExerciseText.setText(Globals.getNameById(mCurrExercise + 1));
         }
-    }
-
-    public String getExerciseText(int index) {
-        String name = "";
-
-        // TODO
-        // get the exercise name at given index
-
-        return name;
+        // Last exercise is current
+        else {
+            mNextExerciseText.setText("");
+        }
     }
 
     // return Uri or bitmap or file path? something to set the imageview to the new exercise
