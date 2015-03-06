@@ -110,11 +110,11 @@ public class PreviewActivity extends Activity{//extends ListActivity {
 
     public void onStartClicked(View v) {
         // Save current workout to database
-//        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
-        //      i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
+        i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
         startActivity(i);
     }
 
