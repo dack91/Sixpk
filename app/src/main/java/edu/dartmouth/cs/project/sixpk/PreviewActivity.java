@@ -82,7 +82,6 @@ public class PreviewActivity extends Activity {//extends ListActivity {
 
         // Get exercises in current workout
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-
         mCurrWorkout = new Workout(allExercises, time, difficulty);
         updateListView();
         mItineraryList.setAdapter(mAdapter);

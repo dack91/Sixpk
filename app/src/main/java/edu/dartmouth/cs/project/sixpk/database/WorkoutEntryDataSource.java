@@ -146,6 +146,7 @@ public class WorkoutEntryDataSource {
     // Get ab exercise name from ID
     public String getNameById(int id) {
         ArrayList<AbLog> allExercises = fetchAbLogEntries();
+
         for (AbLog curr : allExercises) {
             if (id == curr.getAblogNumber()) {
                 return curr.getName();

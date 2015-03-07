@@ -40,20 +40,4 @@ public class Globals {
 
         return time;
     }
-
-    // Test list of workouts for listview -- TEMPORARY
-    public static ArrayList<String> test = new ArrayList<String>(){{
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-        add("A workout: 3:30");
-        add("B workout: 1:45");
-        add("C workout: 2:30");
-    }};
 }

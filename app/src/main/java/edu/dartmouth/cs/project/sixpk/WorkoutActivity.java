@@ -79,22 +79,21 @@ public class WorkoutActivity extends Activity {
         Log.d("DEBUG", "total time and #of exercises: " + TOTAL_TIME);// + ", " + mExerciseList.length);
 
         // TODO
-        // no duration or exercises are being retrieved from the database, everything comes back as 0?
+        // No duration or exercises are being retrieved from the database, everything comes back as 0?
 
         // TESTING: use test list of exercises and durations
-        int[] test = {0, 1, 2, 14, 15};
+        int[] test = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
         mExerciseList = test;
-        int[] durTest = {3, 3, 3, 3, 3};
+        int[] durTest = {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
         mDurationList = durTest;
-        TOTAL_TIME = 15;
+        TOTAL_TIME = 80;
 
 
         // Set initial values for textViews and imageViews.
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
-        Log.d("DEBUG", "first name: " + dbHelper.getNameById(mExerciseList[mCurrExercise]));
         mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
 
-
+        // Check there is more than one exercise
         if (mExerciseList.length > 1) {
             mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
             mNextExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise + 1]));
@@ -135,11 +134,10 @@ public class WorkoutActivity extends Activity {
     // Update current and next exercise
     // play beep sound?
     public void nextExercise() {
-        Log.d("DEBUG", "Updating to curr exercise: " + mExerciseList[mCurrExercise]);
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
 
-
+        // Check if current exercise is last in set
         if (mCurrExercise < mExerciseList.length - 1) {
             mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
             mNextExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise + 1]));
