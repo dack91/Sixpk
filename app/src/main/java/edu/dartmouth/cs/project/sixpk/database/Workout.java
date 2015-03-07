@@ -270,6 +270,21 @@ public class Workout {
         // Update int[]
         exerciseIdList = convertToIntArray(exerciseIds);
         durationList = convertToIntArray(durations);
+
+        // Update workout duration
+        setTotalTime();
+    }
+
+    public int getActualTime() {
+        int time = 0;
+        for (int i : durationList) {
+            time += i;
+        }
+        return time;
+    }
+
+    public void setTotalTime() {
+        this.duration = getActualTime();
     }
 
     public int[] getFeedBackList() {

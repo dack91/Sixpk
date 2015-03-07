@@ -86,9 +86,10 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         mCurrWorkout = new Workout(allExercises, time, difficulty);
         updateListView();
         mItineraryList.setAdapter(mAdapter);
+        mCurrWorkout.setTotalTime();    // get the actual duration generated from 6pk
 
         // Set header text views
-        mDuration.setText(time + " min");
+        mDuration.setText(Globals.formatDuration(mCurrWorkout.getDuration()));
         mDifficulty.setText(diff);
 
         // Set onClick listener for the listView, show dialog on click
@@ -105,6 +106,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
 
     public void onStartClicked(View v) {
         // Save current workout to database
+        mCurrWorkout.setTotalTime();
         long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
         Log.d("DEBUG", "workout id: " + workoutID);
@@ -199,6 +201,9 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         // Delete workout from itinerary
         mCurrWorkout.removeExercise(index);
         updateListView();
+
+        // Update time text
+        mDuration.setText(Globals.formatDuration(mCurrWorkout.getDuration()));
 
         // Update UI view of list
         mAdapter.notifyDataSetChanged();

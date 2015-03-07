@@ -76,17 +76,20 @@ public class WorkoutActivity extends Activity {
 
         Log.d("DEBUG", "received id: " + mWorkoutID);
         Log.d("DEBUG", "received curr duration: " + mCurrWorkout.getDuration());
-        Log.d("DEBUG", "total time and #of exercises: " + TOTAL_TIME);// + ", " + mExerciseList.length);
+        Log.d("DEBUG", "total time and #of exercises: " + TOTAL_TIME + ", " + mExerciseList.length);
+        Log.d("DEBUG", "date: feedback " + mCurrWorkout.getDateTime() + ": " + mCurrWorkout.getFeedBackList());
+        Log.d("DEBUG", "duration array: " + mDurationList);
+        Log.d("DEBUG", "id from db: " + mCurrWorkout.getId());
 
         // TODO
         // No duration or exercises are being retrieved from the database, everything comes back as 0?
 
-        // TESTING: use test list of exercises and durations
-        int[] test = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        mExerciseList = test;
-        int[] durTest = {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
-        mDurationList = durTest;
-        TOTAL_TIME = 80;
+//        // TESTING: use test list of exercises and durations
+//        int[] test = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+//        mExerciseList = test;
+//        int[] durTest = {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
+//        mDurationList = durTest;
+//        TOTAL_TIME = 80;
 
 
         // Set initial values for textViews and imageViews.
