@@ -82,20 +82,22 @@ public class WorkoutActivity extends Activity {
         // no duration or exercises are being retrieved from the database, everything comes back as 0?
 
         // TESTING: use test list of exercises and durations
-        int[] test = {0, 3, 6, 2, 15};
+        int[] test = {0, 1, 2, 14, 15};
         mExerciseList = test;
-        int[] durTest = {5, 5, 5, 5, 5};
+        int[] durTest = {3, 3, 3, 3, 3};
         mDurationList = durTest;
-        TOTAL_TIME = 25;
+        TOTAL_TIME = 15;
 
 
         // Set initial values for textViews and imageViews.
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
-        mCurrExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise]));
+        Log.d("DEBUG", "first name: " + dbHelper.getNameById(mExerciseList[mCurrExercise]));
+        mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
+
 
         if (mExerciseList.length > 1) {
             mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
-            mNextExerciseText.setText(Globals.getNameById(mExerciseList[mCurrExercise + 1]));
+            mNextExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise + 1]));
         }
         else {
             mNextExerciseText.setText("");
@@ -135,11 +137,13 @@ public class WorkoutActivity extends Activity {
     public void nextExercise() {
         Log.d("DEBUG", "Updating to curr exercise: " + mExerciseList[mCurrExercise]);
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
-        mCurrExerciseText.setText(Globals.getNameById(mCurrExercise));
+        mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
+
 
         if (mCurrExercise < mExerciseList.length - 1) {
             mNextExerciseImage.setImageResource(getExerciseImage(mCurrExercise + 1));
-            mNextExerciseText.setText(Globals.getNameById(mCurrExercise + 1));
+            mNextExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise + 1]));
+
         }
         // Last exercise is current
         else {
@@ -200,7 +204,7 @@ public class WorkoutActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         dbHelper.close();
         super.onPause();
     }

@@ -96,7 +96,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
-                String title = Globals.getNameById(mCurrWorkout.getExerciseIdList()[position]);
+                String title = dbHelper.getNameById(mCurrWorkout.getExerciseIdList()[position]);
                 showWorkoutDialog(title, position);
             }
         });
@@ -108,6 +108,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
 
         Log.d("DEBUG", "workout id: " + workoutID);
         Log.d("DEBUG", "curr duration: " + mCurrWorkout.getDuration());
+
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
         i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
@@ -208,13 +209,14 @@ public class PreviewActivity extends Activity {//extends ListActivity {
 
         // Populate listview
         for (int i = 0; i < exerciseList.length; i++) {
-            mExerciseItinerary.add(Globals.getNameById(exerciseList[i]) + ", " + Globals.formatDuration(durationList[i]));
+            mExerciseItinerary.add(dbHelper.getNameById(exerciseList[i]) + ", "
+                    + Globals.formatDuration(durationList[i]));
         }
         mAdapter.addAll(mExerciseItinerary);
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         dbHelper.close();
         super.onPause();
     }

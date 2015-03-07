@@ -17,6 +17,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import edu.dartmouth.cs.project.sixpk.database.AbLog;
+import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,12 +37,19 @@ public class HistoryFragment extends Fragment {
     private ListView mExerciseList;
     private HistoryListAdapter mAdapter;    // implement to take a list of workouts and format display
 
+    private WorkoutEntryDataSource dbHelper;
+    private ArrayList<AbLog> mAllExercises;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the view in the start xml
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         mContext = getActivity();
+
+        dbHelper = new WorkoutEntryDataSource(mContext);
+        dbHelper.open();
 
         // Get reference to listview in feedback layout
         mExerciseList = (ListView) view.findViewById(R.id.listViewHistory);
@@ -47,7 +59,10 @@ public class HistoryFragment extends Fragment {
         // Set adapter for custom listView
         mAdapter = new HistoryListAdapter(mContext);
         mExerciseList.setAdapter(mAdapter);
-        mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
+     //   mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
+        mAllExercises = dbHelper.fetchAbLogEntries();
+        mAdapter.addAll(mAllExercises);
+
         mAdapter.notifyDataSetChanged();
 
         // Show workout statistics
@@ -65,15 +80,31 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
-                String title = "Exercise: " + position;  // TEMPORARY
-                showExerciseDialog(title, position);
+                AbLog log =  (AbLog) mExerciseList.getItemAtPosition(position);
+                int group = log.getMuscleGroup();
+
+                String muscleGroup = "";
+                switch (group) {
+                    case 1:
+                        muscleGroup = "Rectus";
+                        break;
+                    case 2:
+                        muscleGroup = "Obliques";
+                        break;
+                    case 3:
+                        muscleGroup = "Transverse";
+                        break;
+                }
+
+                String title = muscleGroup + ": " + log.getName();
+                showExerciseDialog(title);
             }
         });
 
         return view;
     }
 
-        private class HistoryListAdapter extends ArrayAdapter<String> {
+        private class HistoryListAdapter extends ArrayAdapter<AbLog> {
         private final LayoutInflater mInflater;
 
         public HistoryListAdapter(Context context) {
@@ -94,27 +125,26 @@ public class HistoryFragment extends Fragment {
             }
 
 
-          //  WorkoutObject w = getItem(position);
-            String temp = getItem(position);
-            ((TextView)view.findViewById(android.R.id.text1)).setText(temp);
+            //String temp = getItem(position);
+            AbLog curr = getItem(position);
+            ((TextView)view.findViewById(android.R.id.text1)).setText(curr.getName());
 
             return view;
         }
     }
 
     // Show Dialog fragment to demo of workout from listView click
-    public void showExerciseDialog(String workoutTitle, int position) {
-        DialogFragment newFragment = ExerciseDemoFragment.newInstance(workoutTitle, position);
+    public void showExerciseDialog(String workoutTitle) {
+        DialogFragment newFragment = ExerciseDemoFragment.newInstance(workoutTitle);
         newFragment.show(getFragmentManager(), "dialog");
     }
 
     public static class ExerciseDemoFragment extends DialogFragment {
 
-        public static ExerciseDemoFragment newInstance(String title, int position) {
+        public static ExerciseDemoFragment newInstance(String title) {
             ExerciseDemoFragment frag = new ExerciseDemoFragment();
             Bundle args = new Bundle();
             args.putString("title", title);
-            args.putInt("position", position);
             frag.setArguments(args);
             return frag;
         }
@@ -122,7 +152,6 @@ public class HistoryFragment extends Fragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = getArguments().getString("title");
-            final int position = getArguments().getInt("position");
 
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.logo1)  // will need to get image associated with passed position
@@ -135,5 +164,11 @@ public class HistoryFragment extends Fragment {
                                 }
                             }).create();
         }
+    }
+
+    @Override
+    public void onPause() {
+        dbHelper.close();
+        super.onPause();
     }
 }

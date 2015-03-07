@@ -41,10 +41,6 @@ public class Globals {
         return time;
     }
 
-    public static String getNameById(int id) {
-        return ALL_EXERCISES.get(id);
-    }
-
     // Test list of workouts for listview -- TEMPORARY
     public static ArrayList<String> test = new ArrayList<String>(){{
         add("A workout: 3:30");

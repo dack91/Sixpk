@@ -143,6 +143,17 @@ public class WorkoutEntryDataSource {
         return entries;
     }
 
+    // Get ab exercise name from ID
+    public String getNameById(int id) {
+        ArrayList<AbLog> allExercises = fetchAbLogEntries();
+        for (AbLog curr : allExercises) {
+            if (id == curr.getAblogNumber()) {
+                return curr.getName();
+            }
+        }
+        return null;
+    }
+
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();
         if(cursor.getCount()==0){

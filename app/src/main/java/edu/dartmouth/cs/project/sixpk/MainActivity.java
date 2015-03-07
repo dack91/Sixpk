@@ -126,19 +126,7 @@ public class MainActivity extends Activity {
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(getString(R.string.initial_input), false);
-
-            // Array list of exercise names matched to exercise id's
-            Set<String> set = new HashSet<String>();
-            set.addAll(Globals.ALL_EXERCISES);
-            Log.d("DEBUG", "FUCK_1: " + Globals.ALL_EXERCISES);
-
-            editor.putStringSet(Globals.EXERCISE_NAMES_KEY, set);
             editor.commit();
-        }
-        else {
-            Set<String> set = prefs.getStringSet(Globals.EXERCISE_NAMES_KEY, null);
-            Globals.ALL_EXERCISES = new ArrayList<String>(set);
-            Log.d("DEBUG", "FUCK: " + Globals.ALL_EXERCISES);
         }
     }
 
