@@ -99,7 +99,7 @@ public class Workout {
                     // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
                     // then negate because easier difficulties are lower numbers which are longer workouts
                     int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
-                    alter = randInt(-5, 6) * 5;
+//                    alter = randInt(-5, 6) * 5;
 //                    System.out.println("alter by " + alter + " seconds, to get " + "def_duration + alter" + " total time");
                     durations.add(def_duration + alter);
                 }
