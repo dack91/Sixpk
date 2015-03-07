@@ -154,6 +154,16 @@ public class WorkoutEntryDataSource {
         }
         return null;
     }
+    public String getFilePathById(int id){
+        ArrayList<AbLog> allExercises = fetchAbLogEntries();
+
+        for (AbLog curr : allExercises) {
+            if (id == curr.getAblogNumber()) {
+                return curr.getFilePath();
+            }
+        }
+        return null;
+    }
 
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();

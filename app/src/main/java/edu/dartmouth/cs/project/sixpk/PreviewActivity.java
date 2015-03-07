@@ -27,6 +27,7 @@ import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.MySQLiteHelper;
 import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
+import edu.dartmouth.cs.project.sixpk.view.GifWebView;
 
 
 public class PreviewActivity extends Activity {//extends ListActivity {
@@ -96,7 +97,8 @@ public class PreviewActivity extends Activity {//extends ListActivity {
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
                 String title = dbHelper.getNameById(mCurrWorkout.getExerciseIdList()[position]);
-                showWorkoutDialog(title, position);
+                String gif = dbHelper.getFilePathById(mCurrWorkout.getExerciseIdList()[position]);
+                showWorkoutDialog(title, position, gif);
             }
         });
     }
@@ -145,18 +147,19 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     }
 
     // Show Dialog fragment to demo of workout from listView click
-    public void showWorkoutDialog(String workoutTitle, int position) {
-        DialogFragment newFragment = WorkoutDemoFragment.newInstance(workoutTitle, position);
-        newFragment.show(getFragmentManager(), "dialog");
+    public void showWorkoutDialog(String workoutTitle, int position, String GIF){
+    DialogFragment newFragment = WorkoutDemoFragment.newInstance(workoutTitle, position, GIF);
+    newFragment.show(getFragmentManager(), "dialog");
     }
 
     public static class WorkoutDemoFragment extends DialogFragment {
 
-        public static WorkoutDemoFragment newInstance(String title, int position) {
+        public static WorkoutDemoFragment newInstance(String title, int position, String GIF) {
             WorkoutDemoFragment frag = new WorkoutDemoFragment();
             Bundle args = new Bundle();
             args.putString("title", title);
             args.putInt("position", position);
+            args.putString("gif", GIF);
             frag.setArguments(args);
             return frag;
         }
@@ -165,10 +168,14 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = getArguments().getString("title");
             final int position = getArguments().getInt("position");
+            String gif = getArguments().getString("gif");
+
+            GifWebView gifView = new GifWebView(getActivity(), gif);
 
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.logo1)
                     .setTitle(title)
+                    .setView(gifView)
                     .setPositiveButton(R.string.workout_dialog_ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
