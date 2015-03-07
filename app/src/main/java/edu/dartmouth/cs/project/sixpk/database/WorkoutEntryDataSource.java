@@ -44,14 +44,25 @@ public class WorkoutEntryDataSource {
         Log.d(TAG, "duration: " + entry.getDuration() + "\nfeedbackList: " + Arrays.toString(entry.getFeedBackList()));
         Log.d(TAG, "exercise id list: " + Arrays.toString(entry.getExerciseIdList()) + "\ninsert end");
         ContentValues values = new ContentValues();
-   //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
+        //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, Arrays.toString(entry.getFeedBackList()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, Arrays.toString(entry.getExerciseIdList()));
 
         long insertId = database.insert(MySQLiteHelper.TABLE_WORKOUTS, null, values);
+        Log.d(TAG, "Insertion id: " + insertId);
 
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS,
+                allWorkoutColumns, MySQLiteHelper.COLUMN_WORKOUT_ID + "=" + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+        long toRet = cursor.getLong(0);
+        cursor.close();
+        if (toRet != insertId) {
+            Log.d(TAG, "Query not matching");
+            return -1;
+        }
         return insertId;
     }
 
@@ -65,7 +76,7 @@ public class WorkoutEntryDataSource {
         values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
         values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
 
-       // Log.d("Inserting ablog: ", ablog.getAblogNumber() + "");
+        // Log.d("Inserting ablog: ", ablog.getAblogNumber() + "");
 
         long insertId = database.insert(MySQLiteHelper.TABLE_ABLOG, null, values);
 
@@ -87,10 +98,8 @@ public class WorkoutEntryDataSource {
 
     // Query a specific entry by its index.
     public Workout fetchWorkoutByIndex(long rowId) {
-        String mId = String.valueOf(rowId);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS,
-                allWorkoutColumns, "?=?",
-                new String[]{MySQLiteHelper.COLUMN_WORKOUT_ID, mId},
+                allWorkoutColumns, MySQLiteHelper.COLUMN_WORKOUT_ID + "=" + rowId, null,
                 null, null, null);
         cursor.moveToFirst();
         return cursorToWorkout(cursor);
@@ -157,36 +166,46 @@ public class WorkoutEntryDataSource {
 
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();
-        if(cursor.getCount()==0){
-            return entry;
-        }
-        entry.setDateTime(cursor.getLong(0));
-        entry.setDifficulty(cursor.getInt(1));
-        entry.setDuration(cursor.getInt(2));
+//        if(cursor.getCount()==0){
+//            return entry;
+//        }
 
-        String difficultyString = cursor.getString(3);
-        String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(",");
-        int[] numbers = new int[s.length];
-        for (int curr = 0; curr < s.length; curr++)
-            numbers[curr] = Integer.parseInt(s[curr]);
-        entry.setExerciseIdList(numbers);
-
-        String feedbackString = cursor.getString(4);
-        String[] s1 = feedbackString.substring(1, feedbackString.length() - 1).split(",");
-        int[] numbers1 = new int[s.length];
-        for (int curr = 0; curr < s.length; curr++)
-            numbers1[curr] = Integer.parseInt(s1[curr]);
-        entry.setFeedBackList(numbers1);
-        return entry;
-    }
-
-    private AbLog cursorToAblog(Cursor cursor) {
         Log.d("column 0", cursor.getInt(0) + "");
         Log.d("column 1", cursor.getInt(1) + "");
-        Log.d("column 2", cursor.getInt(2) + "");
+        Log.d("column 2", cursor.getLong(2) + "");
         Log.d("column 3", cursor.getString(3) + "");
         Log.d("column 4", cursor.getString(4) + "");
-        Log.d("column 5", cursor.getString(5) + "");
+
+        entry.setDuration(cursor.getInt(1));
+        entry.setDateTime(cursor.getLong(2));
+
+        String difficultyString = cursor.getString(3);
+        if(!difficultyString.contains("null")){
+            String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(", ");
+            int[] numbers = new int[s.length];
+            for (int curr = 0; curr < s.length; curr++)
+                numbers[curr] = Integer.parseInt(s[curr]);
+            entry.setFeedBackList(numbers);
+        }
+
+        String feedbackString = cursor.getString(4);
+        if (!feedbackString.contains("null")) {
+            String[] s1 = feedbackString.substring(1, feedbackString.length() - 1).split(", ");
+            int[] numbers1 = new int[s1.length];
+            for (int curr = 0; curr < s1.length; curr++)
+                numbers1[curr] = Integer.parseInt(s1[curr]);
+            entry.setExerciseIdList(numbers1);
+        }
+        return entry;
+     }
+
+    private AbLog cursorToAblog(Cursor cursor) {
+//        Log.d("column 0", cursor.getInt(0) + "");
+//        Log.d("column 1", cursor.getInt(1) + "");
+//        Log.d("column 2", cursor.getInt(2) + "");
+//        Log.d("column 3", cursor.getString(3) + "");
+//        Log.d("column 4", cursor.getString(4) + "");
+//        Log.d("column 5", cursor.getString(5) + "");
         AbLog abLog = new AbLog();
         abLog.setId(cursor.getInt(0));
         abLog.setAblogNumber(cursor.getInt(1));
