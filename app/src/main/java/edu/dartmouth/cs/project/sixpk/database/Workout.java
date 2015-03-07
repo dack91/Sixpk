@@ -1,11 +1,11 @@
 package edu.dartmouth.cs.project.sixpk.database;
 
-
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.dartmouth.cs.project.sixpk.Globals;
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 
 
@@ -72,55 +72,68 @@ public class Workout {
         double subset = Math.ceil(total / MUSCLE_GROUPS); // how many workouts per muscle group
 
         // create the muscle list
-        for (int m = 1; m <= MUSCLE_GROUPS; m++) {
+        for (int m = 1; m <= MUSCLE_GROUPS; m++) { // muscle groups are labeled 1-3
+            Log.d("m = ", m + "");
             // sort the exercises in one muscle group by feedback difficulty
             AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
-            int min = 0, max = sorted.length;
+            int min = 0, max = sorted.length; // max is exclusive
 
-            if (diff == 0) { // only pick easier exercises if "easy" difficulty is selected
-                max -= (int) Math.ceil(sorted.length / 3);
-            } else if (diff == 2) {
+            if (diff == Globals.WORKOUT_EASY) { // only pick easier exercises if "easy" difficulty is selected
+                max -= (int) Math.ceil(sorted.length / 3); // arbitrary pick the bottom 2/3 of exercises
+            } else if (diff == Globals.WORKOUT_HARD) {
                 min += (int) Math.ceil(sorted.length / 3);
             }
 
             int[] rands = uniqueRands( (int) subset, min, max);
+
             // add randomly selected exercises to the list
-            int i = 0;
-            while(i<=rands.length-1) {
+            for (int i = 0; i < rands.length; i++) {
+                Log.d("i = ", i + "");
                 int randomIndex = rands[i];
-                if(sorted.length>randomIndex){
+                if(sorted.length > randomIndex){
                     AbLog sortedIndex = sorted[randomIndex];
                     exerciseIds.add(sortedIndex.getAblogNumber());
+
                     // shorten or extend the duration based on feedback
                     // difficulty is 0-10, 5 is default
                     // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
                     // then negate because easier difficulties are lower numbers which are longer workouts
                     int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
+                    alter = randInt(-5, 6) * 5;
+//                    System.out.println("alter by " + alter + " seconds, to get " + "def_duration + alter" + " total time");
                     durations.add(def_duration + alter);
                 }
-
-                i++;
             }
         }
+
+        Log.d("LOOP IS ", "DONE");
 
         int extra = time * 60;
         for (Integer dur : durations) {
             extra -= dur;
         }
 
-        //correctTiming(extra);
-//        shuffle();
+        for (Integer ex : exerciseIds) {
+            System.out.println(ex);
+        }
+
+        correctTiming(extra);
+        shuffle();
     }
 
     // returns a random integer between min inclusive and max exclusive
     private int randInt(int min, int max) {
         Random rand = new Random();
-        return rand.nextInt((max - min) + 1) + min;
-        //return rand.nextInt(max - min) + min;
+//        return rand.nextInt((max - min) + 1) + min;
+        return rand.nextInt(max - min) + min;
     }
 
     // returns a list of unique random ints within a range
     private int[] uniqueRands(int num, int min, int max) {
+        // prevents an infinite loop if there aren't enough exercises to fill the numbers
+        int range = (max - 1) - min;
+        if (range > num) num = range;
+
         int[] rands = new int[num];
 
         int i = 0;
@@ -182,15 +195,31 @@ public class Workout {
     // takes the leftover seconds and either deletes workouts or spreads them out
     // to correct the total time
     private void correctTiming(int leftover) {
-
         while (true) {
-            if (leftover < -30) {
+            System.out.println(leftover);
+            if (exerciseIds.size() <= 1) {
+                break;
+            }
+
+            if (leftover < -90) {
                 // get rid of last exercise if time is way over
-                exerciseIds.remove(exerciseIds.size() - 1);
+                exerciseIds.remove(exerciseIds.size() - 1); // todo delete random workout not just last one
                 leftover += durations.get(durations.size() - 1);
                 durations.remove(durations.size() - 1);
 
-            } else if (leftover >= -30 && leftover <= 30) {
+            } else if (leftover >= -90 && leftover < -30) {
+                // take away the leftover seconds over all exercises if it's too small
+                int disp = 0;
+                if (durations.size() != 0){
+                    disp = 5 * (Math.round(( (-leftover) / durations.size()) / 5)); // round to nearest 5
+                    leftover += disp * durations.size();
+                }
+
+                for (int i = 0; i < durations.size(); i++) {
+                    durations.set(i, durations.get(i) - disp);
+                }
+
+            } else if (leftover >= -30 && leftover < 30) {
                 // no editing if leftover is within a half minute
                 break;
 
@@ -199,18 +228,17 @@ public class Workout {
                 int disp = 0;
                 if (durations.size()!=0){
                     disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
+                    leftover -= disp * durations.size();
                 }
 
                 for (int i = 0; i < durations.size(); i++) {
                     durations.set(i, durations.get(i) + disp);
                 }
-                break;
             }
         }
     }
 
     public void setDateTime(long dateTime) {
-
         this.dateTime = dateTime;
     }
 
@@ -245,7 +273,6 @@ public class Workout {
     private void shuffle() {
         int rand = randInt(1, 20); // arbitrary number of swaps
         int max = exerciseIds.size();
-        int hello;
 
         for (int i = 0; i < rand; i++) {
             swap(randInt(0, max), randInt(0, max));

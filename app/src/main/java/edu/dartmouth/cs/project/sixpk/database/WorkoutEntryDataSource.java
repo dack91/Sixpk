@@ -181,12 +181,6 @@ public class WorkoutEntryDataSource {
     }
 
     private AbLog cursorToAblog(Cursor cursor) {
-        Log.d("column 0", cursor.getInt(0) + "");
-        Log.d("column 1", cursor.getInt(1) + "");
-        Log.d("column 2", cursor.getInt(2) + "");
-        Log.d("column 3", cursor.getString(3) + "");
-        Log.d("column 4", cursor.getString(4) + "");
-        Log.d("column 5", cursor.getString(5) + "");
         AbLog abLog = new AbLog();
         abLog.setId(cursor.getInt(0));
         abLog.setAblogNumber(cursor.getInt(1));
@@ -195,7 +189,7 @@ public class WorkoutEntryDataSource {
         String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(",");
         int[] numbers = new int[s.length];
         for (int curr = 0; curr < s.length; curr++) {
-            Log.d("Tag", s[curr]);
+//            Log.d("Tag", s[curr]);
             numbers[curr] = Integer.parseInt(s[curr]);
             abLog.setDifficultyArray(numbers);
             abLog.setName(cursor.getString(4));
