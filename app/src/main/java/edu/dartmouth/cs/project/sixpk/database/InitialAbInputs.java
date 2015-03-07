@@ -49,7 +49,7 @@ public class InitialAbInputs {
     public static final String pushGIF = "file:///android_asset/allison_pushThrough.gif";
     public static final String vGIF = "file:///android_asset/ian_vUP.gif";
     public static final String crunchGIF = "file:///android_asset/ian_crunch.gif";
-    public static final String legGIF = "file:///android_asset/ian_legLift/gif";
+    public static final String legGIF = "file:///android_asset/ian_legLift.gif";
     public static final String toeGIF = "file:///android_asset/ian_toeTouch.gif";
 
     public static String[] rectusGIFArray = {plGIF, sitGIF, pushGIF, vGIF, crunchGIF, legGIF, toeGIF};
