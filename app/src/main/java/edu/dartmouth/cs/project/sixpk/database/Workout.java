@@ -73,10 +73,10 @@ public class Workout {
 
         // create the muscle list
         for (int m = 1; m <= MUSCLE_GROUPS; m++) { // muscle groups are labeled 1-3
-            Log.d("m = ", m + "");
             // sort the exercises in one muscle group by feedback difficulty
             AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
             int min = 0, max = sorted.length; // max is exclusive
+
 
             if (diff == Globals.WORKOUT_EASY) { // only pick easier exercises if "easy" difficulty is selected
                 max -= (int) Math.ceil(sorted.length / 3); // arbitrary pick the bottom 2/3 of exercises
@@ -88,7 +88,6 @@ public class Workout {
 
             // add randomly selected exercises to the list
             for (int i = 0; i < rands.length; i++) {
-                Log.d("i = ", i + "");
                 int randomIndex = rands[i];
                 if(sorted.length > randomIndex){
                     AbLog sortedIndex = sorted[randomIndex];
@@ -99,14 +98,11 @@ public class Workout {
                     // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
                     // then negate because easier difficulties are lower numbers which are longer workouts
                     int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
-//                    alter = randInt(-5, 6) * 5;
-//                    System.out.println("alter by " + alter + " seconds, to get " + "def_duration + alter" + " total time");
+                    // alter = randInt(-5, 6) * 5; // for debugging, use random difficulties
                     durations.add(def_duration + alter);
                 }
             }
         }
-
-        Log.d("LOOP IS ", "DONE");
 
         int extra = time * 60;
         for (Integer dur : durations) {
@@ -124,7 +120,7 @@ public class Workout {
     // returns a random integer between min inclusive and max exclusive
     private int randInt(int min, int max) {
         Random rand = new Random();
-//        return rand.nextInt((max - min) + 1) + min;
+        // return rand.nextInt((max - min) + 1) + min; // for min to max inclusive
         return rand.nextInt(max - min) + min;
     }
 
@@ -132,7 +128,7 @@ public class Workout {
     private int[] uniqueRands(int num, int min, int max) {
         // prevents an infinite loop if there aren't enough exercises to fill the numbers
         int range = (max - 1) - min;
-        if (range > num) num = range;
+        if (range < num)  num = range;
 
         int[] rands = new int[num];
 
@@ -196,16 +192,17 @@ public class Workout {
     // to correct the total time
     private void correctTiming(int leftover) {
         while (true) {
-            System.out.println(leftover);
+//            System.out.println(leftover);
             if (exerciseIds.size() <= 1) {
                 break;
             }
 
             if (leftover < -90) {
                 // get rid of last exercise if time is way over
-                exerciseIds.remove(exerciseIds.size() - 1); // todo delete random workout not just last one
-                leftover += durations.get(durations.size() - 1);
-                durations.remove(durations.size() - 1);
+                int rand = randInt(0, exerciseIds.size() - 1);
+                exerciseIds.remove(rand);
+                leftover += durations.get(rand);
+                durations.remove(rand);
 
             } else if (leftover >= -90 && leftover < -30) {
                 // take away the leftover seconds over all exercises if it's too small
