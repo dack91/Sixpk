@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,7 +60,7 @@ public class HistoryFragment extends Fragment {
         // Set adapter for custom listView
         mAdapter = new HistoryListAdapter(mContext);
         mExerciseList.setAdapter(mAdapter);
-     //   mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
+        //   mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
         mAllExercises = dbHelper.fetchAbLogEntries();
         mAdapter.addAll(mAllExercises);
 
@@ -97,14 +98,15 @@ public class HistoryFragment extends Fragment {
                 }
 
                 String title = muscleGroup + ": " + log.getName();
-                showExerciseDialog(title);
+
+                showExerciseDialog(title, ((AbLog) mExerciseList.getItemAtPosition(position)).getFilePath());
             }
         });
 
         return view;
     }
 
-        private class HistoryListAdapter extends ArrayAdapter<AbLog> {
+    private class HistoryListAdapter extends ArrayAdapter<AbLog> {
         private final LayoutInflater mInflater;
 
         public HistoryListAdapter(Context context) {
@@ -134,17 +136,18 @@ public class HistoryFragment extends Fragment {
     }
 
     // Show Dialog fragment to demo of workout from listView click
-    public void showExerciseDialog(String workoutTitle) {
-        DialogFragment newFragment = ExerciseDemoFragment.newInstance(workoutTitle);
+    public void showExerciseDialog(String workoutTitle, String GIF){
+        DialogFragment newFragment = ExerciseDemoFragment.newInstance(workoutTitle, GIF);
         newFragment.show(getFragmentManager(), "dialog");
     }
 
     public static class ExerciseDemoFragment extends DialogFragment {
 
-        public static ExerciseDemoFragment newInstance(String title) {
+        public static ExerciseDemoFragment newInstance(String title, String GIF) {
             ExerciseDemoFragment frag = new ExerciseDemoFragment();
             Bundle args = new Bundle();
             args.putString("title", title);
+            args.putString("gif", GIF);
             frag.setArguments(args);
             return frag;
         }
@@ -152,10 +155,22 @@ public class HistoryFragment extends Fragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = getArguments().getString("title");
+            final int position = getArguments().getInt("position");
+            String gif = getArguments().getString("gif");
+
+
+            WebView gifView = new WebView(getActivity());
+            String HTML_FORMAT = "<html><body style=\"text-align: center; background-color: null; vertical-align: middle;\"><img src = \"%s\" /></body></html>";
+
+            final String html = String.format(HTML_FORMAT, gif);
+
+            gifView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
+            gifView.setBackgroundColor(0x00000000);
 
             return new AlertDialog.Builder(getActivity())
-                    .setIcon(R.drawable.logo1)  // will need to get image associated with passed position
+                    .setIcon(R.drawable.logo1)
                     .setTitle(title)
+                    .setView(gifView)
                     .setPositiveButton(R.string.workout_dialog_ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
@@ -177,3 +192,5 @@ public class HistoryFragment extends Fragment {
         dbHelper.open();
     }
 }
+
+
