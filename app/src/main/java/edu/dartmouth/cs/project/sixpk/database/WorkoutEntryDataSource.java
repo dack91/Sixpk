@@ -18,7 +18,7 @@ public class WorkoutEntryDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allWorkoutColumns = {MySQLiteHelper.COLUMN_WORKOUT_ID,
-            MySQLiteHelper.COLUMN_WORKOUT_DURATION, MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME,
+            MySQLiteHelper.COLUMN_WORKOUT_DURATION, MySQLiteHelper.COLUMN_WORKOUT_DURATION_LIST, MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME,
             MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST};
     private String[] allAblogColumns = {MySQLiteHelper.COLUMN_ABLOG_ID,
             MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP,
@@ -47,6 +47,7 @@ public class WorkoutEntryDataSource {
         //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION_LIST, Arrays.toString(entry.getDurationList()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, Arrays.toString(entry.getFeedBackList()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, Arrays.toString(entry.getExerciseIdList()));
 
@@ -177,9 +178,19 @@ public class WorkoutEntryDataSource {
         Log.d("column 4", cursor.getString(4) + "");
 
         entry.setDuration(cursor.getInt(1));
-        entry.setDateTime(cursor.getLong(2));
+        entry.setDateTime(cursor.getLong(3));
 
-        String difficultyString = cursor.getString(3);
+
+        String durationString = cursor.getString(2);
+        if(!durationString.contains("null")){
+            String[] s = durationString.substring(1, durationString.length() - 1).split(", ");
+            int[] numbers = new int[s.length];
+            for (int curr = 0; curr < s.length; curr++)
+                numbers[curr] = Integer.parseInt(s[curr]);
+            entry.setDurationList(numbers);
+        }
+
+        String difficultyString = cursor.getString(4);
         if(!difficultyString.contains("null")){
             String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(", ");
             int[] numbers = new int[s.length];
@@ -188,7 +199,7 @@ public class WorkoutEntryDataSource {
             entry.setFeedBackList(numbers);
         }
 
-        String feedbackString = cursor.getString(4);
+        String feedbackString = cursor.getString(5);
         if (!feedbackString.contains("null")) {
             String[] s1 = feedbackString.substring(1, feedbackString.length() - 1).split(", ");
             int[] numbers1 = new int[s1.length];
