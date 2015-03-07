@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -169,7 +170,13 @@ public class PreviewActivity extends Activity {//extends ListActivity {
             final int position = getArguments().getInt("position");
             String gif = getArguments().getString("gif");
 
-            GifWebView gifView = new GifWebView(getActivity(), gif);
+
+            WebView gifView = new WebView(getActivity());
+            String HTML_FORMAT = "<html><body style=\"text-align: center; background-color: null; vertical-align: middle;\"><img src = \"%s\" /></body></html>";
+
+            final String html = String.format(HTML_FORMAT, gif);
+
+            gifView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
             gifView.setBackgroundColor(0x00000000);
 
             return new AlertDialog.Builder(getActivity())
