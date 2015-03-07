@@ -171,4 +171,9 @@ public class HistoryFragment extends Fragment {
         dbHelper.close();
         super.onPause();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbHelper.open();
+    }
 }
