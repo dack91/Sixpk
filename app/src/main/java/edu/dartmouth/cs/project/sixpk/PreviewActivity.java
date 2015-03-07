@@ -170,6 +170,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
             String gif = getArguments().getString("gif");
 
             GifWebView gifView = new GifWebView(getActivity(), gif);
+            gifView.setBackgroundColor(0x00000000);
 
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.logo1)
