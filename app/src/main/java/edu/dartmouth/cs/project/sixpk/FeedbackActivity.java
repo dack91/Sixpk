@@ -190,4 +190,9 @@ public class FeedbackActivity extends Activity {
         dbHelper.close();
         super.onPause();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbHelper.open();
+    }
 }

@@ -109,9 +109,6 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         mCurrWorkout.setTotalTime();
         long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
 
-        Log.d("DEBUG", "workout id: " + workoutID);
-        Log.d("DEBUG", "curr duration: " + mCurrWorkout.getDuration());
-
         // Start workout
         Intent i = new Intent(this, WorkoutActivity.class);
         i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
@@ -230,5 +227,11 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     public void onPause() {
         dbHelper.close();
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbHelper.open();
     }
 }
