@@ -22,8 +22,7 @@
         <ImageView
             android:id="@+id/imageViewCurrExercise"
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/ic_launcher"/>
+            android:layout_height="200dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,8 +41,7 @@
         <ImageView
             android:id="@+id/imageViewNextExercise"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_launcher" />
+            android:layout_height="100dp"/>
     </LinearLayout>
 
 

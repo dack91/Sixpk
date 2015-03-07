@@ -143,22 +143,27 @@ public class WorkoutActivity extends Activity {
 
     // Saving all exercises completed so far, go to feedback
     public void onEndEarlyClicked(View v) {
-        if (mCounter < 1) {
+        Log.d("DEBUG", "counter: " + mCounter);
+
+        if (mCounter == 0) {
+            Log.d("DEBUG", "CANCEL end workout");
             // Remove entire workout from db
             dbHelper.removeWorkoutEntry(mWorkoutID);
 
-            // Current returns to pre-workout itinerary
-            finish();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
+        else {
 
-        // Delete any uncompleted exercises from the Workout in the db
-        // (delete all indices after mCounter)
-        for (int i = mCounter; i < mExerciseList.length; i++) {
-            mCurrWorkout.removeExercise(i);
+            // Delete any uncompleted exercises from the Workout in the db
+            // (delete all indices after mCounter)
+            for (int i = mCounter; i < mExerciseList.length; i++) {
+                mCurrWorkout.removeExercise(i);
+            }
+
+            // Go to feedback
+            workoutCompleted();
         }
-
-        // Go to feedback
-        workoutCompleted();
     }
 
     public void workoutCompleted() {
