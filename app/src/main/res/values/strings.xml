@@ -68,6 +68,7 @@
     <string name="settings_share_time_preference"><![CDATA[Time & Location]]></string>
     <string name="prefs_key">sharedprefskey</string>
     <string name="initial_input">initial_input</string>
+    <string name="currExerciseEndTime">Ends at:</string>
 
 
 </resources>

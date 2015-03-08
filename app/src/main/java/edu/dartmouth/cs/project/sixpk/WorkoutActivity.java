@@ -42,6 +42,7 @@ public class WorkoutActivity extends Activity {
     private TextView mCurrExerciseText;
     private ImageView mNextExerciseImage;
     private TextView mNextExerciseText;
+    private TextView mCurrExerciseDurationText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class WorkoutActivity extends Activity {
         mCurrExerciseText = (TextView) findViewById(R.id.workoutCurrExercise);
         mNextExerciseImage = (ImageView) findViewById(R.id.imageViewNextExercise);
         mNextExerciseText = (TextView) findViewById(R.id.workoutNextExercise);
+        mCurrExerciseDurationText = (TextView) findViewById(R.id.workoutCurrExerciseEndTimeNumber);
 
         // Get current workout
         mWorkoutID = getIntent().getLongExtra(Globals.WORKOUT_ID_KEY, 0);
@@ -77,6 +79,7 @@ public class WorkoutActivity extends Activity {
         // Set initial values for textViews and imageViews.
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
+        mCurrExerciseDurationText.setText(Globals.formatTime(mDurationList[mCurrExercise]));
 
         // Check there is more than one exercise
         if (mExerciseList.length > 1) {
@@ -121,6 +124,7 @@ public class WorkoutActivity extends Activity {
     public void nextExercise() {
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
+        mCurrExerciseDurationText.setText(Globals.formatTime(mTimeSoFar + mDurationList[mCurrExercise]));
 
         // Check if current exercise is last in set
         if (mCurrExercise < mExerciseList.length - 1) {

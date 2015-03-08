@@ -40,4 +40,15 @@ public class Globals {
 
         return time;
     }
+
+    public static String formatTime(int sec) {
+        String time;
+
+        int min = sec / 60;         // Get minutes from seconds
+        int seconds = sec % 60;     // Get remaining seconds after minutes
+
+        time = String.format("%02d", min) + ":" + String.format("%02d", seconds);
+
+        return time;
+    }
 }
