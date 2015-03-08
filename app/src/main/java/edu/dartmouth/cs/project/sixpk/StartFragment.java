@@ -60,6 +60,12 @@ public class StartFragment extends Fragment {
             }
             });
 
+        //TESTING TIME PICKER
+        // 16, 16, 20, 16, 10, 23, 3
+        long[] test = new long[] {1425844767, 1425844786, 1427846399, 1425844785, 1425824625, 1425869985, 1425798045};
+        long time = Globals.findMostCommonDate(test);
+
+        Log.d("DEBUG", "time found for common: " + time);
         return view;
     }
 
