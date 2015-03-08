@@ -47,36 +47,32 @@ public class FeedbackActivity extends Activity {
         // Get reference to listview in feedback layout
         mFeedbackList = (ListView) findViewById(R.id.listViewFeedback);
 
+        // Set adapter for custom listView
+        mAdapter = new FeedbackListAdapter(mContext);
+
         // Get current workout
         mWorkoutID = getIntent().getLongExtra(Globals.WORKOUT_ID_KEY, 0);
         mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         updateListView();
-
-        // Set adapter for custom listView
-        mAdapter = new FeedbackListAdapter(mContext);
         mFeedbackList.setAdapter(mAdapter);
-        mAdapter.addAll(mCompletedExercises);
-        mAdapter.notifyDataSetChanged();
+
     }
 
     // From int[] of completed exercises, form Array of formatted workout strings
     public void updateListView() {
+        mAdapter.clear();   // reset list
+
         final int[] exerciseList = mCurrWorkout.getExerciseIdList();
         int[] durationList = mCurrWorkout.getDurationList();
 
         mCompletedExercises = new ArrayList<String>();
 
-        if(exerciseList==null){
-            return;
-        }
         // Populate listview
-        for (int i : exerciseList) {
-            // TODO: need getNameById function
-            //  mExerciseItinerary.add(getExerciseNameById(mExerciseList[i]) + ", " + Globals.formatDuration(mDurationList[i]));
-
-            // TEMPORARY
-            mCompletedExercises.add(exerciseList[i] + ", " + Globals.formatDuration(durationList[i]));
+       // for (int i : exerciseList) {
+        for (int i = 0; i < exerciseList.length; i++) {
+            mCompletedExercises.add(dbHelper.getNameById(exerciseList[i]) + ", " + Globals.formatDuration(durationList[i]));
         }
+
         mAdapter.addAll(mCompletedExercises);
     }
 

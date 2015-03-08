@@ -60,7 +60,7 @@ public class HistoryFragment extends Fragment {
         // Set adapter for custom listView
         mAdapter = new HistoryListAdapter(mContext);
         mExerciseList.setAdapter(mAdapter);
-     //   mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
+        //   mAdapter.addAll(Globals.test);  // TEMPORARY: change to get all exercises from database
         mAllExercises = dbHelper.fetchAbLogEntries();
         mAdapter.addAll(mAllExercises);
 
@@ -106,7 +106,7 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-        private class HistoryListAdapter extends ArrayAdapter<AbLog> {
+    private class HistoryListAdapter extends ArrayAdapter<AbLog> {
         private final LayoutInflater mInflater;
 
         public HistoryListAdapter(Context context) {
@@ -192,3 +192,5 @@ public class HistoryFragment extends Fragment {
         dbHelper.open();
     }
 }
+
+

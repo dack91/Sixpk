@@ -143,16 +143,14 @@ public class WorkoutActivity extends Activity {
 
     // Saving all exercises completed so far, go to feedback
     public void onEndEarlyClicked(View v) {
-        Log.d("DEBUG", "counter: " + mCounter);
-
+        // No exercises completed
         if (mCounter == 0) {
-            Log.d("DEBUG", "CANCEL end workout");
-            // Remove entire workout from db
+            // Remove entire workout from db and return to start
             dbHelper.removeWorkoutEntry(mWorkoutID);
-
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
+        // Some exercise but not all completed
         else {
 
             // Delete any uncompleted exercises from the Workout in the db
