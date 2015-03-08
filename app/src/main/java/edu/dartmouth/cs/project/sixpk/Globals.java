@@ -52,22 +52,60 @@ public class Globals {
         return time;
     }
 
-//    public static long findMostCommonDate(long[] times) {
+    // before calling this, fetchAllWorkouts and then add each dateTime into the long[] for this function
+    public static long findMostCommonDate(long[] times) {
+        // For each dateTime in the long[], group it into a time range
+        // (ei. 12am-3am, 3-6am, 6-9am, 9-12pm, 12-3pm, 3-6pm, 6-9pm, 9-12am)
+        // 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00
+        // Then calculate which of the time ranges is the most frequently used for workouts
+        // send the notification at that beginning of that time range
+
+        // Parallel arrays hold group start time and frequency of workouts in range
+        int range = 3;  // ranges are 3 hours long
+        int[] timeGroups = new int[] {0, 3, 6, 9, 12, 15, 18, 21};
+        int[] timeGroupFrequencies = new int[8];
+
+        // Group all workouts into appropriate range
+        for (long time : times) {
+            String date = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date (time));
+            String[] timeString = date.split(":");
+            int hour = Integer.parseInt(timeString[0]);
+            int min = Integer.parseInt(timeString[1]);
+
+            // round minutes to the closest hour
+            if (min >= 30) {
+                hour++;
+            }
+
+            int j = 0;
+            // Place time in group
+            while (hour > timeGroups[j] + range) {
+                j++;
+            }
+            timeGroupFrequencies[j-1] = timeGroupFrequencies[j-1] + 1;
+        }
+
+        int maxValue = 15;
+        int maxCount = 0;
+
+
+
 //
 //
-////        int maxValue, maxCount;
-////
-////        for (int i = 0; i < a.length; ++i) {
-////            int count = 0;
-////            for (int j = 0; j < a.length; ++j) {
-////                if (a[j] == a[i]) ++count;
-////            }
-////            if (count > maxCount) {
-////                maxCount = count;
-////                maxValue = a[i];
-////            }
-////        }
+//        int maxValue, maxCount;
+//
+//        for (int i = 0; i < a.length; ++i) {
+//            int count = 0;
+//            for (int j = 0; j < a.length; ++j) {
+//                if (a[j] == a[i]) ++count;
+//            }
+//            if (count > maxCount) {
+//                maxCount = count;
+//                maxValue = a[i];
+//            }
+//        }
 ////
 ////        return maxValue;
-//    }
+        return 0;
+    }
 }

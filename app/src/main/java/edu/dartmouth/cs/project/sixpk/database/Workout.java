@@ -286,10 +286,20 @@ public class Workout {
     }
 
 
+    // Remove all exercises not completed (starting at pro
     public void removeExercise(int index) {
-        // Remove from workout
-        exerciseIds.remove(index);
-        durations.remove(index);
+        Log.d("DEBUG", "exerciseIds: " + exerciseIds + "< " + exerciseIdList[0]);
+        // Repopulate arrayList of exercises and durations to remove index
+        exerciseIds = new ArrayList<Integer>();
+        durations = new ArrayList<Integer>();
+
+        int i = 0;
+        while (i < index) {
+            Log.d("DEBUG", "adding exercise: " + exerciseIdList[i]);
+            exerciseIds.add(exerciseIdList[i]);
+            durations.add(durationList[i]);
+            i++;
+        }
 
         // Update int[]
         exerciseIdList = convertToIntArray(exerciseIds);
