@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -100,14 +101,22 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     }
 
     public void onStartClicked(View v) {
-        // Save current workout to database
-        mCurrWorkout.setTotalTime();
-        long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+        // If all exercises deleted from itinerary (no workout to do), return to start
+        if (mCurrWorkout.getExerciseIdList().length == 0) {
+            Toast.makeText(mContext, "No exercises left in itinerary", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
-        // Start workout
-        Intent i = new Intent(this, WorkoutActivity.class);
-        i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
-        startActivity(i);
+        else {
+            // Save current workout to database
+            mCurrWorkout.setTotalTime();
+            long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+
+            // Start workout
+            Intent i = new Intent(this, WorkoutActivity.class);
+            i.putExtra(Globals.WORKOUT_ID_KEY, workoutID);
+            startActivity(i);
+        }
     }
 
     public void onCancelClicked(View v) {
