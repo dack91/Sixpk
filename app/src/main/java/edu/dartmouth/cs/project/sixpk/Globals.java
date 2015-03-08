@@ -70,8 +70,7 @@ public class Globals {
 
         // Group all workouts into appropriate range
         for (long time : times) {
-            String date = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(time * 1000));
-            Log.d("DEBUG", "Date found: " + date);
+            String date = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(time));
             String[] timeString = date.split(":");
             int hour = Integer.parseInt(timeString[0]);
             int min = Integer.parseInt(timeString[1]);
@@ -99,9 +98,6 @@ public class Globals {
                 maxValue = i;
             }
         }
-
-//        Log.d("DEBUG", "max freq: " + maxCount);
-//        Log.d("DEBUG", "max index group: " + maxValue);
 
         // Set time of most frequent workouts
         Calendar c = Calendar.getInstance();

@@ -3,6 +3,7 @@ package edu.dartmouth.cs.project.sixpk.database;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import edu.dartmouth.cs.project.sixpk.Globals;
@@ -42,7 +43,7 @@ public class Workout {
     public Workout() {}
 
     public Workout(ArrayList<AbLog> exercises, int time, int diff) {
-        dateTime = System.currentTimeMillis(); // I guess?
+        dateTime = Calendar.getInstance().getTimeInMillis();//System.currentTimeMillis(); // I guess?
         duration = time * 60;
         difficulty = diff;
 

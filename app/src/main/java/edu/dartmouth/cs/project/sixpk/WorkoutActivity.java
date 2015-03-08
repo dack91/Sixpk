@@ -15,6 +15,8 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
@@ -118,6 +120,15 @@ public class WorkoutActivity extends Activity {
             }
         });
 
+        //TESTING TIME PICKER
+        ArrayList<Workout> w = dbHelper.fetchWorkoutEntries();
+        int l = w.size();
+        long[] test = new long[l];
+        for (int i = 0; i < l; i++) {
+            test[i] = w.get(i).getDateTime();
+        }
+
+        long time = Globals.findMostCommonDate(test);
     }
 
     //TODO
