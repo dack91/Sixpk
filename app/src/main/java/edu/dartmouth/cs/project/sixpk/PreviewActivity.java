@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     private WorkoutEntryDataSource dbHelper;
     ArrayList<String> mExerciseItinerary;
     private Workout mCurrWorkout;
+
+//    private CreateWorkoutTask mAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,10 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         // Get exercises in current workout
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
         mCurrWorkout = new Workout(allExercises, time, difficulty);
+//        mAsyncTask = new CreateWorkoutTask();
+//        mAsyncTask.execute(time, difficulty);
+
+
         updateListView();
         mItineraryList.setAdapter(mAdapter);
         mCurrWorkout.setTotalTime();    // get the actual duration generated from 6pk
@@ -105,9 +112,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         if (mCurrWorkout.getExerciseIdList().length == 0) {
             Toast.makeText(mContext, "No exercises left in itinerary", Toast.LENGTH_SHORT).show();
             finish();
-        }
-
-        else {
+        } else {
             // Save current workout to database
             mCurrWorkout.setTotalTime();
             long workoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
@@ -150,9 +155,9 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     }
 
     // Show Dialog fragment to demo of workout from listView click
-    public void showWorkoutDialog(String workoutTitle, int position, String GIF){
-    DialogFragment newFragment = WorkoutDemoFragment.newInstance(workoutTitle, position, GIF);
-    newFragment.show(getFragmentManager(), "dialog");
+    public void showWorkoutDialog(String workoutTitle, int position, String GIF) {
+        DialogFragment newFragment = WorkoutDemoFragment.newInstance(workoutTitle, position, GIF);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
     public static class WorkoutDemoFragment extends DialogFragment {
@@ -245,4 +250,24 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         super.onResume();
         dbHelper.open();
     }
+
+
+//    private class CreateWorkoutTask extends AsyncTask<Integer, Integer, Integer> {
+//
+//        @Override
+//        protected Integer doInBackground(Integer... params) {
+//            int time = 0;
+//            int difficulty = 0;
+//            if (params.length == 2) {
+//                time = params[0];
+//                difficulty = params[1];
+//            }
+//
+//            ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
+//            mCurrWorkout = new Workout(allExercises, time, difficulty);
+//            updateListView();
+//            return 0;
+//        }
+//    }
+
 }

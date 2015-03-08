@@ -68,7 +68,6 @@ public class FeedbackActivity extends Activity {
         mCompletedExercises = new ArrayList<String>();
 
         // Populate listview
-       // for (int i : exerciseList) {
         for (int i = 0; i < exerciseList.length; i++) {
             mCompletedExercises.add(dbHelper.getNameById(exerciseList[i]) + ", " + Globals.formatDuration(durationList[i]));
         }
