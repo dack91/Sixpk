@@ -1,8 +1,11 @@
 package edu.dartmouth.cs.project.sixpk;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -62,12 +65,13 @@ public class Globals {
 
         // Parallel arrays hold group start time and frequency of workouts in range
         int range = 3;  // ranges are 3 hours long
-        int[] timeGroups = new int[] {0, 3, 6, 9, 12, 15, 18, 21};
+        int[] timeGroups = new int[]{0, 3, 6, 9, 12, 15, 18, 21};
         int[] timeGroupFrequencies = new int[8];
 
         // Group all workouts into appropriate range
         for (long time : times) {
-            String date = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date (time));
+            String date = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(time * 1000));
+            Log.d("DEBUG", "Date found: " + date);
             String[] timeString = date.split(":");
             int hour = Integer.parseInt(timeString[0]);
             int min = Integer.parseInt(timeString[1]);
@@ -77,35 +81,32 @@ public class Globals {
                 hour++;
             }
 
+            // Find group and increment frequency
             int j = 0;
-            // Place time in group
-            while (hour > timeGroups[j] + range) {
+            while (j < timeGroups.length - 1 && hour > timeGroups[j] + range) {
                 j++;
             }
-            timeGroupFrequencies[j-1] = timeGroupFrequencies[j-1] + 1;
+            timeGroupFrequencies[j] = timeGroupFrequencies[j] + 1;
         }
 
-        int maxValue = 15;
-        int maxCount = 0;
+        int maxValue = 0;   // value is the index into the timeGroups int[]
+        int maxCount = 0;   // frequency per time group
 
+        // Find highest frequency time range
+        for (int i = 0; i < timeGroupFrequencies.length; i++) {
+            if (timeGroupFrequencies[i] > maxCount) {
+                maxCount = timeGroupFrequencies[i];
+                maxValue = i;
+            }
+        }
 
+//        Log.d("DEBUG", "max freq: " + maxCount);
+//        Log.d("DEBUG", "max index group: " + maxValue);
 
-//
-//
-//        int maxValue, maxCount;
-//
-//        for (int i = 0; i < a.length; ++i) {
-//            int count = 0;
-//            for (int j = 0; j < a.length; ++j) {
-//                if (a[j] == a[i]) ++count;
-//            }
-//            if (count > maxCount) {
-//                maxCount = count;
-//                maxValue = a[i];
-//            }
-//        }
-////
-////        return maxValue;
-        return 0;
+        // Set time of most frequent workouts
+        Calendar c = Calendar.getInstance();
+        c.set(2015, 3, 6, timeGroups[maxValue], 0);
+
+        return c.getTimeInMillis();
     }
 }

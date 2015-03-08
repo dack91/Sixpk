@@ -167,9 +167,7 @@ public class WorkoutActivity extends Activity {
             for (int j : mExerciseList) {
                 Log.d("DEBUG", "id to delete: " + j);
             }
-//            for (int i = mCounter; i < mExerciseList.length; i++) {
-//                mCurrWorkout.removeExercise(i);
-//            }
+
             // Remove all uncompleted exercises from workout
             mCurrWorkout.removeExercise(mCounter);
 
