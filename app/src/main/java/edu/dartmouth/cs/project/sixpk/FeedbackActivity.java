@@ -96,6 +96,21 @@ public class FeedbackActivity extends Activity {
         startActivity(toHomeScreen);
     }
 
+    // Returns the time in milliseconds to set notification. Ignore day, month, year, minutes,
+    // and seconds to just set for hour
+    public long findFrequentWorkoutTime() {
+        ArrayList<Workout> workouts = dbHelper.fetchWorkoutEntries();
+        int length = workouts.size();
+        long[] test = new long[length];
+
+        // Find time of each completed workout
+        for (int i = 0; i < length; i++) {
+            test[i] = workouts.get(i).getDateTime();
+        }
+
+        return Globals.findMostCommonDate(test);
+    }
+
     private int[] shiftValue(int[] values, int value){
         for(int i = values.length-1; i>0;i--){
             values[i] = values[i-1];
@@ -116,7 +131,6 @@ public class FeedbackActivity extends Activity {
     public void onDeleteCLicked(View v) {
         // Ask user through dialog if they really want to quit without saving
         showDeleteDialog();
-
     }
 
     // Set up adapter for listview element to scroll through workout itinerary
@@ -206,6 +220,7 @@ public class FeedbackActivity extends Activity {
 
     private void doNegativeClick() {
         // Return to start without saving workout
+        dbHelper.removeWorkoutEntry(mWorkoutID);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }

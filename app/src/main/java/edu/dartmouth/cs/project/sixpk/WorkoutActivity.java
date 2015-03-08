@@ -119,21 +119,10 @@ public class WorkoutActivity extends Activity {
                 }
             }
         });
-
-        //TESTING TIME PICKER
-        ArrayList<Workout> w = dbHelper.fetchWorkoutEntries();
-        int l = w.size();
-        long[] test = new long[l];
-        for (int i = 0; i < l; i++) {
-            test[i] = w.get(i).getDateTime();
-        }
-
-        long time = Globals.findMostCommonDate(test);
     }
 
-    //TODO
     // Update current and next exercise
-    // play beep sound?
+    // play beep sound at change
     public void nextExercise() {
         final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
         tg.startTone(ToneGenerator.TONE_PROP_ACK);

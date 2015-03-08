@@ -43,7 +43,7 @@ public class Workout {
     public Workout() {}
 
     public Workout(ArrayList<AbLog> exercises, int time, int diff) {
-        dateTime = Calendar.getInstance().getTimeInMillis();//System.currentTimeMillis(); // I guess?
+        dateTime = Calendar.getInstance().getTimeInMillis();
         duration = time * 60;
         difficulty = diff;
 
