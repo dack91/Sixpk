@@ -7,9 +7,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
-import edu.dartmouth.cs.project.sixpk.database.MySQLiteHelper;
 import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
-import edu.dartmouth.cs.project.sixpk.view.GifWebView;
 
 
 public class PreviewActivity extends Activity {//extends ListActivity {
