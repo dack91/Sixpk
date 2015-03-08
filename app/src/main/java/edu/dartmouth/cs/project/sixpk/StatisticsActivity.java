@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
@@ -38,7 +41,12 @@ public class StatisticsActivity extends Activity {
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
-
+        ArrayList<AbLog> logs = dbHelper.fetchAbLogEntries();
+        for (AbLog log : logs) {
+            Log.d("DEBUG", "log: " + log.getName());
+            for (int j : log.getDifficultyArray())
+                Log.d("DEBUG", "log difficulty: " + j);
+        }
 
         //TODO
         // get/calculate level for each muscle group + get progress towards next level for

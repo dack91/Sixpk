@@ -33,7 +33,7 @@
 
     <color name="white_opaque">#FFFFFFFF</color>
     <color name="pitch_black">#FF000000</color>
-    <color name="back_blue">#00498d</color>
+    <color name="back_blue">#0071db</color>
 
     <!--<style-->
         <!--name="MyPreferenceTheme">-->
