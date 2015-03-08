@@ -67,6 +67,18 @@ public class WorkoutEntryDataSource {
         return insertId;
     }
 
+    public void updateWorkoutEntry(long rowId, Workout entry) {
+
+        ContentValues values = new ContentValues();
+        //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION_LIST, Arrays.toString(entry.getDurationList()));
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_FEEDBACK, Arrays.toString(entry.getFeedBackList()));
+        values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, Arrays.toString(entry.getExerciseIdList()));
+        database.update(MySQLiteHelper.TABLE_WORKOUTS, values, MySQLiteHelper.COLUMN_WORKOUT_ID + "=" + rowId, null);
+    }
+
     // Insert a item given each column value
     public long insertAblogEntry(AbLog ablog) {
 

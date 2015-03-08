@@ -31,7 +31,8 @@ public class FeedbackActivity extends Activity {
     private long mWorkoutID;
     private Workout mCurrWorkout;
     ArrayList<String> mCompletedExercises;
-    private int[] feebackArray = new int[100];
+    private ArrayList<Integer> feedbackArrayList = new ArrayList<>();
+    private int[] feebackArray;
 
 
     @Override
@@ -69,6 +70,7 @@ public class FeedbackActivity extends Activity {
 
         // Populate listview
         for (int i = 0; i < exerciseList.length; i++) {
+            feedbackArrayList.add(5);
             mCompletedExercises.add(dbHelper.getNameById(exerciseList[i]) + ", " + Globals.formatDuration(durationList[i]));
         }
 
@@ -77,10 +79,23 @@ public class FeedbackActivity extends Activity {
 
     public void onSaveClicked(View v) {
         // Save feedback to database
-        // TODO
-        // Feedback bounds are 0-100 so do integer division /10 to get 0-10
+        feebackArray = convertToIntArray(feedbackArrayList);
+        dbHelper.open();
+        Workout workout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
+        workout.setFeedBackList(feebackArray);
+        dbHelper.updateWorkoutEntry(mWorkoutID, workout);
+        dbHelper.close();
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
+    }
+
+    private int[] convertToIntArray(ArrayList<Integer> al) {
+        ArrayList<Integer> test = al;
+        int[] new_list = new int[al.size()];
+        for (int i = 0; i < new_list.length; i++) {
+            new_list[i] = al.get(i).intValue();
+        }
+        return new_list;
     }
 
     public void onDeleteCLicked(View v) {
@@ -114,7 +129,7 @@ public class FeedbackActivity extends Activity {
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    feebackArray[position] = progress/10;
+                    feedbackArrayList.set(position, (progress/10));
                 }
 
                 @Override
