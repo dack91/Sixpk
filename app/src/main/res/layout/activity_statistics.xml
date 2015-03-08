@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/logo3"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/logo3">
 
     <Button
         android:id="@+id/backHistoryButton"
@@ -10,5 +10,99 @@
         android:layout_gravity="top|right"
         android:layout_marginRight="5dp"
         android:text="@string/backHistoryButtonText" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:orientation="vertical"
+        android:layout_marginRight="80dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00000000">
+
+        <TextView
+            android:id="@+id/textViewStatsLevels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:text="@string/statsLevelsText"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|top"
+            android:orientation="horizontal"
+            android:background="#00000000">
+
+            <TextView
+                android:id="@+id/textViewStatsRectus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:textSize="18dp"
+                android:text="@string/rectusText" />
+
+            <TextView
+                android:id="@+id/textViewStatsLevelRectus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:textSize="18dp"
+                android:text="@string/initialStatsLevel" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|top"
+            android:orientation="horizontal"
+            android:textSize="18dp"
+            android:background="#00000000">
+
+            <TextView
+                android:id="@+id/textViewStatsOblique"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:textSize="18dp"
+                android:text="@string/obliqueText" />
+
+            <TextView
+                android:id="@+id/textViewStatsLevelOblique"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:text="@string/initialStatsLevel" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|top"
+            android:orientation="horizontal"
+            android:textSize="18dp"
+            android:background="#00000000">
+
+            <TextView
+                android:id="@+id/textViewStatsTransverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:textSize="18dp"
+                android:text="@string/transverseText" />
+
+            <TextView
+                android:id="@+id/textViewStatsLevelTransverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_gravity="left|top"
+                android:text="@string/initialStatsLevel" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </FrameLayout>

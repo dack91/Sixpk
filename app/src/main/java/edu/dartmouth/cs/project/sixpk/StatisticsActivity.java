@@ -6,18 +6,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class StatisticsActivity extends Activity {
-    Button backButton;
+    private Button backButton;
+    private TextView mRectusLevel;
+    private TextView mObliqueLevel;
+    private TextView mTransverse;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        // Start workout preview
         backButton = (Button) findViewById(R.id.backHistoryButton);
+        mRectusLevel = (TextView) findViewById(R.id.textViewStatsLevelRectus);
+        mObliqueLevel = (TextView) findViewById(R.id.textViewStatsLevelOblique);
+        mTransverse = (TextView) findViewById(R.id.textViewStatsLevelTransverse);
+
+        //TODO
+        // get/calculate level for each muscle group + get progress towards next level for
+        // display on the drawing
+
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();

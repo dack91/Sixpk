@@ -36,12 +36,18 @@
     <string name="resumeButtonText">|> RESUME</string>
     <string name="cancelWorkoutButton">CANCEL</string>
     <string name="endEarlyWorkoutButton">END EARLY</string>
+    <string name="currExerciseEndTime">Ends at:</string>
 
     <!-- HistoryFragment, see past workouts -->
     <string name="showStatsButtonText">SHOW STATS</string>
 
     <!-- StatisticsActivity, see stats -->
     <string name="backHistoryButtonText">BACK</string>
+    <string name="statsLevelsText">Level:</string>
+    <string name="initialStatsLevel">--</string>
+    <string name="rectusText">Rectus:</string>
+    <string name="obliqueText">Oblique:</string>
+    <string name="transverseText">Transverse:</string>
 
     <!-- FeedbackActivity, provide feedback on completed workout or quit without saving -->
     <string name="feedback_dialog_no">NO</string>
@@ -64,11 +70,11 @@
     <string name="settings_title_name_preference">Name:</string>
     <string name="settings_title_goal_preference">Goal Workouts Per Week:</string>
     <string name="settings_share_workout_preference">Completed Workout</string>
+
     <!--<string name="settings_title_share_photo_preference">Progress Image</string>-->
     <string name="settings_share_time_preference"><![CDATA[Time & Location]]></string>
     <string name="prefs_key">sharedprefskey</string>
     <string name="initial_input">initial_input</string>
-    <string name="currExerciseEndTime">Ends at:</string>
 
 
 </resources>
