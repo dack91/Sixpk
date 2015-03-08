@@ -96,6 +96,17 @@ public class WorkoutEntryDataSource {
         return insertId;
     }
 
+    public void updateAbLog(long rowId, AbLog ablog) {
+
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogNumber());
+        values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
+        values.put(MySQLiteHelper.COLUMN_ABLOG_DIFFICULTY, Arrays.toString(ablog.getDifficultyArray()));
+        values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
+        values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
+        database.update(MySQLiteHelper.TABLE_ABLOG, values, MySQLiteHelper.COLUMN_ABLOG_ID + "=" + rowId, null);
+    }
+
 
     // Remove an entry by giving its index
     public void removeWorkoutEntry(long rowIndex) {
@@ -120,11 +131,18 @@ public class WorkoutEntryDataSource {
 
     // Query a specific entry by its index.
     public AbLog fetchAbLogByIndex(long rowId) {
-        String mId = String.valueOf(rowId);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_ABLOG,
-                allAblogColumns, "?=?",
-                new String[]{MySQLiteHelper.COLUMN_ABLOG_ID, mId},
-                null, null, null);
+                allAblogColumns, MySQLiteHelper.COLUMN_ABLOG_ID + "=" + rowId,
+                null, null, null, null);
+        cursor.moveToFirst();
+        return cursorToAblog(cursor);
+    }
+
+    // Query a specific entry by its index.
+    public AbLog fetchAbLogByIdentifier(long rowId) {
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_ABLOG,
+                allAblogColumns, MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID + "=" + rowId,
+                null, null, null, null);
         cursor.moveToFirst();
         return cursorToAblog(cursor);
     }
@@ -176,7 +194,8 @@ public class WorkoutEntryDataSource {
         }
         return null;
     }
-    public String getFilePathById(int id){
+
+    public String getFilePathById(int id) {
         ArrayList<AbLog> allExercises = fetchAbLogEntries();
 
         for (AbLog curr : allExercises) {
@@ -189,10 +208,6 @@ public class WorkoutEntryDataSource {
 
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();
-//        if(cursor.getCount()==0){
-//            return entry;
-//        }
-
         Log.d("column 0", cursor.getInt(0) + "");
         Log.d("column 1", cursor.getInt(1) + "");
         Log.d("column 2", cursor.getLong(2) + "");
@@ -202,9 +217,8 @@ public class WorkoutEntryDataSource {
         entry.setDuration(cursor.getInt(1));
         entry.setDateTime(cursor.getLong(3));
 
-
         String durationString = cursor.getString(2);
-        if(!durationString.contains("null")){
+        if (!durationString.contains("null")) {
             String[] s = durationString.substring(1, durationString.length() - 1).split(", ");
             int[] numbers = new int[s.length];
             for (int curr = 0; curr < s.length; curr++)
@@ -213,7 +227,7 @@ public class WorkoutEntryDataSource {
         }
 
         String difficultyString = cursor.getString(4);
-        if(!difficultyString.contains("null")){
+        if (!difficultyString.contains("null")) {
             String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(", ");
             int[] numbers = new int[s.length];
             for (int curr = 0; curr < s.length; curr++)
@@ -230,7 +244,7 @@ public class WorkoutEntryDataSource {
             entry.setExerciseIdList(numbers1);
         }
         return entry;
-     }
+    }
 
     private AbLog cursorToAblog(Cursor cursor) {
 //        Log.d("column 0", cursor.getInt(0) + "");
@@ -245,10 +259,9 @@ public class WorkoutEntryDataSource {
         abLog.setAblogNumber(cursor.getInt(1));
         abLog.setMuscleGroup(cursor.getInt(2));
         String difficultyString = cursor.getString(3);
-        String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(",");
+        String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(", ");
         int[] numbers = new int[s.length];
         for (int curr = 0; curr < s.length; curr++) {
-//            Log.d("Tag", s[curr]);
             numbers[curr] = Integer.parseInt(s[curr]);
             abLog.setDifficultyArray(numbers);
             abLog.setName(cursor.getString(4));

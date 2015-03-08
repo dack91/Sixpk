@@ -3,6 +3,8 @@ package edu.dartmouth.cs.project.sixpk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -122,6 +124,8 @@ public class WorkoutActivity extends Activity {
     // Update current and next exercise
     // play beep sound?
     public void nextExercise() {
+        final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+        tg.startTone(ToneGenerator.TONE_PROP_ACK);
         mCurrExerciseImage.setImageResource(getExerciseImage(mCurrExercise));
         mCurrExerciseText.setText(dbHelper.getNameById(mExerciseList[mCurrExercise]));
         mCurrExerciseDurationText.setText(Globals.formatTime(mTimeSoFar + mDurationList[mCurrExercise]));

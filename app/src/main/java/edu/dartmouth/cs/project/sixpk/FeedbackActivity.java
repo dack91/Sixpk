@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
@@ -82,11 +83,25 @@ public class FeedbackActivity extends Activity {
         feebackArray = convertToIntArray(feedbackArrayList);
         dbHelper.open();
         Workout workout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
+        int[] exerciseIdList = workout.getExerciseIdList();
         workout.setFeedBackList(feebackArray);
+        for(int i=feebackArray.length-1; i>=0;i--){
+            AbLog abLog = dbHelper.fetchAbLogByIdentifier(exerciseIdList[i]);
+            int[] difficultyArray = abLog.getDifficultyArray();
+            abLog.setDifficultyArray(shiftValue(difficultyArray, feebackArray[i]));
+        }
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
+    }
+
+    private int[] shiftValue(int[] values, int value){
+        for(int i = values.length-1; i>0;i--){
+            values[i] = values[i-1];
+        }
+        values[0] = value;
+        return values;
     }
 
     private int[] convertToIntArray(ArrayList<Integer> al) {
@@ -129,7 +144,7 @@ public class FeedbackActivity extends Activity {
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    feedbackArrayList.set(position, (progress/10));
+                    feedbackArrayList.set(position, (progress / 10));
                 }
 
                 @Override

@@ -23,8 +23,10 @@ public class AbLog {
         this.muscleGroup = muscleGroup;
         this.filePath = filePath;
 
-        difficultyArray = new int[1];
+        difficultyArray = new int[3];
         difficultyArray[0] = 5;
+        difficultyArray[1] = 5;
+        difficultyArray[2] = 5;
     }
 
     public AbLog() {
