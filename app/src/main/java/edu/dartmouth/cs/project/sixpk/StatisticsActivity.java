@@ -1,12 +1,15 @@
 package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
 public class StatisticsActivity extends Activity {
@@ -15,16 +18,27 @@ public class StatisticsActivity extends Activity {
     private TextView mObliqueLevel;
     private TextView mTransverse;
 
+    private WorkoutEntryDataSource dbHelper;
+    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        mContext = this;
 
+        // Get references to widgets
         backButton = (Button) findViewById(R.id.backHistoryButton);
         mRectusLevel = (TextView) findViewById(R.id.textViewStatsLevelRectus);
         mObliqueLevel = (TextView) findViewById(R.id.textViewStatsLevelOblique);
         mTransverse = (TextView) findViewById(R.id.textViewStatsLevelTransverse);
+
+        // Open database
+        dbHelper = new WorkoutEntryDataSource(mContext);
+        dbHelper.open();
+
+
 
         //TODO
         // get/calculate level for each muscle group + get progress towards next level for
@@ -35,5 +49,16 @@ public class StatisticsActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        dbHelper.close();
+        super.onPause();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbHelper.open();
     }
 }

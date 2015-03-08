@@ -19,10 +19,10 @@ public class Globals {
     public static final int WORKOUT_HARD = 2;
 
     public static final int DEFAULT_TIME = 10;  // If no time is passed through intent, build 10min workout
-    public static final int MAX_TIME = 25;
+    public static final int MIN_TIME = 5;
+    public static final int MAX_TIME = 15;
 
     public static ArrayList<String> ALL_EXERCISES = new ArrayList<>();
-    public static final String EXERCISE_NAMES_KEY = "edu.dartmouth.cs.project.sixpk.EXERCISE_NAMES_KEY";
 
     // Format duration for display
     public static String formatDuration(int sec) {

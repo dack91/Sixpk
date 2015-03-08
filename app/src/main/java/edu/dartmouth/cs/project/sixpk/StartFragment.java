@@ -35,7 +35,7 @@ public class StartFragment extends Fragment {
         // Set range for time
         mNumPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
         mNumPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS); // disable keyboard
-        mNumPicker.setMinValue(1);
+        mNumPicker.setMinValue(Globals.MIN_TIME);
         mNumPicker.setMaxValue(Globals.MAX_TIME);
         mNumPicker.setValue(Globals.DEFAULT_TIME);    // default workout length = 10
 
