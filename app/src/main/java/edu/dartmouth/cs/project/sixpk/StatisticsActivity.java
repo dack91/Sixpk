@@ -45,7 +45,7 @@ public class StatisticsActivity extends Activity {
         for (AbLog log : logs) {
             Log.d("DEBUG", "log: " + log.getName());
             for (int j : log.getDifficultyArray())
-                Log.d("DEBUG", "log difficulty: " + j);
+                Log.d("DEBUG", "difficulty: " + j);
         }
 
         //TODO
