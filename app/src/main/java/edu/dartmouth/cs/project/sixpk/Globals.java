@@ -27,6 +27,8 @@ public class Globals {
 
     public static ArrayList<String> ALL_EXERCISES = new ArrayList<>();
 
+    public static final int LEVEL_INCREMENTER = 10;
+
     // Format duration for display
     public static String formatDuration(int sec) {
         String time;

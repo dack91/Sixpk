@@ -75,6 +75,12 @@
     <string name="settings_share_time_preference"><![CDATA[Time & Location]]></string>
     <string name="prefs_key">sharedprefskey</string>
     <string name="initial_input">initial_input</string>
+    <string name="rectusStatLevel">rectusStatLevelPreference</string>
+    <string name="obliquesStatLevel">obliquesStatLevelPreference</string>
+    <string name="transverseStatLevel">transverseStatLevelPreference</string>
+    <string name="rectusStatProgress">rectusStatProgressPreference</string>
+    <string name="obliquesStatProgress">obliquesStatProgressPreference</string>
+    <string name="transverseStatProgress">transverseStatProgressPreference</string>
 
 
 </resources>

@@ -128,6 +128,12 @@ public class MainActivity extends Activity {
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(getString(R.string.initial_input), false);
+            editor.putInt(getString(R.string.rectusStatLevel), 1);
+            editor.putInt(getString(R.string.obliquesStatLevel), 1);
+            editor.putInt(getString(R.string.transverseStatLevel), 1);
+            editor.putInt(getString(R.string.rectusStatProgress), 0);
+            editor.putInt(getString(R.string.obliquesStatProgress), 0);
+            editor.putInt(getString(R.string.transverseStatProgress), 0);
             editor.commit();
         }
     }

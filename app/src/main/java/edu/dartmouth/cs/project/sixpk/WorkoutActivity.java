@@ -170,7 +170,7 @@ public class WorkoutActivity extends Activity {
 
             // Delete any uncompleted exercises from the Workout in the db
             // (delete all indices after mCounter)
-            mCurrWorkout.removeExercise(mCounter);
+            mCurrWorkout.removeRemainingExercises(mCounter);
 
             // Update database
             dbHelper.updateWorkoutEntry(mWorkoutID, mCurrWorkout);

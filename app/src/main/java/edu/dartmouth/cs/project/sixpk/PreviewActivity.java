@@ -212,7 +212,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     // Delete workout from itinerary
     private void doNegativeClick(int index) {
         // Delete workout from itinerary
-        mCurrWorkout.removeExercise(index);
+        mCurrWorkout.removeSelectedExercise(index);
         updateListView();
 
         // Update time text

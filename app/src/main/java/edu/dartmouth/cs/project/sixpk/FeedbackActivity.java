@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
@@ -89,18 +90,78 @@ public class FeedbackActivity extends Activity {
     }
 
     public void onSaveClicked(View v) {
+        // Update progress and levels for each ab group
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.prefs_key), MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
         // Save feedback to database
         feebackArray = convertToIntArray(feedbackArrayList);
         dbHelper.open();
         Workout workout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         int[] exerciseIdList = workout.getExerciseIdList();
         workout.setFeedBackList(feebackArray);
-        for(int i=feebackArray.length-1; i>=0;i--){
+        for (int i = feebackArray.length - 1; i >= 0; i--) {
             AbLog abLog = dbHelper.fetchAbLogByIdentifier(exerciseIdList[i]);
             int[] difficultyArray = abLog.getDifficultyArray();
             abLog.setDifficultyArray(shiftValue(difficultyArray, feebackArray[i]));
             dbHelper.updateAbLog(abLog.getId(), abLog);
+
+            int rectLev = prefs.getInt(getString(R.string.rectusStatLevel), 0);
+            int obliqLev = prefs.getInt(getString(R.string.obliquesStatLevel), 0);
+            int transvLev = prefs.getInt(getString(R.string.transverseStatLevel), 0);
+            int rectProg = prefs.getInt(getString(R.string.rectusStatProgress), 0);
+            int obliqProg = prefs.getInt(getString(R.string.obliquesStatProgress), 0);
+            int transvProg = prefs.getInt(getString(R.string.transverseStatProgress), 0);
+            Log.d("DEBUG", "original progress:" + rectLev + "/" + rectProg + "\n" + obliqLev + "/" + obliqProg + "\n" +
+                    transvLev + "/" + transvProg);
+
+            int n = feebackArray[i];
+            int group = abLog.getMuscleGroup();
+            int progIncrementer = 0;
+            Log.d("DEBUG", "FEEDBACK: " + group + ", " + n);
+            // Increment progress more for harder workouts
+            if (n <= 3) {
+                progIncrementer = 1;
+            } else if (n <= 6) {
+                progIncrementer = 2;
+            } else
+                progIncrementer = 3;
+
+            // rectus
+            if (group == 1) {
+                Log.d("DEBUG", "rect prog inc: " + rectProg + progIncrementer);
+                if (rectProg + progIncrementer >= rectLev * Globals.LEVEL_INCREMENTER) {
+                    editor.putInt(getString(R.string.rectusStatLevel), rectLev + 1);
+                    editor.putInt(getString(R.string.rectusStatProgress), 0);
+                } else
+                    editor.putInt(getString(R.string.rectusStatProgress), rectProg + progIncrementer);
+                editor.commit();
+            }
+            // obliques
+            else if (group == 2) {
+                Log.d("DEBUG", "obliq prog inc: " + obliqProg + progIncrementer);
+                if (obliqProg + progIncrementer >= obliqLev * Globals.LEVEL_INCREMENTER) {
+                    editor.putInt(getString(R.string.obliquesStatLevel), obliqLev + 1);
+                    editor.putInt(getString(R.string.obliquesStatProgress), 0);
+                } else
+                    editor.putInt(getString(R.string.obliquesStatProgress), obliqProg + progIncrementer);
+                editor.commit();
+            }
+            // transverse
+            else {
+                Log.d("DEBUG", "transv prog inc: " + transvProg + progIncrementer);
+                if (transvProg + progIncrementer >= transvLev * Globals.LEVEL_INCREMENTER) {
+                    editor.putInt(getString(R.string.transverseStatLevel), transvLev + 1);
+                    editor.putInt(getString(R.string.transverseStatProgress), 0);
+                } else
+                    editor.putInt(getString(R.string.transverseStatProgress), transvProg + progIncrementer);
+                editor.commit();
+            }
+            Log.d("DEBUG", "updated progress:" + rectLev + "/" + rectProg + "\n" + obliqLev + "/" + obliqProg + "\n" +
+                    transvLev + "/" + transvProg);
         }
+
+
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
         Long frequentTime = findFrequentWorkoutTime();
@@ -108,9 +169,9 @@ public class FeedbackActivity extends Activity {
         long hours = TimeUnit.MILLISECONDS.toHours(frequentTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(frequentTime);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(frequentTime);
-        long minutesSeconds = minutes%60 * 60;
-        long hoursSeconds = hours%24 * 3600;
-        long totalSecondsPastMidnight = hoursSeconds + minutesSeconds + seconds%60;
+        long minutesSeconds = minutes % 60 * 60;
+        long hoursSeconds = hours % 24 * 3600;
+        long totalSecondsPastMidnight = hoursSeconds + minutesSeconds + seconds % 60;
         Log.d(TAG, "Delay seconds past midnight: " + totalSecondsPastMidnight);
 
         long currentMillis = Calendar.getInstance().getTimeInMillis();
@@ -118,22 +179,22 @@ public class FeedbackActivity extends Activity {
         long currHours = TimeUnit.MILLISECONDS.toHours(currentMillis);
         long currMinutes = TimeUnit.MILLISECONDS.toMinutes(currentMillis);
         long currSeconds = TimeUnit.MILLISECONDS.toSeconds(currentMillis);
-        long currMinutesSeconds = currMinutes%60 * 60;
-        long currHoursSeconds = currHours%24 * 3600;
-        long currTotalSecondsPastMidnight = currHoursSeconds + currMinutesSeconds + currSeconds%60;
+        long currMinutesSeconds = currMinutes % 60 * 60;
+        long currHoursSeconds = currHours % 24 * 3600;
+        long currTotalSecondsPastMidnight = currHoursSeconds + currMinutesSeconds + currSeconds % 60;
         Log.d(TAG, "Current Seconds past midnight: " + currTotalSecondsPastMidnight);
 
         long delay;
-        if(currTotalSecondsPastMidnight>totalSecondsPastMidnight){
+        if (currTotalSecondsPastMidnight > totalSecondsPastMidnight) {
             long diff = currTotalSecondsPastMidnight - totalSecondsPastMidnight;
-            long secondsInDay = 24*60*60;
+            long secondsInDay = 24 * 60 * 60;
             delay = secondsInDay - diff;
-        }
-        else{
+        } else {
             delay = totalSecondsPastMidnight - currTotalSecondsPastMidnight;
         }
         Log.d(TAG, "Notification delay: " + delay);
         scheduleNotification(getNotification(), delay);
+
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
     }
@@ -148,7 +209,7 @@ public class FeedbackActivity extends Activity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
@@ -179,9 +240,9 @@ public class FeedbackActivity extends Activity {
         return Globals.findMostCommonDate(test);
     }
 
-    private int[] shiftValue(int[] values, int value){
-        for(int i = values.length-1; i>0;i--){
-            values[i] = values[i-1];
+    private int[] shiftValue(int[] values, int value) {
+        for (int i = values.length - 1; i > 0; i--) {
+            values[i] = values[i - 1];
         }
         values[0] = value;
         return values;
@@ -216,8 +277,7 @@ public class FeedbackActivity extends Activity {
 
             if (convertView != null) {
                 view = convertView;
-            }
-            else {
+            } else {
                 view = mInflater.inflate(R.layout.list_textview_seekbar, parent, false);
             }
 
@@ -242,7 +302,7 @@ public class FeedbackActivity extends Activity {
 
 
             String text = getItem(position);
-            ((TextView)view.findViewById(R.id.textViewWorkoutSeek)).setText(text);
+            ((TextView) view.findViewById(R.id.textViewWorkoutSeek)).setText(text);
 
             return view;
         }
@@ -298,6 +358,7 @@ public class FeedbackActivity extends Activity {
         dbHelper.close();
         super.onPause();
     }
+
     @Override
     protected void onResume() {
         super.onResume();

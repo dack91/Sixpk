@@ -280,8 +280,8 @@ public class Workout {
         return new_list;
     }
 
-    // Remove all exercises not completed (starting at pro
-    public void removeExercise(int index) {
+    // Remove all exercises not completed in workoutActivity
+    public void removeRemainingExercises(int index) {
         Log.d("DEBUG", "exerciseIds: " + exerciseIds + "< " + exerciseIdList[0]);
         // Repopulate arrayList of exercises and durations to remove index
         exerciseIds = new ArrayList<Integer>();
@@ -294,6 +294,20 @@ public class Workout {
             durations.add(durationList[i]);
             i++;
         }
+
+        // Update int[]
+        exerciseIdList = convertToIntArray(exerciseIds);
+        durationList = convertToIntArray(durations);
+
+        // Update workout duration
+        setTotalTime();
+    }
+
+    // Remove exercise from Preview
+    public void removeSelectedExercise(int index) {
+        // Remove from workout
+        exerciseIds.remove(index);
+        durations.remove(index);
 
         // Update int[]
         exerciseIdList = convertToIntArray(exerciseIds);
