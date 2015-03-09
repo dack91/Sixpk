@@ -3,10 +3,7 @@ package edu.dartmouth.cs.project.sixpk;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,12 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.InitialAbInputs;
-import edu.dartmouth.cs.project.sixpk.database.Workout;
 import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
@@ -33,9 +27,6 @@ public class MainActivity extends Activity {
     private ActionTabsViewPagerAdapter myViewPageAdapter;
 
     private SharedPreferences prefs;
-
-    // Private database to store workout information
-//    private WorkoutDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +42,8 @@ public class MainActivity extends Activity {
         // create a fragment list in order.
         fragments = new ArrayList<Fragment>();
         fragments.add(new StartFragment());
-        fragments.add(new HistoryFragment());
-        fragments.add(new ProfileFragment());
+        fragments.add(new ExerciseFragment());
+        fragments.add(new StatisticsFragment());
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles) and
         // ViewPager (different pages of fragment) together.
@@ -73,8 +64,6 @@ public class MainActivity extends Activity {
             @Override
             public void onPageSelected(int position)
             {
-                // TODO Update list view in HistoryFragment
-                // Call function in HistoryFragment to refresh the UI
             }
             @Override
             public void onPageScrollStateChanged(int state)
@@ -125,7 +114,10 @@ public class MainActivity extends Activity {
             dbHelper.close();
 
             SharedPreferences.Editor editor = prefs.edit();
+            // Initial input
             editor.putBoolean(getString(R.string.initial_input), false);
+
+            // Initial levels and level progress
             editor.putInt(getString(R.string.rectusStatLevel), 1);
             editor.putInt(getString(R.string.obliquesStatLevel), 1);
             editor.putInt(getString(R.string.transverseStatLevel), 1);
@@ -133,34 +125,6 @@ public class MainActivity extends Activity {
             editor.putInt(getString(R.string.obliquesStatProgress), 0);
             editor.putInt(getString(R.string.transverseStatProgress), 0);
             editor.commit();
-        }
-    }
-
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_start, container, false);
-            return rootView;
-        }
-    }
-
-    // Load preferences XML resource when PreferenceFragment is active
-    public static class PrefsFragment extends PreferenceFragment {
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            // Load the preferences from an XML resource for settingsFragment
-            addPreferencesFromResource(R.xml.preferences);
         }
     }
 }

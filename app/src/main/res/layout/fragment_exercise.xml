@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/logo3"
-    tools:context="edu.dartmouth.cs.project.sixpk.HistoryFragment">
+    tools:context="edu.dartmouth.cs.project.sixpk.ExerciseFragment">
 
     <ListView
         android:layout_width="match_parent"

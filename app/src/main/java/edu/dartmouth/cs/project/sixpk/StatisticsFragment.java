@@ -12,7 +12,7 @@ import android.content.Context;
 
 
 
-public class ProfileFragment extends Fragment {
+public class StatisticsFragment extends Fragment {
     private TextView mRectusLevel;
     private TextView mObliqueLevel;
     private TextView mTransverseLevel;

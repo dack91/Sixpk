@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,12 +25,12 @@ import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HistoryFragment.OnFragmentInteractionListener} interface
+ * {@link ExerciseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HistoryFragment#newInstance} factory method to
+ * Use the {@link ExerciseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HistoryFragment extends Fragment {
+public class ExerciseFragment extends Fragment {
     private Context mContext;
     private ListView mExerciseList;
     private HistoryListAdapter mAdapter;    // implement to take a list of workouts and format display
@@ -44,7 +42,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the view in the start xml
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         mContext = getActivity();
 
