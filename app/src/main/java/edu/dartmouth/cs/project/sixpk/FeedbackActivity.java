@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class FeedbackActivity extends Activity {
             AbLog abLog = dbHelper.fetchAbLogByIdentifier(exerciseIdList[i]);
             int[] difficultyArray = abLog.getDifficultyArray();
             abLog.setDifficultyArray(shiftValue(difficultyArray, feebackArray[i]));
+            dbHelper.updateAbLog(abLog.getId(), abLog);
         }
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
