@@ -3,23 +3,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/logostats">
 
-    <Button
-        android:id="@+id/backHistoryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="5dp"
-        android:text="@string/backHistoryButtonText" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|top"
         android:orientation="vertical"
-        android:layout_marginRight="80dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_margin="5dp"
         android:background="#00000000">
 
         <TextView

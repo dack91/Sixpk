@@ -18,8 +18,8 @@ public class ActionTabsViewPagerAdapter extends FragmentPagerAdapter {
     public static final int HISTORY = 1;
     public static final int PROFILE = 2;
     public static final String UI_TAB_START = "WORKOUT";
-    public static final String UI_TAB_HISTORY = "HISTORY";
-    public static final String UI_TAB_PROFILE = "SETTINGS";
+    public static final String UI_TAB_HISTORY = "EXERCISES";
+    public static final String UI_TAB_PROFILE = "STATISTICS";
 
     public ActionTabsViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments){
         super(fm);

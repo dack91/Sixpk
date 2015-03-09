@@ -18,7 +18,6 @@ import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
 public class StatisticsActivity extends Activity {
-    private Button backButton;
     private TextView mRectusLevel;
     private TextView mObliqueLevel;
     private TextView mTransverseLevel;
@@ -36,7 +35,6 @@ public class StatisticsActivity extends Activity {
         prefs = getSharedPreferences(getString(R.string.prefs_key), MODE_PRIVATE);
 
         // Get references to widgets
-        backButton = (Button) findViewById(R.id.backHistoryButton);
         mRectusLevel = (TextView) findViewById(R.id.textViewStatsLevelRectus);
         mObliqueLevel = (TextView) findViewById(R.id.textViewStatsLevelOblique);
         mTransverseLevel = (TextView) findViewById(R.id.textViewStatsLevelTransverse);
@@ -75,11 +73,6 @@ public class StatisticsActivity extends Activity {
 //                Log.d("DEBUG", "difficulty: " + j);
 //        }
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     // return 25, 50 or 75 based on current progress through level

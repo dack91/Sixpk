@@ -33,7 +33,6 @@ import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
  * create an instance of this fragment.
  */
 public class HistoryFragment extends Fragment {
-    private Button showStats;
     private Context mContext;
     private ListView mExerciseList;
     private HistoryListAdapter mAdapter;    // implement to take a list of workouts and format display
@@ -65,16 +64,6 @@ public class HistoryFragment extends Fragment {
         mAdapter.addAll(mAllExercises);
 
         mAdapter.notifyDataSetChanged();
-
-        // Show workout statistics
-        showStats = (Button) view.findViewById(R.id.buttonShowStats);
-        showStats.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Go to statisticsActivity to see data visualization of workout history
-                Intent i = new Intent(getActivity(), StatisticsActivity.class);
-                startActivity(i);
-            }
-        });
 
         // Set onClick listener for the listView, show dialog on click
         mExerciseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
