@@ -17,7 +17,7 @@
     <!-- Start fragment, pick a workout length and difficulty -->
     <string name="startWorkoutButton">BEGIN WORKOUT</string>
     <string name="startDifficultyText">Difficulty:</string>
-    <string name="startTimeText">Workout Length:</string>
+    <string name="startTimeText">minutes</string>
     <string name="hardButton">HARD</string>
     <string name="mediumButton">MEDIUM</string>
     <string name="easyButton">EASY</string>
@@ -36,7 +36,7 @@
     <string name="resumeButtonText">|> RESUME</string>
     <string name="cancelWorkoutButton">CANCEL</string>
     <string name="endEarlyWorkoutButton">END EARLY</string>
-    <string name="currExerciseEndTime">Ends at:</string>
+    <string name="currExerciseEndTime">Ends at</string>
 
     <!-- HistoryFragment, see past workouts -->
     <string name="showStatsButtonText">SHOW STATS</string>

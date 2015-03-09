@@ -5,11 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 import edu.dartmouth.cs.project.sixpk.Globals;
-import edu.dartmouth.cs.project.sixpk.database.AbLog;
 
 public class Workout {
 
@@ -79,16 +77,27 @@ public class Workout {
             int[] rands = uniqueRands( (int) subset, min, max);
 
             // add randomly selected exercises to the list
-            for (int randomIndex : rands) {
-                if(sorted.length > randomIndex){
-                    AbLog sortedIndex = sorted[randomIndex];
+            for (int rand : rands) {
+                if(sorted.length > rand){
+                    AbLog sortedIndex = sorted[rand];
                     exerciseIds.add(sortedIndex.getAblogNumber());
 
-                    // shorten or extend the duration based on feedback
                     // difficulty is 0-10, 5 is default
-                    // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
-                    // then negate because easier difficulties are lower numbers which are longer workouts
-                    int alter = -( (sorted[randomIndex].getDifficultyArray()[0] - 5) * 5);
+                    int[] diffs = sorted[rand].getDifficultyArray(); // always length 3
+                    int feedback = 0;
+
+                    if (diffs.length < 3) {
+                        feedback = diffs[0] - 5;
+                    } else {
+                        // double weight most recent feedback, take average, and correct to 0
+                        feedback += (diffs[0] * 2) + diffs[1] + diffs[2];
+                        feedback /= 4;
+                        feedback -= 5;
+                    }
+
+                    // shorten or extend the duration based on feedback
+                    // multiply by 5 seconds per unit, negate because easier is lower numbers which are longer workouts
+                    int alter = -(feedback * 5);
                     // alter = randInt(-5, 6) * 5; // for debugging, use random difficulties
                     durations.add(def_duration + alter);
                 }
@@ -103,9 +112,9 @@ public class Workout {
         correctTiming(extra, def_duration);
         reorder(exercises);
 
-                for (Integer ex : exerciseIds) {
-            System.out.println(ex);
-        }
+//        for (Integer ex : exerciseIds) {
+//            System.out.println(ex);
+//        }
     }
 
     // returns a random integer between min inclusive and max exclusive
@@ -190,6 +199,7 @@ public class Workout {
                     disp = 5 * (Math.round(( (-leftover) / durations.size()) / 5)); // round to nearest 5
 //                    leftover += disp * durations.size();
                     // causing an infinite loop here because disp rounds down to 0 but leftover is still -35
+                    // could correct the else if bounds, but I'll just add breaks instead
                 }
 
                 for (int i = 0; i < durations.size(); i++) {
@@ -243,14 +253,11 @@ public class Workout {
         int o = 0;
 
         for (int i = 0; i < exerciseIds.size(); i++) {
-//            AbLog cur = findAbLogByNum(exercises, exerciseIds.get(i));
             int cur = InitialAbInputs.getGroupFromNum(exerciseIds.get(i));
 
-//            if (cur.getMuscleGroup() != order[o]) {
             if (cur != order[o]) {
 
                 for (int j = i + 1; j < exerciseIds.size(); j++) {
-//                    if (findAbLogByNum(exercises, exerciseIds.get(j)).getMuscleGroup() == order[o]) {
                     if (InitialAbInputs.getGroupFromNum(exerciseIds.get(j)) == order[o]) {
                         swap(i, j);
                         break;
@@ -272,7 +279,6 @@ public class Workout {
 
         return new_list;
     }
-
 
     // Remove all exercises not completed (starting at pro
     public void removeExercise(int index) {

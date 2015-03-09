@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +48,9 @@ public class WorkoutActivity extends Activity {
     private ImageView mNextExerciseImage;
     private TextView mNextExerciseText;
     private TextView mCurrExerciseDurationText;
+
+    PowerManager pm;
+    PowerManager.WakeLock wl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,9 @@ public class WorkoutActivity extends Activity {
                 }
             }
         });
+
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "My Tag");
     }
 
     // Update current and next exercise
@@ -210,10 +217,12 @@ public class WorkoutActivity extends Activity {
     public void onPause() {
         dbHelper.close();
         super.onPause();
+        wl.release();
     }
     @Override
     public void onResume() {
         super.onResume();
         dbHelper.open();
+        wl.acquire();
     }
 }

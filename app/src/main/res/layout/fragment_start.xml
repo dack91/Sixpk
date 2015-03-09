@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/logo3"
@@ -42,41 +36,36 @@
         android:orientation="horizontal"
         android:background="#00000000">
 
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/startTimeText"
-            android:background="#00000000"
-            android:textSize="24dp" />
-
         <NumberPicker
             android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_gravity="right"
             android:background="#00000000"
-            android:layout_marginLeft="80dp"
+            android:scrollbarSize="40dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             android:editable="false"/>
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:text="@string/startTimeText"
+            android:layout_marginRight="30dp"
+            android:background="#00000000"
+            android:textSize="24dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal"
         android:background="#00000000">
-
-        <TextView
-            android:id="@+id/textViewDifficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="#00000000"
-            android:layout_marginTop="10dp"
-            android:text="@string/startDifficultyText"
-            android:textSize="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +91,7 @@
                     android:gravity="center_horizontal"
                     android:background="#07000000"
                     android:text="@string/easyButton"
-                    android:textSize="16dp" />
+                    android:textSize="24dp" />
 
                 <TextView
                     android:id="@+id/textViewMed"
@@ -112,7 +101,7 @@
                     android:gravity="center_horizontal"
                     android:background="#00000000"
                     android:text="@string/mediumButton"
-                    android:textSize="16dp" />
+                    android:textSize="24dp" />
 
                 <TextView
                     android:id="@+id/textViewHard"
@@ -122,7 +111,7 @@
                     android:gravity="center_horizontal"
                     android:background="#00000000"
                     android:text="@string/hardButton"
-                    android:textSize="16dp" />
+                    android:textSize="24dp" />
 
             </LinearLayout>
 
@@ -131,14 +120,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:checkedButton="@+id/radioButtonMedium">
 
                 <RadioButton
                     android:id="@+id/radioButtonEasy"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="50dp"
                     android:layout_weight="1" />
 
                 <RadioButton
@@ -146,7 +136,7 @@
                     android:layout_width="fill_parent"
                     android:background="#00000000"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="46dp"
                     android:layout_weight="1" />
 
                 <RadioButton
@@ -154,7 +144,7 @@
                     android:layout_width="fill_parent"
                     android:background="#00000000"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="38dp"
                     android:layout_weight="1" />
             </RadioGroup>
         </LinearLayout>
@@ -167,9 +157,8 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
+        android:textSize="32dp"
         android:layout_marginBottom="100dp"
         android:text="@string/startWorkoutButton" />
 </LinearLayout>
-
-</ScrollView>
