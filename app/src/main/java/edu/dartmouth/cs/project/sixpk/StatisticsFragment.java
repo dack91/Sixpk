@@ -13,16 +13,18 @@ import android.content.Context;
 
 
 public class StatisticsFragment extends Fragment {
+    // Personal levels for total app and each muscle group
     private TextView mRectusLevel;
     private TextView mObliqueLevel;
     private TextView mTransverseLevel;
     private TextView mTotalLevel;
 
+    // Display progress of each muscle group towards next level
     private ImageView mRectusImage;
     private ImageView mObliquesImage;
     private ImageView mTransverseImage;
-    private Context mContext;
 
+    private Context mContext;
     private SharedPreferences prefs;
 
     @Override
@@ -80,10 +82,13 @@ public class StatisticsFragment extends Fragment {
         int nextLevel = level * Globals.LEVEL_INCREMENTER;
         double curr = ((double) progress / (double) nextLevel) * 100;
 
+        // Less than one third of the way towards next level
         if (curr <= 33)
             p = 25;
+        // Less than two thirds of the way towards next level
         else if (curr <= 66)
             p = 50;
+        // Less than full towards next level
         else
             p = 75;
         return p;

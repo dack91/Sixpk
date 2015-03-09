@@ -32,24 +32,23 @@ public class PreviewActivity extends Activity {//extends ListActivity {
     private EditText mDifficulty;
     private Context mContext;
     private ListView mItineraryList;
-    private ItineraryListAdapter mAdapter;    // implement to take a list of workouts and format display
+    private ItineraryListAdapter mAdapter;      // implement to take a list of workouts and format display
 
-    private WorkoutEntryDataSource dbHelper;
-    ArrayList<String> mExerciseItinerary;
-    private Workout mCurrWorkout;
-
-//    private CreateWorkoutTask mAsyncTask;
+    private WorkoutEntryDataSource dbHelper;    // database
+    ArrayList<String> mExerciseItinerary;       // List of exercises in workouts
+    private Workout mCurrWorkout;               // Full current workout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_preview);
         mContext = this;
 
+        // Database
         dbHelper = new WorkoutEntryDataSource(mContext);
         dbHelper.open();
 
+        // ListView of itinerary
         mAdapter = new ItineraryListAdapter(mContext);
 
         // Get text references
@@ -83,13 +82,11 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         // Get exercises in current workout
         ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
         mCurrWorkout = new Workout(allExercises, time, difficulty);
-//        mAsyncTask = new CreateWorkoutTask();
-//        mAsyncTask.execute(time, difficulty);
 
-
+        // Update UI
         updateListView();
         mItineraryList.setAdapter(mAdapter);
-        mCurrWorkout.setTotalTime();    // get the actual duration generated from 6pk
+        mCurrWorkout.setTotalTime();    // get the actual duration generated from algorithm
 
         // Set header text views
         mDuration.setText(Globals.formatDuration(mCurrWorkout.getDuration()));
@@ -160,14 +157,15 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         newFragment.show(getFragmentManager(), "dialog");
     }
 
+    // Dialog to show workout and gif example of exercise
     public static class WorkoutDemoFragment extends DialogFragment {
 
         public static WorkoutDemoFragment newInstance(String title, int position, String GIF) {
             WorkoutDemoFragment frag = new WorkoutDemoFragment();
             Bundle args = new Bundle();
-            args.putString("title", title);
-            args.putInt("position", position);
-            args.putString("gif", GIF);
+            args.putString("title", title);     // exercise name
+            args.putInt("position", position);  // listview index
+            args.putString("gif", GIF);         // gif reference
             frag.setArguments(args);
             return frag;
         }
@@ -178,7 +176,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
             final int position = getArguments().getInt("position");
             String gif = getArguments().getString("gif");
 
-
+            // Use webview to display gif of exercise
             WebView gifView = new WebView(getActivity());
             String HTML_FORMAT = "<html><body style=\"text-align: center; background-color: null; vertical-align: middle;\"><img src = \"%s\" /></body></html>";
 
@@ -250,24 +248,4 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         super.onResume();
         dbHelper.open();
     }
-
-
-//    private class CreateWorkoutTask extends AsyncTask<Integer, Integer, Integer> {
-//
-//        @Override
-//        protected Integer doInBackground(Integer... params) {
-//            int time = 0;
-//            int difficulty = 0;
-//            if (params.length == 2) {
-//                time = params[0];
-//                difficulty = params[1];
-//            }
-//
-//            ArrayList<AbLog> allExercises = dbHelper.fetchAbLogEntries();
-//            mCurrWorkout = new Workout(allExercises, time, difficulty);
-//            updateListView();
-//            return 0;
-//        }
-//    }
-
 }
