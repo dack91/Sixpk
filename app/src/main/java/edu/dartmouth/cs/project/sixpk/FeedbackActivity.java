@@ -1,13 +1,20 @@
 package edu.dartmouth.cs.project.sixpk;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +25,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 import edu.dartmouth.cs.project.sixpk.database.Workout;
@@ -25,6 +34,7 @@ import edu.dartmouth.cs.project.sixpk.database.WorkoutEntryDataSource;
 
 
 public class FeedbackActivity extends Activity {
+    public final static String TAG = "FeedbackActivity";
     private Context mContext;
     private ListView mFeedbackList;
     private FeedbackListAdapter mAdapter;    // implement to take a list of workouts and format display
@@ -92,14 +102,70 @@ public class FeedbackActivity extends Activity {
         }
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
+        Long frequentTime = findFrequentWorkoutTime();
+
+        long hours = TimeUnit.MILLISECONDS.toHours(frequentTime);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(frequentTime);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(frequentTime);
+        long minutesSeconds = minutes%60 * 60;
+        long hoursSeconds = hours%24 * 3600;
+        long totalSecondsPastMidnight = hoursSeconds + minutesSeconds + seconds%60;
+        Log.d(TAG, "Delay seconds past midnight: " + totalSecondsPastMidnight);
+
+        long currentMillis = Calendar.getInstance().getTimeInMillis();
+
+        long currHours = TimeUnit.MILLISECONDS.toHours(currentMillis);
+        long currMinutes = TimeUnit.MILLISECONDS.toMinutes(currentMillis);
+        long currSeconds = TimeUnit.MILLISECONDS.toSeconds(currentMillis);
+        long currMinutesSeconds = currMinutes%60 * 60;
+        long currHoursSeconds = currHours%24 * 3600;
+        long currTotalSecondsPastMidnight = currHoursSeconds + currMinutesSeconds + currSeconds%60;
+        Log.d(TAG, "Current Seconds past midnight: " + currTotalSecondsPastMidnight);
+
+        long delay;
+        if(currTotalSecondsPastMidnight>totalSecondsPastMidnight){
+            long diff = currTotalSecondsPastMidnight - totalSecondsPastMidnight;
+            long secondsInDay = 24*60*60;
+            delay = secondsInDay - diff;
+        }
+        else{
+            delay = totalSecondsPastMidnight - currTotalSecondsPastMidnight;
+        }
+        Log.d(TAG, "Notification delay: " + delay);
+        scheduleNotification(getNotification(), delay);
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
+    }
+
+    private void scheduleNotification(Notification notification, long delay) {
+
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification() {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Come Workout Now!");
+        builder.setContentText("It will hurt now - but you'll feel good later");
+        builder.setSmallIcon(R.drawable.logo2);
+        builder.setColor(getResources().getColor(R.color.back_blue));
+        return builder.build();
     }
 
     // Returns the time in milliseconds to set notification. Ignore day, month, year, minutes,
     // and seconds to just set for hour
     public long findFrequentWorkoutTime() {
+        dbHelper.open();
         ArrayList<Workout> workouts = dbHelper.fetchWorkoutEntries();
+        dbHelper.close();
         int length = workouts.size();
         long[] test = new long[length];
 
@@ -108,6 +174,7 @@ public class FeedbackActivity extends Activity {
             test[i] = workouts.get(i).getDateTime();
         }
 
+        Log.d(TAG, Globals.findMostCommonDate(test) + "");
         return Globals.findMostCommonDate(test);
     }
 

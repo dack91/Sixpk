@@ -102,6 +102,7 @@ public class Globals {
         // Set time of most frequent workouts
         Calendar c = Calendar.getInstance();
         c.set(2015, 3, 6, timeGroups[maxValue], 0);
+        Log.d("Globals", "Hours: " + timeGroups[maxValue]);
 
         return c.getTimeInMillis();
     }

@@ -36,6 +36,6 @@
             android:name="edu.dartmouth.cs.project.sixpk.StatisticsActivity"
             android:label="@string/title_activity_statisctics" >
         </activity>
+        <receiver android:name=".NotificationPublisher" />
     </application>
-
 </manifest>
