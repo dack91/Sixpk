@@ -199,7 +199,7 @@ public class FeedbackActivity extends Activity {
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
 
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        long futureInMillis = SystemClock.elapsedRealtime() + delay*1000;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
