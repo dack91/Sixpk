@@ -68,7 +68,6 @@ public class FeedbackActivity extends Activity {
         mCurrWorkout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         updateListView();
         mFeedbackList.setAdapter(mAdapter);
-
     }
 
     // From int[] of completed exercises, form Array of formatted workout strings
@@ -100,6 +99,8 @@ public class FeedbackActivity extends Activity {
         Workout workout = dbHelper.fetchWorkoutByIndex(mWorkoutID);
         int[] exerciseIdList = workout.getExerciseIdList();
         workout.setFeedBackList(feebackArray);
+
+        // increment muscle group levels in statistics
         for (int i = feebackArray.length - 1; i >= 0; i--) {
             AbLog abLog = dbHelper.fetchAbLogByIdentifier(exerciseIdList[i]);
             int[] difficultyArray = abLog.getDifficultyArray();
@@ -153,8 +154,12 @@ public class FeedbackActivity extends Activity {
                 editor.commit();
             }
         }
+
+        // update the workout entry with feedback
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
+
+        // set notification time to when the user typically works out
         Long frequentTime = findFrequentWorkoutTime();
 
         long hours = TimeUnit.MILLISECONDS.toHours(frequentTime);
@@ -163,7 +168,6 @@ public class FeedbackActivity extends Activity {
         long minutesSeconds = minutes % 60 * 60;
         long hoursSeconds = hours % 24 * 3600;
         long totalSecondsPastMidnight = hoursSeconds + minutesSeconds + seconds % 60;
-        Log.d(TAG, "Delay seconds past midnight: " + totalSecondsPastMidnight);
 
         long currentMillis = Calendar.getInstance().getTimeInMillis();
 
@@ -173,8 +177,8 @@ public class FeedbackActivity extends Activity {
         long currMinutesSeconds = currMinutes % 60 * 60;
         long currHoursSeconds = currHours % 24 * 3600;
         long currTotalSecondsPastMidnight = currHoursSeconds + currMinutesSeconds + currSeconds % 60;
-        Log.d(TAG, "Current Seconds past midnight: " + currTotalSecondsPastMidnight);
 
+        // set the delay on the notification to pop up at the same time the next day
         long delay;
         if (currTotalSecondsPastMidnight > totalSecondsPastMidnight) {
             long diff = currTotalSecondsPastMidnight - totalSecondsPastMidnight;
@@ -183,13 +187,13 @@ public class FeedbackActivity extends Activity {
         } else {
             delay = totalSecondsPastMidnight - currTotalSecondsPastMidnight;
         }
-        Log.d(TAG, "Notification delay: " + delay);
         scheduleNotification(getNotification(), delay);
 
         Intent toHomeScreen = new Intent(this, MainActivity.class);
         startActivity(toHomeScreen);
     }
 
+    // pending intent for sending the notification at a later time
     private void scheduleNotification(Notification notification, long delay) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
@@ -204,6 +208,7 @@ public class FeedbackActivity extends Activity {
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
+    // set notification text and icon
     private Notification getNotification() {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Come Workout Now!");
@@ -227,10 +232,10 @@ public class FeedbackActivity extends Activity {
             test[i] = workouts.get(i).getDateTime();
         }
 
-        Log.d(TAG, Globals.findMostCommonDate(test) + "");
         return Globals.findMostCommonDate(test);
     }
 
+    // move feedback values so 0th index is the most recently entered
     private int[] shiftValue(int[] values, int value) {
         for (int i = values.length - 1; i > 0; i--) {
             values[i] = values[i - 1];
@@ -239,6 +244,7 @@ public class FeedbackActivity extends Activity {
         return values;
     }
 
+    // change integer arraylist to int[]
     private int[] convertToIntArray(ArrayList<Integer> al) {
         ArrayList<Integer> test = al;
         int[] new_list = new int[al.size()];
@@ -277,21 +283,20 @@ public class FeedbackActivity extends Activity {
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    // progress bar is a scale 0-100, but saving feedback as 0-10
                     feedbackArrayList.set(position, (progress / 10));
                 }
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-
                 }
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-
                 }
             });
 
-
+            // set textviews as the exercises that were done
             String text = getItem(position);
             ((TextView) view.findViewById(R.id.textViewWorkoutSeek)).setText(text);
 

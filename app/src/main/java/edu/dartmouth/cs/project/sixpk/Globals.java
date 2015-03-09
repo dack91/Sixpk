@@ -1,15 +1,10 @@
 package edu.dartmouth.cs.project.sixpk;
 
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
 
-/**
- * Created by 6pk on 2/16/15.
+/*
+ * Globals class for variables and functions used across many activities
  */
 public class Globals {
 
@@ -17,6 +12,7 @@ public class Globals {
     public static final String WORKOUT_DIFFICULTY_KEY = "edu.dartmouth.cs.project.sixpk.WORKOUT_DIFFICULTY_KEY";
     public static final String WORKOUT_ID_KEY = "edu.dartmouth.cs.project.sixpk.WORKOUT_ID_KEY";
 
+    // radio button ids
     public static final int WORKOUT_EASY = 0;
     public static final int WORKOUT_MED = 1;
     public static final int WORKOUT_HARD = 2;
@@ -104,7 +100,6 @@ public class Globals {
         // Set time of most frequent workouts
         Calendar c = Calendar.getInstance();
         c.set(2015, 3, 6, timeGroups[maxValue], 0);
-        Log.d("Globals", "Hours: " + timeGroups[maxValue]);
 
         return c.getTimeInMillis();
     }
