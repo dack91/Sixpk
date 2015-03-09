@@ -29,22 +29,19 @@ public class WorkoutEntryDataSource {
         dbHelper = new MySQLiteHelper(context);
     }
 
+    // call in onResume
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
 
+    // call in onPause
     public void close() {
         dbHelper.close();
     }
 
     // Insert a item given each column value
     public long insertWorkoutEntry(Workout entry) {
-
-        Log.d(TAG, "Inserting entry:\nid:" + entry.getId() + "\ndate-time: " + entry.getDateTime());
-        Log.d(TAG, "duration: " + entry.getDuration() + "\nfeedbackList: " + Arrays.toString(entry.getFeedBackList()));
-        Log.d(TAG, "exercise id list: " + Arrays.toString(entry.getExerciseIdList()) + "\ninsert end");
         ContentValues values = new ContentValues();
-        //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION_LIST, Arrays.toString(entry.getDurationList()));
@@ -52,25 +49,23 @@ public class WorkoutEntryDataSource {
         values.put(MySQLiteHelper.COLUMN_WORKOUT_EXERCISE_LIST, Arrays.toString(entry.getExerciseIdList()));
 
         long insertId = database.insert(MySQLiteHelper.TABLE_WORKOUTS, null, values);
-        Log.d(TAG, "Insertion id: " + insertId);
 
+        // query to make sure it inserted correctly
         Cursor cursor = database.query(MySQLiteHelper.TABLE_WORKOUTS,
                 allWorkoutColumns, MySQLiteHelper.COLUMN_WORKOUT_ID + "=" + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
         long toRet = cursor.getLong(0);
         cursor.close();
-        if (toRet != insertId) {
-            Log.d(TAG, "Query not matching");
-            return -1;
-        }
+
+        // if insert fails, return -1
+        if (toRet != insertId) return -1;
         return insertId;
     }
 
+    // change the workout entry for feedback
     public void updateWorkoutEntry(long rowId, Workout entry) {
-
         ContentValues values = new ContentValues();
-        //     values.put(MySQLiteHelper.COLUMN_WORKOUT_ID, entry.getId());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DATE_TIME, String.valueOf(entry.getDateTime()));
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION, entry.getDuration());
         values.put(MySQLiteHelper.COLUMN_WORKOUT_DURATION_LIST, Arrays.toString(entry.getDurationList()));
@@ -79,9 +74,8 @@ public class WorkoutEntryDataSource {
         database.update(MySQLiteHelper.TABLE_WORKOUTS, values, MySQLiteHelper.COLUMN_WORKOUT_ID + "=" + rowId, null);
     }
 
-    // Insert a item given each column value
+    // insert an ablog object into the database
     public long insertAblogEntry(AbLog ablog) {
-
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogNumber());
         values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
@@ -89,15 +83,12 @@ public class WorkoutEntryDataSource {
         values.put(MySQLiteHelper.COLUMN_ABLOG_NAME, ablog.getName());
         values.put(MySQLiteHelper.COLUMN_ABLOG_FILEPATH, ablog.getFilePath());
 
-        // Log.d("Inserting ablog: ", ablog.getAblogNumber() + "");
-
         long insertId = database.insert(MySQLiteHelper.TABLE_ABLOG, null, values);
-
-        return insertId;
+        return insertId; // will be -1 if it failed
     }
 
+    // update an ablog row
     public void updateAbLog(long rowId, AbLog ablog) {
-
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_ABLOG_WORKOUT_ID, ablog.getAblogNumber());
         values.put(MySQLiteHelper.COLUMN_ABLOG_MUSCLE_GROUP, ablog.getMuscleGroup());
@@ -107,14 +98,13 @@ public class WorkoutEntryDataSource {
         database.update(MySQLiteHelper.TABLE_ABLOG, values, MySQLiteHelper.COLUMN_ABLOG_ID + "=" + rowId, null);
     }
 
-
-    // Remove an entry by giving its index
+    // remove a workout from the database given a rowId
     public void removeWorkoutEntry(long rowIndex) {
         database.delete(MySQLiteHelper.TABLE_WORKOUTS, MySQLiteHelper.COLUMN_WORKOUT_ID
                 + " = " + rowIndex, null);
     }
 
-    // Remove an entry by giving its index
+    // remove an ablog from the database given a rowId
     public void removeAblogEntry(long rowIndex) {
         database.delete(MySQLiteHelper.TABLE_ABLOG, MySQLiteHelper.COLUMN_ABLOG_ID
                 + " = " + rowIndex, null);
@@ -147,7 +137,7 @@ public class WorkoutEntryDataSource {
         return cursorToAblog(cursor);
     }
 
-    // Query the entire table, return all rows
+    // query the workout table, return in an arraylist
     public ArrayList<Workout> fetchWorkoutEntries() {
         ArrayList<Workout> entries = new ArrayList<Workout>();
 
@@ -160,12 +150,11 @@ public class WorkoutEntryDataSource {
             entries.add(mEntry);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return entries;
     }
 
-    // Query the entire table, return all rows
+    // query the ablog table, return in an arraylist
     public ArrayList<AbLog> fetchAbLogEntries() {
         ArrayList<AbLog> entries = new ArrayList<AbLog>();
 
@@ -195,6 +184,7 @@ public class WorkoutEntryDataSource {
         return null;
     }
 
+    // return a gif filepath from an abLogNumber
     public String getFilePathById(int id) {
         ArrayList<AbLog> allExercises = fetchAbLogEntries();
 
@@ -206,13 +196,9 @@ public class WorkoutEntryDataSource {
         return null;
     }
 
+    // get a workout from a cursor, convert strings in db to arrays
     private Workout cursorToWorkout(Cursor cursor) {
         Workout entry = new Workout();
-        Log.d("column 0", cursor.getInt(0) + "");
-        Log.d("column 1", cursor.getInt(1) + "");
-        Log.d("column 2", cursor.getLong(2) + "");
-        Log.d("column 3", cursor.getString(3) + "");
-        Log.d("column 4", cursor.getString(4) + "");
 
         entry.setDuration(cursor.getInt(1));
         entry.setDateTime(cursor.getLong(3));
@@ -246,14 +232,8 @@ public class WorkoutEntryDataSource {
         return entry;
     }
 
+    // get an ablog from a cursor
     private AbLog cursorToAblog(Cursor cursor) {
-//        Log.d("column 0", cursor.getInt(0) + "");
-//        Log.d("column 1", cursor.getInt(1) + "");
-//        Log.d("column 2", cursor.getInt(2) + "");
-//        Log.d("column 3", cursor.getString(3) + "");
-//        Log.d("column 4", cursor.getString(4) + "");
-//        Log.d("column 5", cursor.getString(5) + "");
-
         AbLog abLog = new AbLog();
         abLog.setId(cursor.getInt(0));
         abLog.setAblogNumber(cursor.getInt(1));

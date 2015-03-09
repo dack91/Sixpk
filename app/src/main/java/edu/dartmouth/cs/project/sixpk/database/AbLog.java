@@ -3,32 +3,29 @@ package edu.dartmouth.cs.project.sixpk.database;
 
 public class AbLog {
 
-    private String name;
+    private String name; // name of the exercise
     private int id; // database row
-    private int ablogNumber; // corresponds to ids in workout entry id list
-    private int muscleGroup; // i.e. obliques
-    private int[] difficultyArray; //shows difficulty for last several workouts (need several because of statistics)
-    private String filePath;
+    private int ablogNumber; // identifier to be referenced in workouts
+    private int muscleGroup; // 1 - 3
+    private int[] difficultyArray; // shows difficulty (from feedback) for last 3 workouts
+    private String filePath; // pointing to the instructional gif
 
-//    // for debugging (with the driver in Main
-//    public AbLog(String name, int ablogId, int muscleGroup) {
-//        this.name = name;
-//        this.ablogId = ablogId;
-//        this.muscleGroup = muscleGroup;
-//    }
-
+    // constructor for main activity
     public AbLog(String name, int ablogNumber, int muscleGroup, String filePath) {
         this.name = name;
         this.ablogNumber = ablogNumber;
         this.muscleGroup = muscleGroup;
         this.filePath = filePath;
 
+        // feedback comes in as int 0-10, 5 is neutral
+        // initialize 3 most recent feedbacks as neutral
         difficultyArray = new int[3];
         difficultyArray[0] = 5;
         difficultyArray[1] = 5;
         difficultyArray[2] = 5;
     }
 
+    // constructor for datasource
     public AbLog() {
         name = "";
         ablogNumber = 0;

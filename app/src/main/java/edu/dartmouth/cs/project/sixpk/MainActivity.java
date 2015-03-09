@@ -59,35 +59,22 @@ public class MainActivity extends Activity {
         });
         viewPager.setAdapter(myViewPageAdapter);
 
-        // Track which fragment is in focus
-        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-        });
-
         // make sure the tabs are equally spaced.
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
 
-
+        // shared preferences to store a boolean for whether or not to load all ablogs into database
         String mKey = getString(R.string.prefs_key);
         prefs = getSharedPreferences(mKey, MODE_PRIVATE);
-        Log.d("INITAL ABLOG INPUT", prefs.contains(getString(R.string.initial_input)) + "");
 
+        // runs once, the first time the app is loaded
+        // need to uninstall and reinstall app if database columns are changed
         if (prefs.getBoolean(getString(R.string.initial_input), true)) {
-
-            Log.d("INITAL ABLOG INPUT", "happening @now");
 
             WorkoutEntryDataSource dbHelper = new WorkoutEntryDataSource(this);
             dbHelper.open();
 
+            // i will become the abLogNumber
             int i = 0;
             for (int j = 0; j < InitialAbInputs.rectusArray.length; j++) {
                 dbHelper.insertAblogEntry(new AbLog(InitialAbInputs.rectusArray[j],
@@ -110,6 +97,7 @@ public class MainActivity extends Activity {
 
             dbHelper.close();
 
+            // initialize levels for statistics page
             SharedPreferences.Editor editor = prefs.edit();
             // Initial input
             editor.putBoolean(getString(R.string.initial_input), false);

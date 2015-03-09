@@ -17,15 +17,17 @@ public class Globals {
     public static final int WORKOUT_MED = 1;
     public static final int WORKOUT_HARD = 2;
 
+    // bounds for the number picker in number of minutes
     public static final int MAX_TIME = 15;
     public static final int MIN_TIME = 5;
-    public static final int DEFAULT_TIME = (MAX_TIME + MIN_TIME) / 2;  // If no time is passed through intent, build 10min workout
+    // If no time is passed through intent, build 10 min workout
+    public static final int DEFAULT_TIME = (MAX_TIME + MIN_TIME) / 2;
 
     public static ArrayList<String> ALL_EXERCISES = new ArrayList<>();
 
     public static final int LEVEL_INCREMENTER = 10;
 
-    // Format duration for display
+    // Format seconds as MM mins SS secs
     public static String formatDuration(int sec) {
         String time;
 
@@ -42,15 +44,14 @@ public class Globals {
         return time;
     }
 
+    // format seconds as MM:SS
     public static String formatTime(int sec) {
         String time;
 
         int min = sec / 60;         // Get minutes from seconds
         int seconds = sec % 60;     // Get remaining seconds after minutes
 
-        time = String.format("%02d", min) + ":" + String.format("%02d", seconds);
-
-        return time;
+        return String.format("%02d", min) + ":" + String.format("%02d", seconds);
     }
 
     // before calling this, fetchAllWorkouts and then add each dateTime into the long[] for this function

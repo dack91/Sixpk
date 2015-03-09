@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import edu.dartmouth.cs.project.sixpk.R;
 
 // http://stackoverflow.com/questions/4407553/android-radiobutton-button-drawable-gravity
+// radio button is in the center of its view
 public class CenterRadioButton extends RadioButton {
 
     public CenterRadioButton(Context context, AttributeSet attrs) {

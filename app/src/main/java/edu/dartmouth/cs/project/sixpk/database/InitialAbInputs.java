@@ -1,10 +1,7 @@
 package edu.dartmouth.cs.project.sixpk.database;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-/**
- * Created by koliver on 3/5/15.
+/*
+ * Class with constants used to initialize the ablog entries into the database
  */
 public class InitialAbInputs {
     //Muscle Groups
@@ -13,7 +10,6 @@ public class InitialAbInputs {
     public static final int TRANSVERSE = 3;
 
     //rectus exercises
-
     public static final String PLANK = "Plank"; // 0
     public static final String SITUP = "Sit-Up";
     public static final String PUSH = "Push Through";
@@ -25,7 +21,6 @@ public class InitialAbInputs {
     public static String[] rectusArray = {PLANK, SITUP, PUSH, V, CRUNCH, LEG, TOE};
 
     //Obliques exercises
-
     public static final String RUSSIAN = "Russian Twist"; // 7
     public static final String STANDING = "Standing Oblique Crunch";
     public static final String BICYCLE = "Bicycle";
@@ -35,7 +30,6 @@ public class InitialAbInputs {
     public static String[] obliqueArray = {RUSSIAN, STANDING, BICYCLE, ELBOW, SIDE};
 
     //Transverse exercises
-
     public static final String SCISSOR = "Scissor Kicks"; // 12
     public static final String ARM = "Arm Planks";
     public static final String SUPER = "Superman";
@@ -80,7 +74,4 @@ public class InitialAbInputs {
             return TRANSVERSE;
         }
     }
-
-
-
 }

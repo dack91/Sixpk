@@ -31,6 +31,7 @@ public class MyNumberPicker extends android.widget.NumberPicker {
         updateView(child);
     }
 
+    // custom update view to set text size bigger than normal
     private void updateView(View view) {
         if(view instanceof EditText){
             ((EditText) view).setTextSize(24);

@@ -28,18 +28,24 @@ public class Workout {
 
     private final int[] DEFAULT_DURATIONS = new int[MUSCLE_GROUPS];
 
+    // constructor for datasource
     public Workout() {}
 
+    // constructor from preview activity
     public Workout(ArrayList<AbLog> exercises, int time, int diff) {
+        // get time that the workout was started
         dateTime = Calendar.getInstance().getTimeInMillis();
         duration = time * 60;
         difficulty = diff;
 
+        // set the default durations for each difficulty in seconds
         DEFAULT_DURATIONS[0] = 90;
         DEFAULT_DURATIONS[1] = 105;
         DEFAULT_DURATIONS[2] = 120;
 
+        // create the order of exercises for the workout
         formWorkout(exercises, time, diff);
+
         exerciseIdList = convertToIntArray(exerciseIds);
         durationList = convertToIntArray(durations);
     }
@@ -74,6 +80,7 @@ public class Workout {
                 min += (int) Math.ceil(sorted.length / 3);
             }
 
+            // randomly choose some exercises within a range
             int[] rands = uniqueRands( (int) subset, min, max);
 
             // add randomly selected exercises to the list
@@ -104,17 +111,17 @@ public class Workout {
             }
         }
 
+        // check how many seconds off from the input time
         int extra = time * 60;
         for (Integer dur : durations) {
             extra -= dur;
         }
 
+        // correct for extra/not enough seconds in workout
         correctTiming(extra, def_duration);
-        reorder(exercises);
 
-//        for (Integer ex : exerciseIds) {
-//            System.out.println(ex);
-//        }
+        // change order of exercises so two exercises with the same muscle groups aren't in a row
+        reorder(exercises);
     }
 
     // returns a random integer between min inclusive and max exclusive
@@ -227,6 +234,7 @@ public class Workout {
         }
     }
 
+    // swap two values in an ablog array
     private AbLog[] swap(AbLog[] list, int a, int b) {
         AbLog temp = list[b];
         list[b] = list[a];
@@ -235,6 +243,7 @@ public class Workout {
         return list;
     }
 
+    // swap the exercise Ids and durations
     private void swap(int a, int b) {
         int id = exerciseIds.get(b);
         int dur = durations.get(b);
@@ -257,6 +266,7 @@ public class Workout {
 
             if (cur != order[o]) {
 
+                // check for another exercise in the list with the desired muscle group
                 for (int j = i + 1; j < exerciseIds.size(); j++) {
                     if (InitialAbInputs.getGroupFromNum(exerciseIds.get(j)) == order[o]) {
                         swap(i, j);
@@ -270,6 +280,7 @@ public class Workout {
         }
     }
 
+    // arraylist to int[]
     private int[] convertToIntArray(ArrayList<Integer> al) {
         int[] new_list = new int[al.size()];
 
@@ -282,14 +293,12 @@ public class Workout {
 
     // Remove all exercises not completed in workoutActivity
     public void removeRemainingExercises(int index) {
-        Log.d("DEBUG", "exerciseIds: " + exerciseIds + "< " + exerciseIdList[0]);
         // Repopulate arrayList of exercises and durations to remove index
         exerciseIds = new ArrayList<Integer>();
         durations = new ArrayList<Integer>();
 
         int i = 0;
         while (i < index) {
-            Log.d("DEBUG", "adding exercise: " + exerciseIdList[i]);
             exerciseIds.add(exerciseIdList[i]);
             durations.add(durationList[i]);
             i++;
@@ -385,6 +394,3 @@ public class Workout {
         this.id = id;
     }
 }
-
-
-
