@@ -29,9 +29,15 @@ public class Globals {
 
     // Toast array for stat encouragement
     public static final ArrayList<String> Stats_Toast = new ArrayList<String>() {{
-        add("A");
-        add("B");
-        add("C");
+        add("Check out that definition!");
+        add("One step closer to rock hard abs!");
+        add("That hard work's paying off!");
+        add("Missed a day? Do some extra V-Ups!");
+        add("Looking good champ!");
+        add("I see washboard abs in your future!");
+        add("The cake is a lie!");
+        add("Keep it up!");
+
     }};
 
     // Format seconds as MM mins SS secs
