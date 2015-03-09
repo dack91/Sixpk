@@ -112,13 +112,11 @@ public class FeedbackActivity extends Activity {
             int rectProg = prefs.getInt(getString(R.string.rectusStatProgress), 0);
             int obliqProg = prefs.getInt(getString(R.string.obliquesStatProgress), 0);
             int transvProg = prefs.getInt(getString(R.string.transverseStatProgress), 0);
-            Log.d("DEBUG", "original progress:" + rectLev + "/" + rectProg + "\n" + obliqLev + "/" + obliqProg + "\n" +
-                    transvLev + "/" + transvProg);
 
             int n = feebackArray[i];
             int group = abLog.getMuscleGroup();
             int progIncrementer = 0;
-            Log.d("DEBUG", "FEEDBACK: " + group + ", " + n);
+
             // Increment progress more for harder workouts
             if (n <= 3) {
                 progIncrementer = 1;
@@ -129,7 +127,6 @@ public class FeedbackActivity extends Activity {
 
             // rectus
             if (group == 1) {
-                Log.d("DEBUG", "rect prog inc: " + rectProg + progIncrementer);
                 if (rectProg + progIncrementer >= rectLev * Globals.LEVEL_INCREMENTER) {
                     editor.putInt(getString(R.string.rectusStatLevel), rectLev + 1);
                     editor.putInt(getString(R.string.rectusStatProgress), 0);
@@ -139,7 +136,6 @@ public class FeedbackActivity extends Activity {
             }
             // obliques
             else if (group == 2) {
-                Log.d("DEBUG", "obliq prog inc: " + obliqProg + progIncrementer);
                 if (obliqProg + progIncrementer >= obliqLev * Globals.LEVEL_INCREMENTER) {
                     editor.putInt(getString(R.string.obliquesStatLevel), obliqLev + 1);
                     editor.putInt(getString(R.string.obliquesStatProgress), 0);
@@ -149,7 +145,6 @@ public class FeedbackActivity extends Activity {
             }
             // transverse
             else {
-                Log.d("DEBUG", "transv prog inc: " + transvProg + progIncrementer);
                 if (transvProg + progIncrementer >= transvLev * Globals.LEVEL_INCREMENTER) {
                     editor.putInt(getString(R.string.transverseStatLevel), transvLev + 1);
                     editor.putInt(getString(R.string.transverseStatProgress), 0);
@@ -157,11 +152,7 @@ public class FeedbackActivity extends Activity {
                     editor.putInt(getString(R.string.transverseStatProgress), transvProg + progIncrementer);
                 editor.commit();
             }
-            Log.d("DEBUG", "updated progress:" + rectLev + "/" + rectProg + "\n" + obliqLev + "/" + obliqProg + "\n" +
-                    transvLev + "/" + transvProg);
         }
-
-
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
         Long frequentTime = findFrequentWorkoutTime();

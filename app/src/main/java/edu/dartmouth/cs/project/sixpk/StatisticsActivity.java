@@ -27,15 +27,12 @@ public class StatisticsActivity extends Activity {
     private ImageView mObliquesImage;
     private ImageView mTransverseImage;
 
-//    private WorkoutEntryDataSource dbHelper;
-//    private Context mContext;
     private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-//        mContext = this;
         prefs = getSharedPreferences(getString(R.string.prefs_key), MODE_PRIVATE);
 
         // Get references to widgets
@@ -54,10 +51,6 @@ public class StatisticsActivity extends Activity {
         int rectProg = prefs.getInt(getString(R.string.rectusStatProgress), 0);
         int obliqProg = prefs.getInt(getString(R.string.obliquesStatProgress), 0);
         int transvProg = prefs.getInt(getString(R.string.transverseStatProgress), 0);
-
-        Log.d("DEBUG", "Level/progress:\n" + rect + "/" + rectProg + "\n" + obliq + "/" + obliqProg + "\n" + transv
-                + "/" + transvProg);
-
 
         mRectusLevel.setText(Integer.toString(rect));
         mObliqueLevel.setText(Integer.toString(obliq));
@@ -95,10 +88,6 @@ public class StatisticsActivity extends Activity {
         int p;
         int nextLevel = level * Globals.LEVEL_INCREMENTER;
         double curr = ((double) progress / (double) nextLevel) * 100;
-        Log.d("DEBUG", "next level: " + nextLevel);
-        Log.d("DEBUG", "progress: " + progress);
-        Log.d("DEBUG", "current progress: " + curr);
-
 
         if (curr <= 33)
             p = 25;
@@ -114,16 +103,4 @@ public class StatisticsActivity extends Activity {
         return getResources().getIdentifier("" + group + prog, "drawable", getPackageName());
 
     }
-
-//    @Override
-//    public void onPause() {
-//        dbHelper.close();
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        dbHelper.open();
-//    }
 }
