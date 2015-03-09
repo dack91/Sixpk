@@ -71,18 +71,13 @@ public class MainActivity extends Activity {
         // Track which fragment is in focus
         slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageSelected(int position)
-            {
-                // TODO Update list view in HistoryFragment
-                // Call function in HistoryFragment to refresh the UI
+            public void onPageSelected(int position) {
             }
             @Override
-            public void onPageScrollStateChanged(int state)
-            {
+            public void onPageScrollStateChanged(int state) {
             }
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-            {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
         });
 

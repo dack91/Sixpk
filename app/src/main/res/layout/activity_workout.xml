@@ -5,9 +5,6 @@
     android:keepScreenOn="true"
     android:orientation="vertical">
 
-    <!-- NEED TO: change the textview/imageview pairs according to what the current and next workouts
-    are in the routine-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
