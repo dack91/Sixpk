@@ -163,17 +163,10 @@ public class WorkoutActivity extends Activity {
 
             // Delete any uncompleted exercises from the Workout in the db
             // (delete all indices after mCounter)
-            Log.d("DEBUG", "length: "+ mExerciseList.length);
-            for (int j : mExerciseList) {
-                Log.d("DEBUG", "id to delete: " + j);
-            }
-
-            // Remove all uncompleted exercises from workout
             mCurrWorkout.removeExercise(mCounter);
 
             // Update database
-            dbHelper.removeWorkoutEntry(mWorkoutID);
-            mWorkoutID = dbHelper.insertWorkoutEntry(mCurrWorkout);
+            dbHelper.updateWorkoutEntry(mWorkoutID, mCurrWorkout);
 
             // Go to feedback
             workoutCompleted();
