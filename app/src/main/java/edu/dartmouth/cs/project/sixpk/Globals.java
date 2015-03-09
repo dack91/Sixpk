@@ -41,7 +41,7 @@ public class Globals {
             time = seconds + "secs";
             // Else show time in minutes and seconds
         else
-            time = min + "mins " + seconds + "secs";
+            time = min + " mins " + seconds + " secs";
 
         return time;
     }

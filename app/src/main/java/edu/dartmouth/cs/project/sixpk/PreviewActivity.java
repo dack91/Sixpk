@@ -234,7 +234,7 @@ public class PreviewActivity extends Activity {//extends ListActivity {
         // Populate listview
         for (int i = 0; i < exerciseList.length; i++) {
             mExerciseItinerary.add(dbHelper.getNameById(exerciseList[i]) + ", "
-                    + Globals.formatDuration(durationList[i]));
+                    + Globals.formatTime(durationList[i]));
         }
         mAdapter.addAll(mExerciseItinerary);
     }

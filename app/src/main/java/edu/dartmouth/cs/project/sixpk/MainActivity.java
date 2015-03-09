@@ -3,6 +3,7 @@ package edu.dartmouth.cs.project.sixpk;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -25,9 +26,6 @@ import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
 
 public class MainActivity extends Activity {
-    // todo screen lock
-    // http://stackoverflow.com/questions/6654675/programmatically-lock-into-portrait-mode-for-certain-operations
-
     // Private objects to handle the sliding tab layout
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
