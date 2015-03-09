@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:orientation="vertical">
 
     <!-- NEED TO: change the textview/imageview pairs according to what the current and next workouts
@@ -16,10 +17,10 @@
             android:id="@+id/workoutCurrExercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
             android:text="Crunches"
             android:textSize="30dp" />
-
 
             <ImageView
                 android:id="@+id/imageViewCurrExercise"
@@ -32,7 +33,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|top"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -98,8 +99,8 @@
 
         <ImageView
             android:id="@+id/imageViewNextExercise"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
