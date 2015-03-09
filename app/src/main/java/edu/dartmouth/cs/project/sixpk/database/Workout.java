@@ -4,28 +4,18 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.dartmouth.cs.project.sixpk.Globals;
 import edu.dartmouth.cs.project.sixpk.database.AbLog;
 
-
-/*
-workout flow:
-    all possible exercises are stored in db
-    main onCreate() { fetch all exercises }
-    pass ArrayList of exercises, input time, input difficulty into Workout constructor
-    create Workout object with exercises from different muscle groups
-    after exercise, change feedback (difficulty) of each exercise
-    or shared preferences for feedback instead of altering what’s in the db?
-    add workout stats to stats page
- */
-
 public class Workout {
 
     private long dateTime; // in milliseconds but we can convert it
-    private int difficulty; //Easy, medium, hard correspond to 0-2
-    private int[] exerciseIdList; // array of ablogIds
+    private int difficulty; // easy, medium, hard correspond to 0-2
+    private int[] exerciseIdList; // array of ablogNumbers
     private int[] feedBackList; // corresponds to ordering of exercise id list
     private int duration; // length of workout in seconds
     private long id; // database row
@@ -48,8 +38,9 @@ public class Workout {
         difficulty = diff;
 
         DEFAULT_DURATIONS[0] = 90;
-        DEFAULT_DURATIONS[1] = 120;
-        DEFAULT_DURATIONS[2] = 150;
+        DEFAULT_DURATIONS[1] = 105;
+        DEFAULT_DURATIONS[2] = 120;
+
         formWorkout(exercises, time, diff);
         exerciseIdList = convertToIntArray(exerciseIds);
         durationList = convertToIntArray(durations);
@@ -57,13 +48,14 @@ public class Workout {
 
 
     /*
-    parameters: all exercises, input time in mins, input difficulty (0-2)
+    parameters: arraylist of all exercises, input time in mins, input difficulty (0-2)
 
     sort exercises by muscle group
     sort muscle groups by difficulty
     set random number bounds based on input difficulty
     unique random numbers based on total time of workout
     shorten lengths of workouts if difficulty is higher
+    reorder of workouts to not have muscle groups all together
      */
     public void formWorkout(ArrayList<AbLog> exercises, int time, int diff) {
         int def_duration = DEFAULT_DURATIONS[diff];
@@ -78,7 +70,6 @@ public class Workout {
             AbLog[] sorted = sortByDifficulty(chosenGroup(exercises, m));
             int min = 0, max = sorted.length; // max is exclusive
 
-
             if (diff == Globals.WORKOUT_EASY) { // only pick easier exercises if "easy" difficulty is selected
                 max -= (int) Math.ceil(sorted.length / 3); // arbitrary pick the bottom 2/3 of exercises
             } else if (diff == Globals.WORKOUT_HARD) {
@@ -88,8 +79,7 @@ public class Workout {
             int[] rands = uniqueRands( (int) subset, min, max);
 
             // add randomly selected exercises to the list
-            for (int i = 0; i < rands.length; i++) {
-                int randomIndex = rands[i];
+            for (int randomIndex : rands) {
                 if(sorted.length > randomIndex){
                     AbLog sortedIndex = sorted[randomIndex];
                     exerciseIds.add(sortedIndex.getAblogNumber());
@@ -98,7 +88,7 @@ public class Workout {
                     // difficulty is 0-10, 5 is default
                     // so, do -5 to make it -5 to 5 and multiply by 5 seconds per unit
                     // then negate because easier difficulties are lower numbers which are longer workouts
-                    int alter = -( (sorted[ rands[i] ].getDifficultyArray()[0] - 5) * 5);
+                    int alter = -( (sorted[randomIndex].getDifficultyArray()[0] - 5) * 5);
                     // alter = randInt(-5, 6) * 5; // for debugging, use random difficulties
                     durations.add(def_duration + alter);
                 }
@@ -110,12 +100,12 @@ public class Workout {
             extra -= dur;
         }
 
-        for (Integer ex : exerciseIds) {
+        correctTiming(extra, def_duration);
+        reorder(exercises);
+
+                for (Integer ex : exerciseIds) {
             System.out.println(ex);
         }
-
-        correctTiming(extra);
-        shuffle();
     }
 
     // returns a random integer between min inclusive and max exclusive
@@ -125,32 +115,21 @@ public class Workout {
         return rand.nextInt(max - min) + min;
     }
 
-    // returns a list of unique random ints within a range
+    // return an int array of unique random ints within a min inclusive to max exclusive range
     private int[] uniqueRands(int num, int min, int max) {
-        // prevents an infinite loop if there aren't enough exercises to fill the numbers
-        int range = (max - 1) - min;
-        if (range < num)  num = range;
-
-        int[] rands = new int[num];
-
-        int i = 0;
-        while (i < num) {
-            int temp = randInt(min, max);
-            boolean chosen = false;
-
-            // check if the number has been chosen before
-            if (i > 0) {
-                for (int j = 0; j < i; j++) {
-                    if (rands[j] == temp) {
-                        chosen = true;
-                    }
-                }
-            }
-            if (chosen) continue;
-
-            rands[i] = temp;
-            i++;
+        // fill an arraylist with numbers in order
+        ArrayList<Integer> order = new ArrayList<>(max - min);
+        for (int i = min; i < max; i++) {
+            order.add(i);
         }
+
+        // pop out numbers randomly from the ordered list
+        int[] rands = new int[num];
+        for (int i = 0; i < num; i++){
+            if (order.size() == 0) return Arrays.copyOfRange(rands, 0, i);
+            rands[i] = order.remove((int) (Math.random() * order.size()));
+        }
+
         return rands;
     }
 
@@ -191,31 +170,32 @@ public class Workout {
 
     // takes the leftover seconds and either deletes workouts or spreads them out
     // to correct the total time
-    private void correctTiming(int leftover) {
+    private void correctTiming(int leftover, int def_duration) {
         while (true) {
-//            System.out.println(leftover);
             if (exerciseIds.size() <= 1) {
                 break;
             }
 
-            if (leftover < -90) {
+            if (leftover < -def_duration) {
                 // get rid of last exercise if time is way over
                 int rand = randInt(0, exerciseIds.size() - 1);
                 exerciseIds.remove(rand);
                 leftover += durations.get(rand);
                 durations.remove(rand);
 
-            } else if (leftover >= -90 && leftover < -30) {
+            } else if (leftover >= -def_duration && leftover < -30) {
                 // take away the leftover seconds over all exercises if it's too small
                 int disp = 0;
                 if (durations.size() != 0){
                     disp = 5 * (Math.round(( (-leftover) / durations.size()) / 5)); // round to nearest 5
-                    leftover += disp * durations.size();
+//                    leftover += disp * durations.size();
+                    // causing an infinite loop here because disp rounds down to 0 but leftover is still -35
                 }
 
                 for (int i = 0; i < durations.size(); i++) {
                     durations.set(i, durations.get(i) - disp);
                 }
+                break;
 
             } else if (leftover >= -30 && leftover < 30) {
                 // no editing if leftover is within a half minute
@@ -224,28 +204,17 @@ public class Workout {
             } else {
                 // disperse the leftover seconds over all exercises if it's too large
                 int disp = 0;
-                if (durations.size()!=0){
+                if (durations.size() != 0){
                     disp = 5 * (Math.round((leftover / durations.size()) / 5)); // round to nearest 5
-                    leftover -= disp * durations.size();
+                    //leftover -= disp * durations.size();
                 }
 
                 for (int i = 0; i < durations.size(); i++) {
                     durations.set(i, durations.get(i) + disp);
                 }
+                break;
             }
         }
-    }
-
-    public void setDateTime(long dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     private AbLog[] swap(AbLog[] list, int a, int b) {
@@ -267,22 +236,40 @@ public class Workout {
         durations.set(a, dur);
     }
 
-    // mix up the order of the exercises (ArrayList)
-    private void shuffle() {
-        int rand = randInt(1, 20); // arbitrary number of swaps
-        int max = exerciseIds.size();
+    // order exercises to have none of the same muscle groups in a row
+    private void reorder(ArrayList<AbLog> exercises) {
+        // randomly pick order of muscle groups
+        int[] order = uniqueRands(MUSCLE_GROUPS, 1, MUSCLE_GROUPS + 1);
+        int o = 0;
 
-        for (int i = 0; i < rand; i++) {
-            swap(randInt(0, max), randInt(0, max));
+        for (int i = 0; i < exerciseIds.size(); i++) {
+//            AbLog cur = findAbLogByNum(exercises, exerciseIds.get(i));
+            int cur = InitialAbInputs.getGroupFromNum(exerciseIds.get(i));
+
+//            if (cur.getMuscleGroup() != order[o]) {
+            if (cur != order[o]) {
+
+                for (int j = i + 1; j < exerciseIds.size(); j++) {
+//                    if (findAbLogByNum(exercises, exerciseIds.get(j)).getMuscleGroup() == order[o]) {
+                    if (InitialAbInputs.getGroupFromNum(exerciseIds.get(j)) == order[o]) {
+                        swap(i, j);
+                        break;
+                    }
+                }
+            }
+
+            o++;
+            if (o >= MUSCLE_GROUPS) o = 0;
         }
     }
 
     private int[] convertToIntArray(ArrayList<Integer> al) {
-        ArrayList<Integer> test = al;
         int[] new_list = new int[al.size()];
+
         for (int i = 0; i < new_list.length; i++) {
             new_list[i] = al.get(i).intValue();
         }
+
         return new_list;
     }
 
@@ -320,6 +307,18 @@ public class Workout {
 
     public void setTotalTime() {
         this.duration = getActualTime();
+    }
+
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public int[] getFeedBackList() {

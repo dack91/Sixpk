@@ -14,32 +14,32 @@ public class InitialAbInputs {
 
     //rectus exercises
 
-    public static final String PLANK = "Plank";
+    public static final String PLANK = "Plank"; // 0
     public static final String SITUP = "Sit-Up";
     public static final String PUSH = "Push Through";
     public static final String V = "V-Up";
     public static final String CRUNCH = "Crunches";
     public static final String LEG = "Leg Lift";
-    public static final String TOE = "Toe Touch";
+    public static final String TOE = "Toe Touch"; // 6
 
     public static String[] rectusArray = {PLANK, SITUP, PUSH, V, CRUNCH, LEG, TOE};
 
     //Obliques exercises
 
-    public static final String RUSSIAN = "Russian Twist";
+    public static final String RUSSIAN = "Russian Twist"; // 7
     public static final String STANDING = "Standing Oblique Crunch";
     public static final String BICYCLE = "Bicycle";
     public static final String ELBOW = "Elbow-to-knee Sit-Up";
-    public static final String SIDE = "Side Plank";
+    public static final String SIDE = "Side Plank"; // 11
 
     public static String[] obliqueArray = {RUSSIAN, STANDING, BICYCLE, ELBOW, SIDE};
 
     //Transverse exercises
 
-    public static final String SCISSOR = "Scissor Kicks";
+    public static final String SCISSOR = "Scissor Kicks"; // 12
     public static final String ARM = "Arm Planks";
     public static final String SUPER = "Superman";
-    public static final String REVERSE = "Reverse Curl Up";
+    public static final String REVERSE = "Reverse Curl Up"; // 15
 
     public static String[] tranverseArray = {SCISSOR, ARM, SUPER, REVERSE};
 
@@ -70,8 +70,16 @@ public class InitialAbInputs {
 
     public static String[] transverseGIFArray = {scissorGIF, armGIF, superGIF, reverseGIF};
 
-
-
+    // returns the muscle group from an input abLogNumber
+    public static int getGroupFromNum(int num) {
+        if (0 <= num && num <= 6) {
+            return RECTUS;
+        } else if (7 <= num && num <= 11) {
+            return OBLIQUES;
+        } else {
+            return TRANSVERSE;
+        }
+    }
 
 
 
