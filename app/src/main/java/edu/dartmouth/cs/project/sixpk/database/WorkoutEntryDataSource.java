@@ -238,15 +238,17 @@ public class WorkoutEntryDataSource {
         abLog.setId(cursor.getInt(0));
         abLog.setAblogNumber(cursor.getInt(1));
         abLog.setMuscleGroup(cursor.getInt(2));
+
+        // parse the string for the difficulty array
         String difficultyString = cursor.getString(3);
         String[] s = difficultyString.substring(1, difficultyString.length() - 1).split(", ");
         int[] numbers = new int[s.length];
-        for (int curr = 0; curr < s.length; curr++) {
+        for (int curr = 0; curr < s.length; curr++)
             numbers[curr] = Integer.parseInt(s[curr]);
-            abLog.setDifficultyArray(numbers);
-            abLog.setName(cursor.getString(4));
-            abLog.setFilePath(cursor.getString(5));
-        }
+        abLog.setDifficultyArray(numbers);
+
+        abLog.setName(cursor.getString(4));
+        abLog.setFilePath(cursor.getString(5));
         return abLog;
     }
 }

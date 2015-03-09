@@ -26,13 +26,7 @@ public class AbLog {
     }
 
     // constructor for datasource
-    public AbLog() {
-        name = "";
-        ablogNumber = 0;
-        muscleGroup = 0;
-        difficultyArray = new int[1];
-        difficultyArray[0] = 5;
-    }
+    public AbLog() { }
 
     public int getId() {
         return id;
