@@ -21,9 +21,9 @@ public class Globals {
     public static final int WORKOUT_MED = 1;
     public static final int WORKOUT_HARD = 2;
 
-    public static final int DEFAULT_TIME = 10;  // If no time is passed through intent, build 10min workout
-    public static final int MIN_TIME = 5;
     public static final int MAX_TIME = 15;
+    public static final int MIN_TIME = 5;
+    public static final int DEFAULT_TIME = (MAX_TIME + MIN_TIME) / 2;  // If no time is passed through intent, build 10min workout
 
     public static ArrayList<String> ALL_EXERCISES = new ArrayList<>();
 
