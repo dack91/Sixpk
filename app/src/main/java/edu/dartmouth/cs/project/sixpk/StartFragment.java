@@ -11,20 +11,10 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StartFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StartFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StartFragment extends Fragment {
     private Button startWorkout;
     private NumberPicker mNumPicker;
     private RadioGroup mDifficulty;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,8 +43,6 @@ public class StartFragment extends Fragment {
 
                 i.putExtra(Globals.WORKOUT_DURATION_KEY, duration);
                 i.putExtra(Globals.WORKOUT_DIFFICULTY_KEY, difficulty);
-
-                Log.d("DEBUG", "duration/difficulty: " + duration + "/" + difficulty);
 
                 startActivity(i);
             }
