@@ -99,6 +99,7 @@ public class FeedbackActivity extends Activity {
             AbLog abLog = dbHelper.fetchAbLogByIdentifier(exerciseIdList[i]);
             int[] difficultyArray = abLog.getDifficultyArray();
             abLog.setDifficultyArray(shiftValue(difficultyArray, feebackArray[i]));
+            dbHelper.updateAbLog(abLog.getId(), abLog);
         }
         dbHelper.updateWorkoutEntry(mWorkoutID, workout);
         dbHelper.close();
