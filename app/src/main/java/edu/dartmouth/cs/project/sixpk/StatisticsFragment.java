@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Context;
+import android.widget.Toast;
 
+import java.util.Random;
 
 
 public class StatisticsFragment extends Fragment {
@@ -98,5 +100,11 @@ public class StatisticsFragment extends Fragment {
     public int getProgressImage(String group, int prog) {
         return getResources().getIdentifier("" + group + prog, "drawable", mContext.getPackageName());
 
+    }
+
+    public void sendMessage() {
+        Random r = new Random();
+        int rand = r.nextInt(Globals.Stats_Toast.size());
+        Toast.makeText(mContext, Globals.Stats_Toast.get(rand), Toast.LENGTH_SHORT).show();
     }
 }

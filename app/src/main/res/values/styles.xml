@@ -28,22 +28,21 @@
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemSixPkTheme</item>
 
         <item name="android:seekBarStyle">@style/SeekBarSixPkTheme</item>
-        <!--<item name="android:preferenceStyle">@style/MyPreferenceTheme</item>-->
+
+        <item name="android:textViewStyle">@style/TextViewSixPkTheme</item>
     </style>
 
     <color name="white_opaque">#FFFFFFFF</color>
     <color name="pitch_black">#FF000000</color>
     <color name="back_blue">#0071db</color>
 
-    <!--<style-->
-        <!--name="MyPreferenceTheme">-->
-        <!--<item name="android:textColor">@color/pitch_black</item>-->
-        <!--<item name="android:textColorSecondary">@color/white_opaque</item>-->
-        <!--<item name="android:background">@color/back_blue</item> &lt;!&ndash; delete this line if you want transparent background &ndash;&gt;-->
-    <!--</style>-->
-
     <style name="EditTextSixPkTheme" parent="android:Widget.EditText">
         <item name="android:background">@drawable/sixpktheme_edit_text_holo_dark</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="TextViewSixPkTheme" parent="android:Widget.TextView">
+        <item name="android:background">#00000000</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 

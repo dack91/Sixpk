@@ -27,6 +27,13 @@ public class Globals {
 
     public static final int LEVEL_INCREMENTER = 10;
 
+    // Toast array for stat encouragement
+    public static final ArrayList<String> Stats_Toast = new ArrayList<String>() {{
+        add("A");
+        add("B");
+        add("C");
+    }};
+
     // Format seconds as MM mins SS secs
     public static String formatDuration(int sec) {
         String time;

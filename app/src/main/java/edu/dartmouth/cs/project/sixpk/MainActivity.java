@@ -63,6 +63,28 @@ public class MainActivity extends Activity {
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
 
+        // Track which fragment is in focus
+        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position)
+            {
+                // Trash if statisticsFragment is in focus
+                if (position == 2) {
+                    StatisticsFragment statsFragment = (StatisticsFragment) fragments.get(2);
+                    // Display encouraging toast!!
+                    statsFragment.sendMessage();
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+            }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+            }
+        });
+
         // shared preferences to store a boolean for whether or not to load all ablogs into database
         String mKey = getString(R.string.prefs_key);
         prefs = getSharedPreferences(mKey, MODE_PRIVATE);
