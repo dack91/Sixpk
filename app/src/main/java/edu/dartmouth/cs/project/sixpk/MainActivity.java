@@ -25,6 +25,8 @@ import edu.dartmouth.cs.project.sixpk.view.SlidingTabLayout;
 
 
 public class MainActivity extends Activity {
+    // todo screen lock
+    // http://stackoverflow.com/questions/6654675/programmatically-lock-into-portrait-mode-for-certain-operations
 
     // Private objects to handle the sliding tab layout
     private SlidingTabLayout slidingTabLayout;

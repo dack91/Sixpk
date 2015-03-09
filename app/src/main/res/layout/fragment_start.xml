@@ -36,17 +36,17 @@
         android:orientation="horizontal"
         android:background="#00000000">
 
-        <NumberPicker
+        <edu.dartmouth.cs.project.sixpk.view.MyNumberPicker
             android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_gravity="right"
             android:background="#00000000"
             android:scrollbarSize="40dp"
+            android:scaleX="1.2"
+            android:scaleY="1.4"
             android:layout_weight="1"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:editable="false"/>
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="30dp"/>
 
         <TextView
             android:id="@+id/textViewTime"
@@ -55,7 +55,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:text="@string/startTimeText"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:background="#00000000"
             android:textSize="24dp" />
     </LinearLayout>
@@ -77,8 +77,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:background="#00000000"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -123,28 +121,28 @@
                 android:orientation="horizontal"
                 android:checkedButton="@+id/radioButtonMedium">
 
-                <RadioButton
+                <edu.dartmouth.cs.project.sixpk.view.CenterRadioButton
                     android:id="@+id/radioButtonEasy"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:layout_marginLeft="50dp"
+                    android:padding="20dp"
                     android:layout_weight="1" />
 
-                <RadioButton
+                <edu.dartmouth.cs.project.sixpk.view.CenterRadioButton
                     android:id="@+id/radioButtonMedium"
                     android:layout_width="fill_parent"
                     android:background="#00000000"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="46dp"
+                    android:padding="20dp"
                     android:layout_weight="1" />
 
-                <RadioButton
+                <edu.dartmouth.cs.project.sixpk.view.CenterRadioButton
                     android:id="@+id/radioButtonHard"
                     android:layout_width="fill_parent"
                     android:background="#00000000"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="38dp"
+                    android:padding="20dp"
                     android:layout_weight="1" />
             </RadioGroup>
         </LinearLayout>

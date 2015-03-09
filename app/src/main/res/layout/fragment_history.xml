@@ -23,6 +23,4 @@
         android:id="@+id/buttonShowStats"
         android:layout_gravity="center_horizontal|bottom" />
 
-
-
 </FrameLayout>
